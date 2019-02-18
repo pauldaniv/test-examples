@@ -1,0 +1,42 @@
+subprojects {
+    afterEvaluate {
+        repositories {
+            jcenter()
+        }
+
+
+//        ext {
+//            mainClass = 'org.springframework.boot.loader.JarLauncher'
+//            launcher = 'run'
+//        }
+
+//        jar {
+//            inputs.property("moduleName", moduleName)
+//            manifest {
+//                attributes('Automatic-Module-Name': moduleName)
+//            }
+//        }
+
+//        compileJava {
+//            doFirst {
+//                options.compilerArgs = [
+//                        '--module-path', classpath.asPath
+//                ]
+//                classpath = files()
+//            }
+//        }
+
+//        def java_home = System.getenv('JAVA_HOME')
+//        task link(type: Exec) {
+//            dependsOn 'clean'
+//            dependsOn 'jar'
+//
+//            workingDir 'build'
+//            inputs.property("moduleName", moduleName)
+//
+//            commandLine "${java_home}/bin/jlink", '--module-path', "../../library/build/libs:libs:${java_home}/jmods:/home/paul/.m2/repository/org/springframework/boot/spring-boot/2.1.2.RELEASE:/home/paul/.m2/repository/org/springframework/spring-core/5.1.4.RELEASE:/home/paul/.m2/repository/org/springframework/spring-beans/5.1.4.RELEASE:/home/paul/.m2/repository/org/springframework/spring-context/5.1.4.RELEASE:/home/paul/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/2.1.2.RELEASE",
+//                    '--add-modules', "com.paul.library", '--launcher', "${launcher}=${mainClass}", '--output', 'dist', '--strip-debug',
+//                    '--compress', '2', '--no-header-files', '--no-man-pages'
+//        }
+    }
+}
