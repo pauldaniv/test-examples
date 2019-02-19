@@ -16,6 +16,6 @@ public class DealerApplication {
 
     @GetMapping("/index")
     public String home() {
-        return "my response value";
+        return "my response 2";
     }
 }

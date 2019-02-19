@@ -2,20 +2,22 @@ package com.paul.store;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
 @SpringBootApplication(scanBasePackages = "com.paul.store")
 @RestController
+@EnableFeignClients
 public class StoreApplication {
 
-//    private final Client client;
-//
-//    public StoreApplication(Client client) {
-//
-//        this.client = client;
-//    }
+    private final Client client;
+
+    public StoreApplication(Client client) {
+
+        this.client = client;
+    }
 
     @GetMapping("/")
     public Response home() {
@@ -27,7 +29,7 @@ public class StoreApplication {
 
             @Override
             public String getValue() {
-                return "oet";
+                return client.index();
             }
         };
     }

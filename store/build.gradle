@@ -1,12 +1,7 @@
 buildscript {
-    ext { springBootVersion = '2.0.2.RELEASE' }
+    ext { springBootVersion = '2.1.3.RELEASE' }
     repositories { mavenCentral() }
     dependencies { classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}") }
-}
-
-
-plugins {
-    id "io.spring.dependency-management" version "1.0.5.RELEASE"
 }
 
 apply plugin: 'java'
@@ -22,7 +17,10 @@ bootJar {
 
 sourceCompatibility = 1.8
 
-repositories { mavenCentral() }
+repositories {
+    mavenCentral()
+    maven { url 'https://repo.spring.io/milestone' }
+}
 
 dependencies {
     compile 'org.springframework.boot:spring-boot-starter-actuator',
@@ -37,7 +35,7 @@ dependencies {
 }
 
 ext {
-    springCloudVersion = 'Greenwich.BUILD-SNAPSHOT'
+    set('springCloudVersion', 'Greenwich.RELEASE')
 }
 
 dependencyManagement {
