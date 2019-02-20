@@ -1,33 +1,42 @@
 buildscript {
-    repositories { jcenter() }
+  repositories { jcenter() }
 }
 
 plugins {
-    id "io.spring.dependency-management" version "1.0.5.RELEASE"
+  id "io.spring.dependency-management" version "1.0.5.RELEASE"
 }
 
 ext {
-    springBootVersion = '2.1.2.RELEASE'
+  springBootVersion = '2.1.2.RELEASE'
 }
 
 apply plugin: 'java'
 apply plugin: 'idea'
 
 jar {
-    baseName = 'library'
-    version = '0.0.1-SNAPSHOT'
+  baseName = 'library'
+  version = '0.0.1-SNAPSHOT'
 }
 
-sourceCompatibility = 1.8
-
-repositories { mavenCentral() }
+repositories {
+  mavenCentral()
+  maven {
+    url 'https://repo.spring.io/milestone'
+  }
+  jcenter()
+}
 
 dependencies {
-    compile 'org.springframework.boot:spring-boot-starter'
+  compile 'org.springframework.boot:spring-boot-starter-data-mongodb',
+          'org.springframework.boot:spring-boot-starter-actuator',
+          'org.springframework.boot:spring-boot-starter-web',
+          'org.springframework.boot:spring-boot-starter-thymeleaf',
+          'org.springframework.cloud:spring-cloud-starter-openfeign:2.1.0.RELEASE'
 
-    testCompile 'org.springframework.boot:spring-boot-starter-test'
+
+  testCompile 'org.springframework.boot:spring-boot-starter-test'
 }
 
 dependencyManagement {
-    imports { mavenBom("org.springframework.boot:spring-boot-dependencies:${springBootVersion}") }
+  imports { mavenBom("org.springframework.boot:spring-boot-dependencies:${springBootVersion}") }
 }

@@ -1,8 +1,32 @@
 subprojects {
-    afterEvaluate {
-        repositories {
-            jcenter()
-        }
+
+  apply plugin: 'idea'
+  idea {
+    module {
+      outputDir file('build/classes/main/java')
+      testOutputDir file('build/classes/test/java')
+    }
+  }
+  if (project.convention.findPlugin(JavaPluginConvention)) {
+    // Change the output directory for the main and test source sets back to the old path
+    sourceSets.main.output.classesDir = new File(buildDir, "classes/main/java")
+    sourceSets.test.output.classesDir = new File(buildDir, "classes/test/java")
+  }
+
+  buildDir = rootProject.file("build/assets")
+
+
+  afterEvaluate {
+    repositories {
+      jcenter()
+    }
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    dependencies {
+      compileOnly 'org.projectlombok:lombok'
+    }
 
 
 //        ext {
@@ -38,5 +62,5 @@ subprojects {
 //                    '--add-modules', "com.paul.library", '--launcher', "${launcher}=${mainClass}", '--output', 'dist', '--strip-debug',
 //                    '--compress', '2', '--no-header-files', '--no-man-pages'
 //        }
-    }
+  }
 }
