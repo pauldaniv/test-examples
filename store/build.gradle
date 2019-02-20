@@ -26,6 +26,7 @@ dependencies {
           project(':library'),
           'org.springframework.boot:spring-boot-starter-thymeleaf',
           'org.springframework.boot:spring-boot-starter-web-services',
+          'org.springframework.boot:spring-boot-starter-groovy-templates',
           'org.springframework.cloud:spring-cloud-starter-config',
           'org.springframework.cloud:spring-cloud-starter',
           'org.springframework.cloud:spring-cloud-starter-openfeign:2.1.0.RELEASE'
@@ -40,6 +41,7 @@ ext {
 dependencyManagement {
   imports {
     mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    mavenBom "org.springframework.boot:spring-boot-dependencies:${springBootVersion}"
   }
 }
 

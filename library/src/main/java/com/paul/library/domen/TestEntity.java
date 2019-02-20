@@ -1,24 +1,24 @@
 package com.paul.library.domen;
 
 import lombok.Data;
-import lombok.ToString;
-import org.springframework.data.annotation.Id;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@NoArgsConstructor
+@Accessors(chain = true)
 @Data
-@ToString
+@Entity
 public class TestEntity {
 
   @Id
-  private String id;
+  @GeneratedValue(strategy = GenerationType.SEQUENCE)
+  private Long id;
 
   private String firstName;
   private String lastName;
-
-  public TestEntity() {
-  }
-
-  public TestEntity(String firstName, String lastName) {
-    this.firstName = firstName;
-    this.lastName = lastName;
-  }
 }

@@ -1,30 +1,13 @@
 package com.paul.dealer.service;
 
-
 import com.paul.library.domen.TestEntity;
-import com.paul.dealer.persintence.DefaultRepository;
-import org.springframework.stereotype.Service;
 
-import java.util.List;
+public interface DefaultService {
 
-@Service
-public class DefaultService {
-  private final DefaultRepository repository;
+    TestEntity getOne(String id);
 
-  public DefaultService(DefaultRepository repository) {
-    this.repository = repository;
-  }
+    Iterable<TestEntity> getAll();
 
-  public TestEntity getOne(String id) {
-    return repository.findById(id).get();
-  }
+    String save(TestEntity entity);
 
-  public List<TestEntity> getAll() {
-    return repository.findAll();
-  }
-
-  public String save (TestEntity entity) {
-    repository.save(entity);
-    return "ok";
-  }
 }
