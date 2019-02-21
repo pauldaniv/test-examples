@@ -5,6 +5,7 @@ buildscript {
 }
 
 apply plugin: 'java'
+apply plugin: 'groovy'
 apply plugin: 'idea'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
@@ -21,9 +22,10 @@ repositories {
 }
 
 dependencies {
-  compile 'org.springframework.boot:spring-boot-starter-actuator',
+  implementation 'org.springframework.boot:spring-boot-starter-actuator',
           'org.springframework.boot:spring-boot-starter-web',
-          project(':library'),
+          project(':common'),
+          'org.codehaus.groovy:groovy',
           'org.springframework.boot:spring-boot-starter-thymeleaf',
           'org.springframework.boot:spring-boot-starter-web-services',
           'org.springframework.boot:spring-boot-starter-groovy-templates',

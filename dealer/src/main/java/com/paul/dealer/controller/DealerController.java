@@ -1,7 +1,7 @@
 package com.paul.dealer.controller;
 
 import com.paul.dealer.service.DefaultServiceImpl;
-import com.paul.library.domen.TestEntity;
+import com.paul.library.domain.TestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

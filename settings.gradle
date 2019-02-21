@@ -2,4 +2,4 @@ rootProject.name = 'tests-examples'
 
 include 'store'
 include 'dealer'
-include 'library'
+include 'common'

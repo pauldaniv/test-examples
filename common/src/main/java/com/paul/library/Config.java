@@ -5,7 +5,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ComponentScan("com.paul.library.domen")
+@ComponentScan("com.paul.library.*")
 @EnableAutoConfiguration
 public class Config {
 }

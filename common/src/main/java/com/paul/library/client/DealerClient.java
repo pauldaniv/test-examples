@@ -1,23 +1,27 @@
-package com.paul.store;
+package com.paul.library.client;
 
-import com.paul.library.domen.TestEntity;
+import com.paul.library.domain.TestEntity;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
 @FeignClient(name="my-client", url = "http://localhost:8080/api/dealer")
-public interface Client {
+public interface DealerClient {
 
-
-//    @GetMapping("/index")
-//    Metadata index();
+    @GetMapping("/{id}")
+    TestEntity getOne(@PathVariable("id") Long id);
 
     @PostMapping(value = "/save")
-    String save(@RequestBody TestEntity entity);
+    String save(TestEntity entity);
 
     @GetMapping("/all")
     List<TestEntity> getAll();
+
+    @GetMapping("/")
+    default String index() {
+        return "ok";
+    }
 }

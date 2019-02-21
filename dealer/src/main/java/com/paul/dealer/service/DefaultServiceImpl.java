@@ -2,7 +2,7 @@ package com.paul.dealer.service;
 
 
 import com.paul.dealer.persintence.DefaultRepository;
-import com.paul.library.domen.TestEntity;
+import com.paul.library.domain.TestEntity;
 import org.springframework.stereotype.Service;
 
 @Service

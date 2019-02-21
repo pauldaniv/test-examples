@@ -37,6 +37,6 @@ README.html
 application/out/
 library/out/
 dealer/out/
-dealer/src/test/
-gradle/
 store/out/
+
+gradle/

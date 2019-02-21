@@ -1,4 +1,4 @@
-package com.paul.library.domen;
+package com.paul.library.domain;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -1,20 +1,24 @@
 subprojects {
 
   apply plugin: 'idea'
+  apply plugin: 'groovy'
+  apply plugin: 'java'
+  
   idea {
     module {
       outputDir file('build/classes/main/java')
       testOutputDir file('build/classes/test/java')
     }
   }
-  if (project.convention.findPlugin(JavaPluginConvention)) {
-    // Change the output directory for the main and test source sets back to the old path
-    sourceSets.main.output.classesDir = new File(buildDir, "classes/main/java")
-    sourceSets.test.output.classesDir = new File(buildDir, "classes/test/java")
+
+  sourceSets {
+    main {
+      java.outputDir = new File(buildDir, "classes/main/java")
+    }
+    test {
+      java.outputDir  = new File(buildDir, "classes/test/java")
+    }
   }
-
-  buildDir = rootProject.file("build/assets")
-
 
   afterEvaluate {
     repositories {
@@ -24,8 +28,16 @@ subprojects {
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
 
+    ext {
+      lombokVersion = '1.18.4'
+    }
+
     dependencies {
-      compileOnly 'org.projectlombok:lombok'
+      compileOnly "org.projectlombok:lombok:${lombokVersion}"
+      testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+      annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+      testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+
     }
 
 

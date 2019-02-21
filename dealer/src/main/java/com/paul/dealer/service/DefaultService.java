@@ -1,6 +1,6 @@
 package com.paul.dealer.service;
 
-import com.paul.library.domen.TestEntity;
+import com.paul.library.domain.TestEntity;
 
 public interface DefaultService {
 
