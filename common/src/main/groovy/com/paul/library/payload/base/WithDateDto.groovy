@@ -13,6 +13,6 @@ import java.time.LocalDateTime;
 @ToString(callSuper = true)
 public class WithDateDto<T extends WithDateDto> extends WithIdDto<T> {
 
-  private LocalDateTime createdTime;
-  private LocalDateTime modifiedTime;
+  LocalDateTime createdTime;
+  LocalDateTime modifiedTime;
 }

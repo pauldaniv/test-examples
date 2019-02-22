@@ -1,8 +1,7 @@
 package com.paul.store;
 
 import com.paul.library.client.DealerClient;
-import com.paul.library.domain.TestEntity;
-import lombok.RequiredArgsConstructor
+import com.paul.library.domain.TestEntity
 import org.springframework.stereotype.Service;
 
 @Service

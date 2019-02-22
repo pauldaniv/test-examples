@@ -8,10 +8,9 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import java.util.List;
+import java.time.LocalDate
 
 @Data
 @Accessors(chain = true)
@@ -20,14 +19,14 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table
-public class Invoice extends WithDate<Invoice> {
+public class Car extends WithDate<Car> {
 
+  private String brand;
 
-  private Integer total;
+  private String model;
 
-  @OneToMany(mappedBy = "invoice")
+  private LocalDate releasedIn;
+
+  @ManyToMany(mappedBy = "cars")
   private List<Order> orders;
-
-  @ManyToOne
-  private Customer customer;
 }
