@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
-@FeignClient(name="my-client", url = "http://localhost:8080/api/dealer")
+@FeignClient(name="my-client", url = "${dealer.client.url}")
 public interface DealerClient {
 
     @GetMapping("/{id}")

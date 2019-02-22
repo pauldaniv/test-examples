@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.RestController;
 
 
-@SpringBootApplication(scanBasePackages = {"com.paul.dealer", "com.paul.library"})
+@SpringBootApplication(scanBasePackages = {"com.paul.dealer", "com.paul.library.*"})
 @RestController
 public class DealerApplication {
 

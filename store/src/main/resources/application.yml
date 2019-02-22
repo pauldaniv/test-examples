@@ -1,4 +1,7 @@
 server:
-  port: 8811
+  port: 8201
+
+dealer:
+  client.url: http://localhost:8201
 
 service.message: test
