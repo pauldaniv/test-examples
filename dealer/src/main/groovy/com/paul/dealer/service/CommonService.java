@@ -5,6 +5,6 @@ import org.springframework.http.ResponseEntity;
 
 public interface CommonService< D extends WithIdDto> {
     ResponseEntity getOne(Long id);
-    Iterable<D> getAll();
+    ResponseEntity getAll();
     ResponseEntity save(D entity);
 }

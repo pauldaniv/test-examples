@@ -1,6 +1,6 @@
 package com.paul.store.service
 
-import com.paul.library.client.DealerClient
+import com.paul.library.client.dealer.DealerClient
 import com.paul.library.payload.Resp
 import com.paul.library.payload.TestEntityDto
 import org.springframework.http.ResponseEntity
@@ -9,26 +9,30 @@ import org.springframework.stereotype.Service
 @Service
 class DealerService {
 
-  private final DealerClient client
+  private final DealerClient dealerTestClient
 
   DealerService(DealerClient client) {
-    this.client = client
+    this.dealerTestClient = client
   }
 
   ResponseEntity<Resp<TestEntityDto>> getOne(Long id) {
-    def one = client.getOne(id)
-    return one;
+    def one = dealerTestClient.getOne(id)
+    return one
   }
 
-  List<TestEntityDto> getAll() {
-    return client.getAll();
+  ResponseEntity<Resp<List<TestEntityDto>>> getAll() {
+    dealerTestClient.getAll()
   }
 
-  ResponseEntity save(TestEntityDto entity) {
-    return client.save(entity);
+  ResponseEntity<Resp<TestEntityDto>> update(TestEntityDto dto) {
+    update = dealerTestClient.update(dto)
   }
 
-  String index() {
-    return client.index();
+  ResponseEntity save(TestEntityDto dto) {
+    dealerTestClient.save(dto)
+  }
+
+  ResponseEntity<Resp> index() {
+    dealerTestClient.healthCheck()
   }
 }

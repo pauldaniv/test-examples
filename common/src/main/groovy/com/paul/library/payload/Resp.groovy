@@ -7,9 +7,14 @@ import lombok.EqualsAndHashCode
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 
+import static org.springframework.http.HttpStatus.BAD_REQUEST
+import static org.springframework.http.HttpStatus.OK
+
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 class Resp<T> {
+
+    private static String SUCCESS_MESSAGE = "success"
 
     String message
     boolean success
@@ -24,76 +29,84 @@ class Resp<T> {
     }
 
     Resp(final String message, final boolean success) {
-        this.message = message;
-        this.success = success;
+        this.message = message
+        this.success = success
     }
 
     Resp(final T body, final String message, final boolean success) {
-        this(message, success);
-        this.body = body;
+        this(message, success)
+        this.body = body
     }
 
     static ResponseEntity<Resp> ok() {
-        new ResponseEntity<>(new Resp("Success", true), HttpStatus.OK)
+        ok(SUCCESS_MESSAGE)
     }
 
     static ResponseEntity<Resp> ok(String message) {
-        new ResponseEntity<>(new Resp(message, true), HttpStatus.OK)
+        ok(message, OK)
+    }
+
+    static ResponseEntity<Resp> ok(String message, boolean success) {
+        new ResponseEntity<>(new Resp<>(message, success), OK)
+    }
+
+    static ResponseEntity<Resp> ok( body, String message, boolean success) {
+        new ResponseEntity<>(new Resp<>(body, message, success), OK)
+    }
+
+    static <T> ResponseEntity<Resp<T>> ok(String message, T body) {
+        ok(message, body, OK)
+    }
+
+    static <T> ResponseEntity<Resp<T>> ok(T body) {
+        ok(SUCCESS_MESSAGE, body)
     }
 
     static ResponseEntity<Resp> ok(String message, HttpStatus status) {
         new ResponseEntity<>(new Resp(message, true), status)
     }
 
-    static <T> ResponseEntity<Resp<T>> ok(String message, T body) {
-        return new ResponseEntity<>(new Resp<>(body, message, true), HttpStatus.OK)
-    }
-
     static <T> ResponseEntity<Resp> ok(String message, T body, HttpStatus status) {
         new ResponseEntity<>(new Resp<>(body, message, true), status)
     }
 
-    static <T> ResponseEntity<Resp<T>> ok(T body) {
-        ok("Success", body)
+    static ResponseEntity<Resp> fail() {
+        fail(BAD_REQUEST)
     }
 
-    static ResponseEntity<Resp> failureResp() {
-        new ResponseEntity<>(new Resp("Fail", false), HttpStatus.BAD_REQUEST);
+    static ResponseEntity<Resp> fail(String message) {
+        new ResponseEntity<>(new Resp(message, false), BAD_REQUEST)
     }
 
-    static ResponseEntity<Resp> failureResp(String message) {
-        new ResponseEntity<>(new Resp(message, false), HttpStatus.BAD_REQUEST)
-    }
-
-    static ResponseEntity<Resp> failureResp(HttpStatus status) {
+    static ResponseEntity<Resp> fail(HttpStatus status) {
         new ResponseEntity<>(new Resp("Fail", false), status)
     }
 
-    static ResponseEntity<Resp> failureResp(String message, HttpStatus status) {
+    static ResponseEntity<Resp> fail(String message, HttpStatus status) {
         new ResponseEntity<>(new Resp(message, false), status)
     }
 
-    static <T> ResponseEntity<Resp> failureResp(T body, String message, HttpStatus status) {
+    static <T> ResponseEntity<Resp> fail(T body, String message, HttpStatus status) {
         new ResponseEntity<>(new Resp<>(body, message, false), status)
     }
 
-    static ResponseEntity<Resp> failureResp(String message, Exception exception) {
+    static ResponseEntity<Resp> fail(String message, Exception exception) {
         new ResponseEntity<>(
                 new ResponseExceptionDetailDTO(message, exception.toString()),
                 HttpStatus.INTERNAL_SERVER_ERROR)
     }
 
-    static ResponseEntity<Resp> failureResp(String message, HttpStatus status,
-                                            Exception exception) {
+    static ResponseEntity<Resp> fail(String message, HttpStatus status,
+                                     Exception exception) {
         return new ResponseEntity<>(new ResponseExceptionDetailDTO(message, exception.toString()), status)
     }
 
     static ResponseEntity<Resp> userNotExist() {
-        return failureResp("User not exist", HttpStatus.BAD_REQUEST)
+        return fail("User not exist", BAD_REQUEST)
     }
 
     static ResponseEntity<Resp> categoryNotExist() {
-        return failureResp("Category not exist!", HttpStatus.BAD_REQUEST)
+        return fail("Category not exist!", BAD_REQUEST)
     }
 
     @Data
