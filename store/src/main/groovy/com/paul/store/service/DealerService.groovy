@@ -16,8 +16,7 @@ class DealerService {
   }
 
   ResponseEntity<Resp<TestEntityDto>> getOne(Long id) {
-    def one = dealerTestClient.getOne(id)
-    return one
+    dealerTestClient.getOne(id)
   }
 
   ResponseEntity<Resp<List<TestEntityDto>>> getAll() {
@@ -25,7 +24,7 @@ class DealerService {
   }
 
   ResponseEntity<Resp<TestEntityDto>> update(TestEntityDto dto) {
-    update = dealerTestClient.update(dto)
+    dealerTestClient.update(dto)
   }
 
   ResponseEntity save(TestEntityDto dto) {
