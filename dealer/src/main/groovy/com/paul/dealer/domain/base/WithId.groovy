@@ -1,18 +1,17 @@
-package com.paul.library.domain.base
+package com.paul.dealer.domain.base
 
-
-import lombok.experimental.Accessors
+import groovy.transform.builder.Builder
 
 import javax.persistence.*
 
+@Builder
 @MappedSuperclass
-@Accessors(chain = true)
 abstract class WithId <T extends WithId> {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
-  private Long id;
+  Long id;
 
   @SuppressWarnings("unchecked")
   T setId(Long id) {

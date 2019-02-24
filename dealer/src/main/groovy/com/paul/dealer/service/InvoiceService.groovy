@@ -1,12 +1,13 @@
 package com.paul.dealer.service
 
+import com.paul.dealer.domain.Invoice
 import com.paul.dealer.persintence.InvoiceRepository
-import lombok.RequiredArgsConstructor
-import org.springframework.stereotype.Service;
+import com.paul.library.payload.InvoiceDto
+import org.springframework.stereotype.Service
 
 @Service
-@RequiredArgsConstructor
-class InvoiceService {
-
-  final InvoiceRepository invoiceRepository
+class InvoiceService extends AbstractCommonService<InvoiceDto, Invoice, InvoiceRepository> {
+  InvoiceService(InvoiceRepository repository) {
+    super(repository)
+  }
 }

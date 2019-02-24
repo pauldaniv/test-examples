@@ -2,14 +2,10 @@ package com.paul.dealer;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.RestController;
 
 
-@SpringBootApplication(scanBasePackages = {"com.paul.dealer", "com.paul.library.*"})
-@RestController
+@SpringBootApplication(scanBasePackages = "com.paul.*")
 public class DealerApplication {
-
-
 
   public static void main(String[] args) {
     SpringApplication.run(DealerApplication.class, args);

@@ -1,7 +1,7 @@
-package com.paul.library.domain.base
+package com.paul.dealer.domain.base
 
+import groovy.transform.builder.Builder
 import lombok.Setter
-import lombok.experimental.Accessors
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 
@@ -13,7 +13,7 @@ import java.time.ZoneOffset
 
 import static lombok.AccessLevel.NONE
 
-@Accessors(chain = true)
+@Builder
 @MappedSuperclass
 abstract class WithDate<T extends WithDate> extends WithId<T> {
 

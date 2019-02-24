@@ -1,15 +1,13 @@
-package com.paul.library.domain
+package com.paul.dealer.domain
 
-import com.paul.library.domain.base.WithDate
-import lombok.EqualsAndHashCode
-import lombok.experimental.Accessors
+import com.paul.dealer.domain.base.WithDate
+import groovy.transform.builder.Builder
 
 import javax.persistence.*
 
-@Accessors(chain = true)
-@EqualsAndHashCode(callSuper = true)
+@Builder
 @Entity
-@Table(name = "orders")
+@Table(name = "orders_table")
 class Order extends WithDate<Order> {
 
   @ManyToOne

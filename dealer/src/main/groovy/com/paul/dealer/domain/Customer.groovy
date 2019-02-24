@@ -1,15 +1,15 @@
-package com.paul.library.domain
+package com.paul.dealer.domain
 
-import com.paul.library.domain.base.WithDate
-import lombok.experimental.Accessors
+import com.paul.dealer.domain.base.WithDate
+import groovy.transform.builder.Builder
 
 import javax.persistence.Entity
 import javax.persistence.OneToMany
 import javax.persistence.Table
 
-@Accessors(chain = true)
+@Builder
 @Entity
-@Table
+@Table(name = "customers")
 class Customer extends WithDate<Customer> {
 
   String fullName;

@@ -1,11 +1,13 @@
 package com.paul.dealer.service
 
+import com.paul.dealer.domain.Order
 import com.paul.dealer.persintence.OrderRepository
-import lombok.RequiredArgsConstructor
-import org.springframework.stereotype.Service;
+import com.paul.library.payload.OrderDto
+import org.springframework.stereotype.Service
 
 @Service
-@RequiredArgsConstructor
-class OrderService {
-  final OrderRepository orderRepository
+class OrderService extends AbstractCommonService<OrderDto, Order, OrderRepository>{
+  OrderService(OrderRepository repository) {
+    super(repository)
+  }
 }

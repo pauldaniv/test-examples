@@ -14,10 +14,14 @@ subprojects {
   sourceSets {
     main {
       java.outputDir = new File(buildDir, "classes/main/java")
+      groovy.outputDir = new File(buildDir, "classes/main/java")
     }
     test {
       java.outputDir  = new File(buildDir, "classes/test/java")
+      groovy.outputDir = new File(buildDir, "classes/test/java")
+
     }
+
   }
 
   afterEvaluate {

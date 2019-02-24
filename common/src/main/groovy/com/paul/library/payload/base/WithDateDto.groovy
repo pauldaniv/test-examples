@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
-public class WithDateDto<T extends WithDateDto> extends WithIdDto<T> {
+public class WithDateDto extends WithIdDto {
 
   LocalDateTime createdTime;
   LocalDateTime modifiedTime;

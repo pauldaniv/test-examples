@@ -4,7 +4,7 @@ import com.paul.library.payload.base.WithIdDto
 import groovy.transform.builder.Builder
 
 @Builder
-class OrderDto extends WithIdDto<OrderDto> {
+class OrderDto extends WithIdDto {
   InvoiceDto invoice;
   List<CarDto> cars;
 }
