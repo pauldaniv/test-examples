@@ -8,6 +8,7 @@ subprojects {
     module {
       outputDir file('build/classes/main/java')
       testOutputDir file('build/classes/test/java')
+//      inheritOutputDirs = true
     }
   }
 

@@ -34,9 +34,6 @@ dependency-reduced-pom.xml
 mem*.db
 
 README.html
-application/out/
-library/out/
-dealer/out/
-store/out/
-
+out/
+logs/
 gradle/

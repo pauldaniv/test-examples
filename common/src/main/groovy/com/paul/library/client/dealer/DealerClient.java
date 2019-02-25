@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
-@FeignClient(name = "${feign.client.dealer.name}", url = "${feign.client.dealer.url}")
+@FeignClient(name = "dealerClient", url = "${feign.client.dealer.url}")
 @RequestMapping("/test-entity")
 public interface DealerClient {
 
