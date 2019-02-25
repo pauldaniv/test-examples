@@ -3,10 +3,12 @@ package com.paul.store.service
 import com.paul.library.client.dealer.DealerClient
 import com.paul.library.payload.Resp
 import com.paul.library.payload.TestEntityDto
+import groovy.util.logging.Slf4j
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 
 @Service
+@Slf4j
 class DealerService {
 
   private final DealerClient dealerTestClient
@@ -16,6 +18,7 @@ class DealerService {
   }
 
   ResponseEntity<Resp<TestEntityDto>> getOne(Long id) {
+    log.debug('Get one {}', id)
     dealerTestClient.getOne(id)
   }
 
