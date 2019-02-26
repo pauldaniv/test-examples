@@ -94,6 +94,4 @@ public class DealerApplication {
 //        indent(level);
 //        System.out.println("</" + node.getNodeName() + ">");
 //    }
-
-
 }

@@ -1,6 +1,6 @@
 package com.paul.store;
 
-import com.paul.library.component.Mapper;
+import com.paul.common.component.Mapper;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Test;
 import org.junit.runner.RunWith;

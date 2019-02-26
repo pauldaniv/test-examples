@@ -1,8 +1,8 @@
 package com.paul.dealer.controller
 
 import com.paul.dealer.service.DefaultService
-import com.paul.library.payload.Resp
-import com.paul.library.payload.TestEntityDto
+import com.paul.common.payload.Resp
+import com.paul.common.payload.TestEntityDto
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 

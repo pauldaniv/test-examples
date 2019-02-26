@@ -6,7 +6,7 @@ import javax.persistence.*
 
 @Builder
 @MappedSuperclass
-abstract class WithId <T extends WithId> {
+class WithId <T extends WithId> {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,7 +1,18 @@
 buildscript {
-  ext { springBootVersion = '2.1.3.RELEASE' }
-  repositories { mavenCentral() }
-  dependencies { classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}") }
+  ext {
+    moduleName = 'store'
+    springBootVersion = '2.1.3.RELEASE'
+  }
+  repositories {
+    jcenter()
+    mavenCentral()
+    gradlePluginPortal()
+
+  }
+  dependencies {
+    classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    classpath('gradle.plugin.com.palantir.gradle.docker:gradle-docker:0.13.0')
+  }
 }
 
 apply plugin: 'java'
@@ -10,10 +21,25 @@ apply plugin: 'idea'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
+apply plugin: 'com.palantir.docker'
 
+version = '0.1-SNAPSHOT'
 bootJar {
-  baseName = 'store'
-  version = '0.0.1-SNAPSHOT'
+  archiveBaseName.set(moduleName)
+  version = project.version
+}
+group = 'paul'
+
+task unpack(type: Copy) {
+  dependsOn bootJar
+  from(zipTree(tasks.bootJar.outputs.files.singleFile))
+  into("build/dependency")
+}
+
+docker {
+  name "${project.group}/${bootJar.archiveBaseName.getOrElse(moduleName)}:${project.version}"
+  copySpec.from(tasks.unpack.outputs).into("dependency")
+  buildArgs(['DEPENDENCY': "dependency"])
 }
 
 repositories {
@@ -25,9 +51,6 @@ dependencies {
   implementation 'org.springframework.boot:spring-boot-starter-web',
           project(':common'),
           'org.codehaus.groovy:groovy',
-//          'org.springframework.boot:spring-boot-starter-thymeleaf',
-//          'org.springframework.boot:spring-boot-starter-web-services',
-//          'org.springframework.boot:spring-boot-starter-groovy-templates',
           'org.springframework.cloud:spring-cloud-starter-config',
           'org.springframework.cloud:spring-cloud-starter',
           'org.springframework.cloud:spring-cloud-starter-openfeign:2.1.0.RELEASE'
@@ -39,59 +62,11 @@ ext {
   set('springCloudVersion', 'Greenwich.RELEASE')
 }
 
+
+
 dependencyManagement {
   imports {
     mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
     mavenBom "org.springframework.boot:spring-boot-dependencies:${springBootVersion}"
   }
 }
-
-
-//import org.springframework.boot.gradle.plugin.SpringBootPlugin
-//
-//buildscript {
-//    ext { springBootVersion = '2.0.1.RELEASE' }
-//    repositories { jcenter() }
-//    dependencies {
-//        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-//        classpath "io.spring.gradle:dependency-management-plugin:1.0.6.RELEASE"
-//    }
-//
-//}
-//
-//plugins {
-//    id 'java'
-//    id("org.springframework.boot") version "2.1.3.RELEASE"
-//    id("io.spring.dependency-management") version "1.0.6.RELEASE"
-//}
-//
-//apply plugin: 'idea'
-//apply plugin: 'eclipse'
-//
-//bootJar {
-//    baseName = 'store'
-//    version = '0.0.1-SNAPSHOT'
-//}
-//
-//sourceCompatibility = 1.8
-//
-//repositories { jcenter() }
-//
-//dependencies {
-//
-//    implementation 'org.springframework.boot:spring-boot-dependencies:2.0.5.RELEASE'
-//    implementation 'org.springframework.boot:spring-boot-starter-web'
-//
-//    compile 'org.springframework.boot:spring-boot-starter-actuator',
-//            'org.springframework.boot:spring-boot-starter-web',
-//            project(':library')
-//            compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-feign', version: '1.4.4.RELEASE'
-//    testCompile 'org.springframework.boot:spring-boot-starter-test'
-//}
-//
-//
-//dependencyManagement {
-//    imports {
-//        mavenBom(SpringBootPlugin.BOM_COORDINATES)
-//    }
-//}

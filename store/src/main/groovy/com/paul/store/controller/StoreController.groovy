@@ -1,7 +1,7 @@
 package com.paul.store.controller
 
-import com.paul.library.payload.Resp
-import com.paul.library.payload.TestEntityDto
+import com.paul.common.payload.Resp
+import com.paul.common.payload.TestEntityDto
 import com.paul.store.service.DealerService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
-import static com.paul.library.payload.Resp.ok
+import static com.paul.common.payload.Resp.ok
 
 @RestController
 @RequestMapping("/api/store")

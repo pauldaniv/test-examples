@@ -15,7 +15,7 @@ import static lombok.AccessLevel.NONE
 
 @Builder
 @MappedSuperclass
-abstract class WithDate<T extends WithDate> extends WithId<T> {
+class WithDate<T extends WithDate> extends WithId<T> {
 
   @CreatedDate
   @Setter(NONE)

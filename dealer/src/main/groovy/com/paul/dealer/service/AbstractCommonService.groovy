@@ -2,9 +2,9 @@ package com.paul.dealer.service
 
 import com.paul.dealer.domain.base.WithId
 import com.paul.dealer.persintence.CommonRepository
-import com.paul.library.component.Mapper
-import com.paul.library.payload.Resp
-import com.paul.library.payload.base.WithIdDto
+import com.paul.common.component.Mapper
+import com.paul.common.payload.Resp
+import com.paul.common.payload.base.WithIdDto
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service

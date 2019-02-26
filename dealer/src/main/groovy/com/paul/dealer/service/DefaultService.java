@@ -3,7 +3,7 @@ package com.paul.dealer.service
 
 import com.paul.dealer.domain.TestEntity;
 import com.paul.dealer.persintence.DefaultRepository;
-import com.paul.library.payload.TestEntityDto;
+import com.paul.common.payload.TestEntityDto;
 import org.springframework.stereotype.Service;
 
 @Service
