@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping
 @RequestMapping("/invoices")
 interface InvoiceClient {
 
-    @GetMapping("/pending/{id}")
-    getPending(@PathVariable("id") Long userId)
+  @GetMapping("/pending/{id}")
+  getPending(@PathVariable("id") Long userId)
 
-    @GetMapping("/latest-payed/{id}")
-    getLatestPayed(@PathVariable("id") Long id)
+  @GetMapping("/latest-payed/{id}")
+  getLatestPayed(@PathVariable("id") Long id)
 }

@@ -10,19 +10,19 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/cars")
 interface CarClient {
 
-    @PatchMapping("/search")
-    ResponseEntity search(@RequestBody SearchParams dto)
+  @PatchMapping("/search")
+  ResponseEntity search(@RequestBody SearchParams dto)
 
-    @GetMapping("/info/{id}")
-    ResponseEntity info(@PathVariable("id") Long id)
+  @GetMapping("/info/{id}")
+  ResponseEntity info(@PathVariable("id") Long id)
 
-    @GetMapping("/{id}")
+  @GetMapping("/{id}")
 
-    ResponseEntity book(@PathVariable("id") Long id)
+  ResponseEntity book(@PathVariable("id") Long id)
 
-    @GetMapping("/buy/{id}")
-    ResponseEntity buyOne(@PathVariable("id") Long id)
+  @GetMapping("/buy/{id}")
+  ResponseEntity buyOne(@PathVariable("id") Long id)
 
-    @PostMapping("/buy")
-    ResponseEntity buyBulk(@RequestBody IdsList ids)
+  @PostMapping("/buy")
+  ResponseEntity buyBulk(@RequestBody IdsList ids)
 }

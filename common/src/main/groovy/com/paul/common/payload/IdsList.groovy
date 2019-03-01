@@ -1,8 +1,10 @@
 package com.paul.common.payload
 
+import groovy.transform.EqualsAndHashCode
 import groovy.transform.builder.Builder;
 
 @Builder
-public class IdsList {
-    List<Long> ids
+@EqualsAndHashCode
+class IdsList {
+  List<Long> ids
 }

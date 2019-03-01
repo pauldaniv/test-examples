@@ -18,11 +18,11 @@ def LOG_DATE_FORMAT_PATTERN = "yyyy-MM-dd HH:mm:ss.SSS"
 
 def CONSOLE_LOG_PATTERN =
         "%clr(%d{${LOG_DATE_FORMAT_PATTERN}}){faint}" +
-        "%clr(${LOG_LEVEL_PATTERN}) " +
-        "%clr(${PID}){magenta} " +
-        "%clr(---){faint} %clr([%15.15t]){faint} " +
-        "%clr(%-40.40logger{39}){cyan} %clr(:){faint} " +
-        "%m%n${LOG_EXCEPTION_CONVERSION_WORD}"
+                "%clr(${LOG_LEVEL_PATTERN}) " +
+                "%clr(${PID}){magenta} " +
+                "%clr(---){faint} %clr([%15.15t]){faint} " +
+                "%clr(%-40.40logger{39}){cyan} %clr(:){faint} " +
+                "%m%n${LOG_EXCEPTION_CONVERSION_WORD}"
 
 
 def FILE_LOG_PATTERN = "%d{${LOG_DATE_FORMAT_PATTERN}} " +

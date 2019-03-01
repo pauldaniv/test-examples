@@ -1,16 +1,12 @@
 package com.paul.common.payload.base
 
-import lombok.Data
-import lombok.EqualsAndHashCode
-import lombok.ToString
-import lombok.experimental.Accessors
+import groovy.transform.EqualsAndHashCode
+import groovy.transform.builder.Builder
 
 import java.time.LocalDateTime
 
-@Data
-@Accessors(chain = true)
-@EqualsAndHashCode(callSuper = true)
-@ToString(callSuper = true)
+@Builder
+@EqualsAndHashCode
 class WithDateDto extends WithIdDto {
 
   LocalDateTime createdTime

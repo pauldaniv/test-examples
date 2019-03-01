@@ -11,7 +11,7 @@ import java.time.LocalDate
 @Builder
 @Entity
 @Table
- class Car extends WithDate<Car> {
+class Car extends WithDate<Car> {
 
   String brand
   String model

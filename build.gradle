@@ -3,7 +3,7 @@ subprojects {
   apply plugin: 'idea'
   apply plugin: 'groovy'
   apply plugin: 'java'
-  
+
   idea {
     module {
       outputDir file('build/classes/main/java')
@@ -18,7 +18,7 @@ subprojects {
       groovy.outputDir = new File(buildDir, "classes/main/java")
     }
     test {
-      java.outputDir  = new File(buildDir, "classes/test/java")
+      java.outputDir = new File(buildDir, "classes/test/java")
       groovy.outputDir = new File(buildDir, "classes/test/java")
 
     }
@@ -36,7 +36,7 @@ subprojects {
     ext {
       lombokVersion = '1.18.4'
     }
-    
+
     dependencies {
       compileOnly "org.projectlombok:lombok:${lombokVersion}"
       testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
@@ -44,7 +44,7 @@ subprojects {
       testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 
     }
-    
+
 //        ext {
 //            mainClass = 'org.springframework.boot.loader.JarLauncher'
 //            launcher = 'run'

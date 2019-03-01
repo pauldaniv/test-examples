@@ -6,7 +6,7 @@ import groovy.transform.builder.Builder
 
 @Builder
 class InvoiceDto extends WithDateDto {
-  private Integer total;
-  private OrderDto order;
-  private CustomerDto customer;
+  private Integer total
+  private OrderDto order
+  private CustomerDto customer
 }

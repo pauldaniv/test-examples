@@ -3,19 +3,16 @@ package com.paul.store.controller
 import com.paul.common.payload.Resp
 import com.paul.common.payload.TestEntityDto
 import com.paul.store.service.DealerService
+import com.paul.store.service.DealerServiceImpl
+import groovy.util.logging.Slf4j
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 import static com.paul.common.payload.Resp.ok
 
 @RestController
 @RequestMapping("/api/store")
+@Slf4j
 class StoreController {
 
   private final DealerService dealer

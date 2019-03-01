@@ -21,7 +21,7 @@ public class WebClientExample {
   private MockMvc mvc;
 
   @Test
-  public void exampleTest()  throws Exception {
+  public void exampleTest() throws Exception {
     this.mvc.perform(get("/api/dealer/healthCheck")).andExpect(status().isOk())
             .andExpect(content().contentTypeCompatibleWith("application/json"));
   }

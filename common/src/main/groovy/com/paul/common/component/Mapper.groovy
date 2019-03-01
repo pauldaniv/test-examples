@@ -13,12 +13,12 @@ class Mapper {
   ModelMapper mapper
 
   def <T> T map(Object source, Class<T> targetClass) {
-    mapper.map(source, targetClass);
+    mapper.map(source, targetClass)
   }
 
   def <T> List<T> map(Iterable<?> sources, Class<T> targetClass) {
     List<T> result = new ArrayList<>()
-    sources.forEach({source -> result.add(map(source, targetClass))})
+    sources.forEach({ source -> result.add(map(source, targetClass)) })
     result
   }
 

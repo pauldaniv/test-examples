@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/api/dealer")
 class Infra {
-    @GetMapping("/healthCheck")
-    ResponseEntity<Resp> healthCheck() {
-        Resp.ok()
-    }
+  @GetMapping("/healthCheck")
+  ResponseEntity<Resp> healthCheck() {
+    Resp.ok()
+  }
 }

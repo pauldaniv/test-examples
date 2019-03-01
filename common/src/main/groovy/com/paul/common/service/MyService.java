@@ -12,13 +12,7 @@ public class MyService {
 
   private final ServiceProperties serviceProperties;
 
-
   public String message() {
-//    def build = com.paul.library.payload.CarDto.builder()
-//            .brand("Tesla")
-//            .releasedIn(LocalDate.now())
-//            .model("2.1")
-//            .build()
     return this.serviceProperties.getMessage();
   }
 }
