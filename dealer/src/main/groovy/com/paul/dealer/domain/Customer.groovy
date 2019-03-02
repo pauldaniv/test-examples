@@ -9,7 +9,7 @@ import javax.persistence.Table
 
 @Builder
 @Entity
-@Table(name = "customers")
+@Table
 class Customer extends WithDate<Customer> {
 
   String fullName;
@@ -18,5 +18,19 @@ class Customer extends WithDate<Customer> {
   List<Order> orders
 
   @OneToMany(mappedBy = "customer")
-  List<Invoice> invoices;
+  List<Invoice> invoices
+
+
+    @Override
+    public String toString() {
+        return """\
+Customer{
+    id=$id,
+    createdTime=$createdTime,
+    modifiedTime=$modifiedTime,
+    fullName='$fullName', 
+    orders=$orders, 
+    invoices=$invoices
+}"""
+    }
 }

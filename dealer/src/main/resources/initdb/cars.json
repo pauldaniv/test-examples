@@ -1,0 +1,17 @@
+[
+  {
+    "brand": "Audi",
+    "model": "A5",
+    "releasedIn": "2005.05"
+  },
+  {
+    "brand": "Audi",
+    "model": "A7",
+    "releasedIn": "2007.07"
+  },
+  {
+    "brand": "Audi",
+    "model": "A9",
+    "releasedIn": "2009.06"
+  }
+]

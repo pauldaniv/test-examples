@@ -9,4 +9,5 @@ public interface CommonService<D extends WithIdDto> {
   ResponseEntity getAll();
 
   ResponseEntity save(D entity);
+  ResponseEntity update(D entity);
 }

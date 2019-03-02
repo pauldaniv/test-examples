@@ -12,4 +12,13 @@ import javax.persistence.Table
 class TestEntity extends WithId<TestEntity> {
   String firstName
   String lastName
+
+
+  @Override
+  String toString() {
+    "TestEntity{" +
+            "firstName='" + firstName + '\'' +
+            ", lastName='" + lastName + '\'' +
+            '}'
+  }
 }

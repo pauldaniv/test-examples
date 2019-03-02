@@ -20,12 +20,16 @@ abstract class AbstractCommonService<
         E extends WithId<E>,
         R extends CommonRepository<E>> implements CommonService<D> {
 
+  private static final int DTO_TYPE = 0, ENTITY_TYPE = 1
+
   @Autowired
   private Mapper map
 
   private R repository
   private Class<D> d
   private Class<E> e
+
+  AbstractCommonService() {}
 
   AbstractCommonService(R repository) {
     initClassTypes()
@@ -55,6 +59,7 @@ abstract class AbstractCommonService<
     Resp.ok(map)
   }
 
+  @Override
   ResponseEntity update(D dto) {
     def entity = repository.findById(dto.id)
     if (entity.isPresent()) {
@@ -65,8 +70,8 @@ abstract class AbstractCommonService<
   }
 
   private void initClassTypes() {
-    d = (Class<D>) getTypeArgument(0)
-    e = (Class<E>) getTypeArgument(1)
+    d = (Class<D>) getTypeArgument(DTO_TYPE)
+    e = (Class<E>) getTypeArgument(ENTITY_TYPE)
   }
 
   private Type getTypeArgument(int index) {

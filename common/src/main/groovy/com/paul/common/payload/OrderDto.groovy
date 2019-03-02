@@ -7,6 +7,6 @@ import groovy.transform.builder.Builder
 @Builder
 @EqualsAndHashCode
 class OrderDto extends WithIdDto {
-  InvoiceDto invoice
+  CustomerDto customer
   List<CarDto> cars
 }

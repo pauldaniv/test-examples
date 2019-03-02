@@ -11,12 +11,10 @@ class WithId<T extends WithId> {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
-  Long id;
+  Long id
 
-  @SuppressWarnings("unchecked")
   T setId(Long id) {
-
-    this.id = id;
-    return (T) this;
+    this.id = id
+    return (T) this
   }
 }

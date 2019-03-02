@@ -6,7 +6,7 @@ import groovy.transform.builder.Builder
 import javax.persistence.Entity
 import javax.persistence.ManyToMany
 import javax.persistence.Table
-import java.time.LocalDate
+import java.time.YearMonth
 
 @Builder
 @Entity
@@ -15,8 +15,22 @@ class Car extends WithDate<Car> {
 
   String brand
   String model
-  LocalDate releasedIn
+  YearMonth releasedIn
 
   @ManyToMany(mappedBy = "cars")
   List<Order> orders
+
+  @Override
+  public String toString() {
+    return """\
+Car{
+    id=$id,
+    createdTime=$createdTime,
+    modifiedTime=$modifiedTime,
+    brand='$brand', 
+    model='$model', 
+    releasedIn=$releasedIn, 
+    orders=$orders
+}"""
+  }
 }

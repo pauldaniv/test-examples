@@ -1,0 +1,29 @@
+[
+  {
+    "total": 5000,
+    "order": {
+      "id": 1
+    },
+    "customer": {
+      "id": 1
+    }
+  },
+  {
+    "total": 7000,
+    "order": {
+      "id": 2
+    },
+    "customer": {
+      "id": 2
+    }
+  },
+  {
+    "total": 10000,
+    "order": {
+      "id": 3
+    },
+    "customer": {
+      "id": 2
+    }
+  }
+]

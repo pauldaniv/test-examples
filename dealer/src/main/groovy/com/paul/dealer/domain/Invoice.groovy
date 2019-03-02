@@ -10,7 +10,7 @@ import javax.persistence.Table
 
 @Builder
 @Entity
-@Table(name = "invoices")
+@Table
 class Invoice extends WithDate<Invoice> {
 
 
@@ -21,4 +21,18 @@ class Invoice extends WithDate<Invoice> {
 
   @ManyToOne
   Customer customer
+
+
+  @Override
+  public String toString() {
+    return """\
+Invoice{
+    id=$id,
+    createdTime=$createdTime,
+    modifiedTime=$modifiedTime,
+    total=$total, 
+    orders=$orders, 
+    customer=$customer
+}"""
+  }
 }
