@@ -10,4 +10,5 @@ interface DealerService {
   ResponseEntity<Resp<TestEntityDto>> update(TestEntityDto dto)
   ResponseEntity save(TestEntityDto dto)
   ResponseEntity<Resp> index()
+
 }
