@@ -28,6 +28,10 @@ bootJar {
   archiveBaseName.set(moduleName)
   version = project.version
 }
+
+bootRun {
+  jvmArgs = ["-Dspring.output.ansi.enabled=ALWAYS"]
+}
 group = 'paul'
 
 task unpack(type: Copy) {
