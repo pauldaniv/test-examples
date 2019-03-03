@@ -25,8 +25,8 @@ class CarStoreServiceImpl implements CarStoreService {
     ResponseEntity<Resp<CarDto>> getCarInfo(Long carId) {
         def carInfo = client.info(carId)
         if (carInfo.body.success) {
-            def carPrice = carInfo.body.body.price
-            carInfo.body.body.price += (carPrice / 100) * margin
+            Double carPrice = carInfo.body.body.price
+            carInfo.body.body.price += Double.valueOf((carPrice / 100) * margin)
            return Resp.ok(carInfo.body.body)
         } else
             return Resp.ok(carInfo.body.message, carInfo.body.success)
