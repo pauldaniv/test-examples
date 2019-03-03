@@ -14,7 +14,6 @@ import java.time.YearMonth
 
 @Builder
 @EqualsAndHashCode
-@JsonInclude(JsonInclude.Include.NON_EMPTY)
 class CarDto extends WithDateDto {
   String brand
   String model

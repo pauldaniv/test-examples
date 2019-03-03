@@ -9,6 +9,6 @@ import lombok.EqualsAndHashCode
 @EqualsAndHashCode
 class InvoiceDto extends WithDateDto {
   Integer total
-  OrderDto order
+  List<OrderDto> orders
   CustomerDto customer
 }

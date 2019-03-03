@@ -55,11 +55,15 @@ class AppInit {
         List<Car> cars = initEntity("cars", CarDto.class, Car.class)
         carRepository.saveAll(cars)
 
-        List<Order> orders = initEntity("orders", OrderDto.class, Order.class)
-        orderRepository.saveAll(orders)
 
         List<Invoice> invoices = initEntity("invoices", InvoiceDto.class, Invoice.class)
         invoiceRepository.saveAll(invoices)
+
+
+        List<Order> orders = initEntity("orders", OrderDto.class, Order.class)
+        orderRepository.saveAll(orders)
+
+
 
 
     }

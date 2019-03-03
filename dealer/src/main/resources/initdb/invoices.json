@@ -1,29 +1,32 @@
 [
   {
     "total": 5000,
-    "order": {
-      "id": 1
-    },
     "customer": {
       "id": 1
     }
   },
   {
-    "total": 7000,
-    "order": {
-      "id": 2
-    },
+    "total": 5000,
     "customer": {
       "id": 2
     }
   },
   {
-    "total": 10000,
-    "order": {
-      "id": 3
-    },
+    "total": 5002,
     "customer": {
       "id": 2
+    }
+  },
+  {
+    "total": 20000,
+    "customer": {
+      "id": 4
+    }
+  },
+  {
+    "total": 7002,
+    "customer": {
+      "id": 4
     }
   }
 ]

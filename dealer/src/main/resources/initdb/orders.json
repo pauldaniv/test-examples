@@ -3,6 +3,9 @@
     "customer": {
       "id": 1
     },
+    "invoice": {
+      "id": 1
+    },
     "cars": [
       {
         "id": 1
@@ -14,6 +17,9 @@
   },
   {
     "customer": {
+      "id": 2
+    },
+    "invoice": {
       "id": 2
     },
     "cars": [
@@ -29,10 +35,61 @@
     "customer": {
       "id": 2
     },
+    "invoice": {
+      "id": 3
+    },
     "cars": [
       {
         "id": 2
       },
+      {
+        "id": 3
+      }
+    ]
+  },
+  {
+    "customer": {
+      "id": 4
+    },
+    "invoice": {
+      "id": 4
+    },
+    "cars": [
+      {
+        "id": 1
+      },
+      {
+        "id": 2
+      },
+      {
+        "id": 3
+      }
+    ]
+  },
+  {
+    "customer": {
+      "id": 4
+    },
+    "invoice": {
+      "id": 5
+    },
+    "cars": [
+      {
+        "id": 1
+      },
+      {
+        "id": 3
+      }
+    ]
+  },
+  {
+    "customer": {
+      "id": 4
+    },
+    "invoice": {
+      "id": 5
+    },
+    "cars": [
       {
         "id": 3
       }
