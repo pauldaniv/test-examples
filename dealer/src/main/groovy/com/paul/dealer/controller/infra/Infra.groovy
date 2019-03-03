@@ -1,4 +1,4 @@
-package com.paul.dealer.controller
+package com.paul.dealer.controller.infra
 
 import com.paul.common.payload.Resp
 import org.springframework.http.ResponseEntity

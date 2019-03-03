@@ -15,6 +15,7 @@ import com.paul.dealer.persintence.CarRepository
 import com.paul.dealer.persintence.CustomerRepository
 import com.paul.dealer.persintence.InvoiceRepository
 import com.paul.dealer.persintence.OrderRepository
+import groovy.transform.EqualsAndHashCode
 import groovy.util.logging.Slf4j
 import org.springframework.context.event.ContextRefreshedEvent
 import org.springframework.context.event.EventListener
@@ -52,7 +53,7 @@ class AppInit {
         List<Customer> customers = initEntity("customers", CustomerDto.class, Customer.class)
         customerRepository.saveAll(customers)
 
-        List<Car> cars = initEntity("cars", CarDto.class, Car.class)
+        List<Car> cars = initEntity("cars", InitCarsDto.class, Car.class)
         carRepository.saveAll(cars)
 
 
@@ -62,8 +63,6 @@ class AppInit {
 
         List<Order> orders = initEntity("orders", OrderDto.class, Order.class)
         orderRepository.saveAll(orders)
-
-
 
 
     }
@@ -79,5 +78,11 @@ class AppInit {
                 map.oMap.getTypeFactory()
                         .constructCollectionType(List.class, dto))
         map.map(cars, entity)
+    }
+
+    @EqualsAndHashCode
+    @SuppressWarnings("unused")
+    private static final class InitCarsDto extends CarDto {
+        Integer count
     }
 }

@@ -14,9 +14,10 @@ class CarDealerController {
         this.carService = carService
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/info/{id}")
     getOne(@PathVariable("id") Long id) {
-        carService.getOne(id)
+        def one = carService.getOne(id)
+        one
     }
 
     @PostMapping

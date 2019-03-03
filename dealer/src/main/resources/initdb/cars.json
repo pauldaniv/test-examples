@@ -1,16 +1,22 @@
 [
   {
     "brand": "Audi",
+    "price": 20000,
     "model": "A5",
+    "count": 15,
     "releasedIn": "2005.05"
   },
   {
     "brand": "Audi",
+    "price": 22000,
+    "count": 12,
     "model": "A7",
     "releasedIn": "2007.07"
   },
   {
     "brand": "Audi",
+    "price": 30000,
+    "count": 10,
     "model": "A9",
     "releasedIn": "2009.06"
   }

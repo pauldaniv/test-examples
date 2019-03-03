@@ -7,7 +7,7 @@ import java.time.LocalDate
 
 @Builder
 @EqualsAndHashCode
-class SearchParams {
+class CarSearchParams {
   String brand
   Boolean used
   LocalDate producedBefore
