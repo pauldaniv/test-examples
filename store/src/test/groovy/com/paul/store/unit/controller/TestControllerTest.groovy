@@ -1,8 +1,9 @@
 package com.paul.store.unit.controller
 
+import com.paul.common.client.dealer.DealerClient
 import com.paul.common.payload.TestEntityDto
 import com.paul.store.controller.StoreController
-import com.paul.store.service.DealerService
+import com.paul.store.service.DealerServiceImpl
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.InjectMocks
@@ -20,7 +21,10 @@ class TestControllerTest {
   StoreController storeController
 
   @Spy
-  DealerService dealerService
+  DealerServiceImpl dealerService
+
+  @Spy
+  DealerClient client
 
   @Test
   void simpleControllerTest() {
