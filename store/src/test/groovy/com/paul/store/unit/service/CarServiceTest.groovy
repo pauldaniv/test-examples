@@ -10,6 +10,7 @@ import org.mockito.InjectMocks
 import org.mockito.Mockito
 import org.mockito.Spy
 import org.mockito.junit.MockitoJUnitRunner
+import org.springframework.test.util.ReflectionTestUtils
 
 import static org.assertj.core.api.Assertions.assertThat
 
@@ -24,13 +25,15 @@ class CarServiceTest {
 
     @Test
     void tradeMarginTest() {
-        Mockito.doReturn(Resp.ok(CarDto.builder()
-                .price(1000D).build()
+        ReflectionTestUtils.setField(carStoreService, 'margin', 10)
+
+                Mockito.doReturn(Resp.ok(CarDto.builder()
+                .price(1000d).build()
         )).when(carClient).info(1L)
 
         def that = assertThat(Resp.ok(CarDto.builder()
-                .price(1100D).build()))
+                .price(1100d).build()).body.body)
         def info = carStoreService.getCarInfo(1L)
-        that.isEqualToComparingOnlyGivenFields(info, 'price')
+        that.isEqualToComparingFieldByField(info.body.body)
     }
 }
