@@ -72,9 +72,9 @@ class AppInit {
                                                  Class<D> dto,
                                                  Class<E> entity) {
 
-        Resource testEntityDtos = new ClassPathResource("initdb/${entityJson}.json")
+        Resource entityDtos = new ClassPathResource("initdb/${entityJson}.json")
         List<D> cars = map.oMap.readValue(
-                testEntityDtos.getFile(),
+                entityDtos.getFile(),
                 map.oMap.getTypeFactory()
                         .constructCollectionType(List.class, dto))
         map.map(cars, entity)
