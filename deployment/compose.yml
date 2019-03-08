@@ -1,0 +1,27 @@
+version: '3'
+services:
+
+  fe:
+    image: "it:tests-examples-fe.v1"
+
+  dealer:
+    image: "it:test-examples-dealer.v1"
+    depends_on:
+      - db
+      - cache
+
+  store:
+    image: "it:test-examples-store.v1"
+
+  db:
+    image: mongo
+
+  cache:
+    image: redis
+
+  nginx:
+    image: nginx
+    links:
+      - fe
+      - dealer
+      - store
