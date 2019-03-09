@@ -5,14 +5,17 @@ import com.paul.common.payload.CarDto
 import com.paul.common.payload.CustomerDto
 import com.paul.common.payload.InvoiceDto
 import com.paul.common.payload.OrderDto
+import com.paul.common.payload.TestEntityDto
 import com.paul.common.payload.base.WithIdDto
 import com.paul.dealer.domain.Car
 import com.paul.dealer.domain.Customer
 import com.paul.dealer.domain.Invoice
 import com.paul.dealer.domain.Order
+import com.paul.dealer.domain.TestEntity
 import com.paul.dealer.domain.base.WithId
 import com.paul.dealer.persintence.CarRepository
 import com.paul.dealer.persintence.CustomerRepository
+import com.paul.dealer.persintence.DefaultRepository
 import com.paul.dealer.persintence.InvoiceRepository
 import com.paul.dealer.persintence.OrderRepository
 import groovy.transform.EqualsAndHashCode
@@ -32,18 +35,21 @@ class AppInit {
     private final InvoiceRepository invoiceRepository
     private final OrderRepository orderRepository
     private final CustomerRepository customerRepository
+    private final DefaultRepository defaultRepository
 
     AppInit(Mapper map,
             CarRepository carRepository,
             InvoiceRepository invoiceRepository,
             OrderRepository orderRepository,
-            CustomerRepository customerRepository) {
+            CustomerRepository customerRepository,
+            DefaultRepository defaultRepository) {
 
         this.map = map
         this.carRepository = carRepository
         this.invoiceRepository = invoiceRepository
         this.orderRepository = orderRepository
         this.customerRepository = customerRepository
+        this.defaultRepository = defaultRepository
     }
 
     @EventListener(ContextRefreshedEvent.class)
@@ -64,6 +70,7 @@ class AppInit {
         List<Order> orders = initEntity("orders", OrderDto.class, Order.class)
         orderRepository.saveAll(orders)
 
+        defaultRepository.saveAll(initEntity("data", TestEntityDto.class, TestEntity.class))
 
     }
 

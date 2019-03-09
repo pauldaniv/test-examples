@@ -4,6 +4,7 @@ import com.paul.common.payload.Resp
 import com.paul.common.payload.TestEntityDto
 import com.paul.dealer.service.DefaultService
 import groovy.transform.TypeChecked
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -22,7 +23,7 @@ class TestEntityController {
   ResponseEntity getOne(@PathVariable("id") Long id) {
 
     service.getOne(id)
-//    Resp.ok("testMessage", HttpStatus.OK)
+    Resp.ok("testMessage", HttpStatus.UNAUTHORIZED)
   }
 
   @GetMapping("/all")

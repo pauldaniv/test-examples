@@ -1,4 +1,4 @@
-package com.paul.dealer.controller.infra
+package com.paul.common.exception.handling
 
 import com.paul.common.payload.Resp
 import org.hibernate.ObjectNotFoundException

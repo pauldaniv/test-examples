@@ -20,8 +20,12 @@ class DealerServiceImpl implements DealerService {
   ResponseEntity<Resp<TestEntityDto>> getOne(Long id) {
     log.debug('Get one {}', id)
     def one = dealerTestClient.getOne(id)
-    one.body.body.firstName = one.body.body.firstName.toUpperCase()
-    one
+    if (one.body.success) {
+      one.body.body.firstName = one.body.body.firstName.toUpperCase()
+      one
+    } else {
+      Resp.ok(one.body.message, one.body.success)
+    }
   }
 
   ResponseEntity<Resp<List<TestEntityDto>>> getAll() {

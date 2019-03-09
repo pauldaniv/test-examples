@@ -37,7 +37,7 @@ abstract class AbstractCommonService<
 
   @Override
   ResponseEntity getOne(Long id) {
-    def one = repository.findById(id).orElseThrow({new ObjectNotFoundException(id, e.simpleName)})
+    def one = repository.findById(id).orElseThrow({new ObjectNotFoundException(id, entityType.simpleName)})
     Resp.ok(map.map(one, d))
   }
 

@@ -24,13 +24,7 @@ class StoreController {
   @GetMapping("/{id}")
   getOne(@PathVariable("id") Long id) {
     log.debug("MyMessage: ${myService.message()}")
-    def body = dealer.getOne(id).body
-//    ok(body.body, body.message, body.success)
-
-    ok(TestEntityDto.builder()
-    .firstName("testFirstName")
-    .lastName("testLastName")
-    .build())
+    dealer.getOne(id).body
   }
 
   @GetMapping(value = "/all")
