@@ -74,8 +74,3 @@ dependencyManagement {
     mavenBom "org.springframework.boot:spring-boot-dependencies:${springBootVersion}"
   }
 }
-
-test {
-  useJUnit()
-  useTestNG()
-}

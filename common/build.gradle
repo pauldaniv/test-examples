@@ -22,17 +22,19 @@ repositories {
 
 dependencies {
 
-  implementation 'org.codehaus.groovy:groovy:3.0.0-alpha-4',
+  implementation (
+          'org.codehaus.groovy:groovy:3.0.0-alpha-4',
           'org.springframework.boot:spring-boot-starter-data-jpa',
           'org.modelmapper:modelmapper:2.3.2',
           'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
-
+  )
+  
   compileOnly 'org.springframework.cloud:spring-cloud-starter-openfeign:2.1.0.RELEASE'
 
 
   runtimeOnly 'com.h2database:h2'
 
-  testCompile 'org.springframework.boot:spring-boot-starter-test'
+  testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 dependencyManagement {

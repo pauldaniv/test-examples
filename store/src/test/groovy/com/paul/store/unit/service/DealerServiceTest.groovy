@@ -1,6 +1,6 @@
 package com.paul.store.unit.service
 
-import com.paul.common.client.dealer.DealerClient
+import com.paul.store.client.DealerClient
 import com.paul.store.service.DealerServiceImpl
 import org.junit.runner.RunWith
 import org.mockito.InjectMocks

@@ -24,8 +24,7 @@ class StoreController {
   @GetMapping("/{id}")
   getOne(@PathVariable("id") Long id) {
     log.debug("MyMessage: ${myService.message()}")
-    log.debug("ServiceProperties msg: ${serviceProperties.message}")
-//    def body = dealer.getOne(id).body
+    def body = dealer.getOne(id).body
 //    ok(body.body, body.message, body.success)
 
     ok(TestEntityDto.builder()

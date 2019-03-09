@@ -1,6 +1,6 @@
 package com.paul.store.service
 
-import com.paul.common.client.dealer.DealerClient
+import com.paul.store.client.DealerClient
 import com.paul.common.payload.Resp
 import com.paul.common.payload.TestEntityDto
 import groovy.util.logging.Slf4j

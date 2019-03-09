@@ -45,6 +45,24 @@ subprojects {
 
     }
 
+//    test {
+//      def tests = 'fast'
+//      String sequence = project.property('test.sequence')
+//      sequence.split('')
+//      if (project.hasProperty('integration')) {
+//
+//      }
+//      useTestNG {
+//        includeGroups 'integration'
+//      }
+//      useJUnit {
+//        includeCategories 'com.paul.common.test.groups.Fast$Unit'
+//      }
+// useTestNG {
+//        includeGroups 'integration'
+//      }
+//    }
+
 //        ext {
 //            mainClass = 'org.springframework.boot.loader.JarLauncher'
 //            launcher = 'run'

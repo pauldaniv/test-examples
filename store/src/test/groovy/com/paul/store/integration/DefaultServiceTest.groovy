@@ -1,23 +1,17 @@
-package com.paul.store.integration.service
+package com.paul.store.integration
 
 import com.paul.common.payload.TestEntityDto
+import com.paul.common.test.groups.Slow
 import com.paul.store.generic.AbstractTest
+import org.junit.runner.RunWith
+import org.springframework.test.context.junit4.SpringRunner
 import org.testng.annotations.Test
 
+@RunWith(SpringRunner.class)
 class DefaultServiceTest extends AbstractTest {
 
 
-    @Test
-    void anotherTest() {
-        println "TEST!!!1"
-        println "TEST!!!1"
-        println "TEST!!!1"
-        println "TEST!!!1"
-        println "TEST!!!1"
-        println "TEST!!!1"
-    }
-
-    @Test(dataProvider = "getData")
+    @Test(dataProvider = "getData", groups = Slow.Integration.name)
     void test(TestEntityDto dto) {
         println dto
         println new URL("https://www.google.com").getText()

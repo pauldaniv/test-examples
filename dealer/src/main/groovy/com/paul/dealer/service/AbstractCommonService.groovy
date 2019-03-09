@@ -65,11 +65,11 @@ abstract class AbstractCommonService<
   }
 
   Class<D> getDtoType() {
-    return d
+    d
   }
 
   Class<E> getEntityType() {
-    return e
+    e
   }
 
   private void initClassTypes() {
