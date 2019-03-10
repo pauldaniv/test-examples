@@ -8,4 +8,6 @@ COPY ${DEPENDENCY}/BOOT-INF/lib /app/lib
 COPY ${DEPENDENCY}/META-INF /app/META-INF
 COPY ${DEPENDENCY}/BOOT-INF/classes /app
 
-ENTRYPOINT ["java","-cp","app:app/lib/*","com.paul.dealer.DealerApplication"]
+ENTRYPOINT ["java","-cp","app:app/lib/*","com.paul.dealer.DealerApplication","--spring.profiles.active=compose"]
+
+EXPOSE 8787
