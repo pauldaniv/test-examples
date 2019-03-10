@@ -9,9 +9,11 @@ services:
     depends_on:
       - db
       - cache
+    command: "--spring.profiles.active=compose"
 
   store:
     image: "it:test-examples-store.v1"
+    command: "--spring.profiles.active=compose"
 
   db:
     image: mongo
