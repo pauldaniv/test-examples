@@ -12,29 +12,29 @@ import org.testng.annotations.Test
 @Test
 abstract class AbstractTest {
 
-    private final Mapper map = new Mapper(new ObjectMapper())
+  private final Mapper map = new Mapper(new ObjectMapper())
 
-    @DataProvider
-    Object[][] getData() throws FileNotFoundException {
-        def dtos = initEntity(getFileName(), TestEntityDto.class)
-        Object[][] returnValue = new Object[dtos.size()][1]
-        int index = 0
-        for (Object[] each : returnValue) {
-            each[0] = dtos.get(index++)
-        }
-        return returnValue
+  @DataProvider
+  Object[][] getData() throws FileNotFoundException {
+    def dtos = initEntity(getFileName(), TestEntityDto.class)
+    Object[][] returnValue = new Object[dtos.size()][1]
+    int index = 0
+    for (Object[] each : returnValue) {
+      each[0] = dtos.get(index++)
     }
+    return returnValue
+  }
 
 
-    private <D extends WithIdDto> List<D> initEntity(String entityJson,
-                                                     Class<D> dto) {
+  private <D extends WithIdDto> List<D> initEntity(String entityJson,
+                                                   Class<D> dto) {
 
-        Resource entityDtos = new ClassPathResource("${entityJson}.json")
-        return map.oMap.readValue(
-                entityDtos.getFile(),
-                map.oMap.getTypeFactory()
-                        .constructCollectionType(List.class, dto))
-    }
+    Resource entityDtos = new ClassPathResource("${entityJson}.json")
+    return map.oMap.readValue(
+            entityDtos.getFile(),
+            map.oMap.getTypeFactory()
+                    .constructCollectionType(List.class, dto))
+  }
 
-    abstract String getFileName()
+  abstract String getFileName()
 }

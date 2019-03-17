@@ -4,7 +4,7 @@ package com.paul.store.exception.handling
 import groovy.util.logging.Slf4j
 
 @Slf4j
-class FeignServiceExceptionErrorDecoder  {
+class FeignServiceExceptionErrorDecoder {
 //
 //    private Class<?> apiClass
 //    private Map<String, ThrownServiceExceptionDetails> exceptionsThrown = new HashMap<>()

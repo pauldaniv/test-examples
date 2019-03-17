@@ -11,15 +11,15 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/api/store/cars")
 class CarStoreController {
 
-    private final CarStoreService carService
+  private final CarStoreService carService
 
-    CarStoreController(CarStoreService carService) {
-        this.carService = carService
-    }
+  CarStoreController(CarStoreService carService) {
+    this.carService = carService
+  }
 
-    @GetMapping("/{id}")
-    getCarInfo(@PathVariable("id") Long carId) {
-        def info = carService.getCarInfo(carId)
-        info
-    }
+  @GetMapping("/{id}")
+  getCarInfo(@PathVariable("id") Long carId) {
+    def info = carService.getCarInfo(carId)
+    info
+  }
 }

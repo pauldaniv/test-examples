@@ -8,20 +8,20 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/api/dealer/cars")
 class CarDealerController {
 
-    private final CarService carService
+  private final CarService carService
 
-    CarDealerController(CarService carService) {
-        this.carService = carService
-    }
+  CarDealerController(CarService carService) {
+    this.carService = carService
+  }
 
-    @GetMapping("/info/{id}")
-    getOne(@PathVariable("id") Long id) {
-        def one = carService.getOne(id)
-        one
-    }
+  @GetMapping("/info/{id}")
+  getOne(@PathVariable("id") Long id) {
+    def one = carService.getOne(id)
+    one
+  }
 
-    @PostMapping
-    save(@RequestBody CarDto car) {
-        carService.save(car)
-    }
+  @PostMapping
+  save(@RequestBody CarDto car) {
+    carService.save(car)
+  }
 }

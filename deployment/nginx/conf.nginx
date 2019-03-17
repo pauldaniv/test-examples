@@ -1,30 +1,30 @@
 worker_processes  1;
 
 events {
-  worker_connections  1024;
+    worker_connections  1024;
 }
 
 http {
-  include       mime.types;
-  default_type  application/octet-stream;
+    include       mime.types;
+    default_type  application/octet-stream;
 
-  sendfile        on;
+    sendfile        on;
 
-  server {
+    server {
 
-    listen 80 default_server;
+        listen 80 default_server;
 
-    location / {
-      proxy_pass http://fe/;
+        location / {
+            proxy_pass http://fe/;
+        }
+
+        location /be {
+            proxy_pass http://store:8787/;
+        }
+
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   html;
+        }
     }
-
-    location /be {
-      proxy_pass http://store:8787/;
-    }
-
-    error_page   500 502 503 504  /50x.html;
-    location = /50x.html {
-      root   html;
-    }
-  }
 }

@@ -11,12 +11,12 @@ import org.testng.annotations.Test
 class DefaultServiceTest extends AbstractTest {
 
 
-    @Test(dataProvider = "getData", groups = Slow.Integration.name)
-    void test(TestEntityDto dto) {
-        println dto
-        println new URL("https://www.google.com").getText()
-    }
+  @Test(dataProvider = "getData", groups = Slow.Integration.name)
+  void test(TestEntityDto dto) {
+    println dto
+    println new URL("https://www.google.com").getText()
+  }
 
-    @Override
-    String getFileName() { "test" }
+  @Override
+  String getFileName() { "test" }
 }

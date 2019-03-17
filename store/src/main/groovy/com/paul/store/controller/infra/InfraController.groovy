@@ -9,8 +9,8 @@ import static com.paul.common.payload.Resp.ok
 
 @RestController
 class InfraController {
-    @GetMapping('/healthCheck')
-    ResponseEntity<Resp> healthCheck() {
-        ok()
-    }
+  @GetMapping('/healthCheck')
+  ResponseEntity<Resp> healthCheck() {
+    ok()
+  }
 }

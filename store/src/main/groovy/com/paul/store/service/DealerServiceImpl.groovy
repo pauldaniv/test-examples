@@ -1,8 +1,8 @@
 package com.paul.store.service
 
-import com.paul.store.client.DealerClient
 import com.paul.common.payload.Resp
 import com.paul.common.payload.TestEntityDto
+import com.paul.store.client.DealerClient
 import groovy.util.logging.Slf4j
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service

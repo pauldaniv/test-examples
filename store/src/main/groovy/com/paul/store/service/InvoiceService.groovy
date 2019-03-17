@@ -6,14 +6,14 @@ import org.springframework.http.ResponseEntity
 
 class InvoiceService {
 
-    private final InvoiceClient invoiceClient
+  private final InvoiceClient invoiceClient
 
-    InvoiceService(InvoiceClient invoiceClient) {
-        this.invoiceClient = invoiceClient
-    }
+  InvoiceService(InvoiceClient invoiceClient) {
+    this.invoiceClient = invoiceClient
+  }
 
-    private final
-    ResponseEntity<Resp> findPendingInvoices(Long userId) {
-        invoiceClient.getPending(userId)
-    }
+  private final
+  ResponseEntity<Resp> findPendingInvoices(Long userId) {
+    invoiceClient.getPending(userId)
+  }
 }

@@ -17,20 +17,20 @@ import java.time.ZoneOffset;
 public class WithDate<T extends WithDate> extends WithId<T> {
 
 
-  @PrePersist
-  public void prePersist() {
-    LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
-    this.createdTime = now;
-    this.modifiedTime = now;
-  }
+    @CreatedDate
+    private LocalDateTime createdTime;
+    @LastModifiedDate
+    private LocalDateTime modifiedTime;
 
-  @PreUpdate
-  public void preUpdate() {
-    this.modifiedTime = LocalDateTime.now(ZoneOffset.UTC);
-  }
+    @PrePersist
+    public void prePersist() {
+        LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
+        this.createdTime = now;
+        this.modifiedTime = now;
+    }
 
-  @CreatedDate
-  private LocalDateTime createdTime;
-  @LastModifiedDate
-  private LocalDateTime modifiedTime;
+    @PreUpdate
+    public void preUpdate() {
+        this.modifiedTime = LocalDateTime.now(ZoneOffset.UTC);
+    }
 }
