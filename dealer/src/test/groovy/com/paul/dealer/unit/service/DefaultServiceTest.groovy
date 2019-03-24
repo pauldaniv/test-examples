@@ -17,23 +17,23 @@ import static org.springframework.test.util.ReflectionTestUtils.setField
 @RunWith(MockitoJUnitRunner.class)
 class DefaultServiceTest {
 
-    @InjectMocks
-    DefaultService defaultService
+  @InjectMocks
+  DefaultService defaultService
 
-    @Spy
-    DefaultRepository repository
+  @Spy
+  DefaultRepository repository
 
-    @Test
-    void saveTest() {
-        setField(defaultService, 'map', new Mapper())
+  @Test
+  void saveTest() {
+    setField(defaultService, 'map', new Mapper())
 
-        Mockito.doReturn(Optional.of(TestEntity.builder()
-                .firstName("John")
-                .lastName("Doh")
-                .build())).when(repository).findById(1L)
+    Mockito.doReturn(Optional.of(TestEntity.builder()
+            .firstName("John")
+            .lastName("Doh")
+            .build())).when(repository).findById(1L)
 
 
-        def list = defaultService.getOne(1L).body.body.firstName.getChars().toList()
-        assertThat(list.stream().allMatch(Character::isUpperCase)).isTrue()
-    }
+    def list = defaultService.getOne(1L).body.body.firstName.getChars().toList()
+    assertThat(list.stream().allMatch(Character::isUpperCase)).isTrue()
+  }
 }

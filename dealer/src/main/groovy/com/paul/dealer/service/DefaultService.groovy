@@ -18,13 +18,13 @@ class DefaultService extends AbstractCommonService<TestEntityDto, TestEntity, De
   DefaultService(DefaultRepository repository, Mapper map) {
     super(repository)
     this.repository = repository
-      this.map = map
+    this.map = map
   }
 
-    @Override
-    ResponseEntity getOne(Long id) {
-        def one = repository.findById(id).orElseThrow({new ObjectNotFoundException(id, entityType.simpleName)})
-        one.firstName = one.firstName.toUpperCase()
-        Resp.ok(map.map(one, dtoType))
-    }
+  @Override
+  ResponseEntity getOne(Long id) {
+    def one = repository.findById(id).orElseThrow({ new ObjectNotFoundException(id, entityType.simpleName) })
+    one.firstName = one.firstName.toUpperCase()
+    Resp.ok(map.map(one, dtoType))
+  }
 }

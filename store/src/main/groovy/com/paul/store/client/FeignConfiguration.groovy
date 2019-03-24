@@ -12,8 +12,8 @@ import org.springframework.context.annotation.Configuration
 @EnableFeignClients(basePackages = "com.paul.store.client.*")
 class FeignConfiguration {
 
-    @Bean
-    ErrorDecoder errorDecoder() {
-        return new NotFoundAwareDecoder()
-    }
+  @Bean
+  ErrorDecoder errorDecoder() {
+    return new NotFoundAwareDecoder()
+  }
 }

@@ -14,7 +14,7 @@ class MyService {
     this.serviceProperties = serviceProperties
   }
 
-  def message () {
+  def message() {
     serviceProperties.message
   }
 }

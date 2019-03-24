@@ -7,9 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication(scanBasePackages = "com.paul.*")
 public class DealerApplication {
 
-  public static void main(String[] args) {
-    SpringApplication.run(DealerApplication.class, args);
-  }
+    public static void main(String[] args) {
+        SpringApplication.run(DealerApplication.class, args);
+    }
 
 //  @GetMapping("/index")
 //  public Metadata home() throws ImageProcessingException, IOException {

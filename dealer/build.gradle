@@ -49,7 +49,7 @@ docker {
 repositories { mavenCentral() }
 
 dependencies {
-  implementation ('org.springframework.boot:spring-boot-starter-actuator',
+  implementation('org.springframework.boot:spring-boot-starter-actuator',
           'org.springframework.boot:spring-boot-starter-web',
           project(':common'),
           'org.codehaus.groovy:groovy:3.0.0-alpha-4',

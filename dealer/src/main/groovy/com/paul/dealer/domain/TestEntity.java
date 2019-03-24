@@ -1,7 +1,11 @@
 package com.paul.dealer.domain;
 
 import com.paul.dealer.domain.base.WithId;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -14,6 +18,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "test_entities")
 public class TestEntity extends WithId<TestEntity> {
-  private String firstName;
-  private String lastName;
+    private String firstName;
+    private String lastName;
 }

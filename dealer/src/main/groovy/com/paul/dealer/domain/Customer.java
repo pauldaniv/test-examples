@@ -16,12 +16,12 @@ import java.util.List;
 @Entity
 @Table(name = "customers")
 public class Customer extends WithDate<Customer> {
-  private String fullName;
+    private String fullName;
 
-  @OneToMany(mappedBy = "bookedBy")
-  private List<Car> bookedCars;
-  @OneToMany(mappedBy = "customer")
-  private List<Order> orders;
-  @OneToMany(mappedBy = "customer")
-  private List<Invoice> invoices;
+    @OneToMany(mappedBy = "bookedBy")
+    private List<Car> bookedCars;
+    @OneToMany(mappedBy = "customer")
+    private List<Order> orders;
+    @OneToMany(mappedBy = "customer")
+    private List<Invoice> invoices;
 }

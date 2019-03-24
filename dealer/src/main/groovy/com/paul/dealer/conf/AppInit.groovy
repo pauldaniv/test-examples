@@ -1,23 +1,11 @@
 package com.paul.dealer.conf
 
 import com.paul.common.component.Mapper
-import com.paul.common.payload.CarDto
-import com.paul.common.payload.CustomerDto
-import com.paul.common.payload.InvoiceDto
-import com.paul.common.payload.OrderDto
-import com.paul.common.payload.TestEntityDto
+import com.paul.common.payload.*
 import com.paul.common.payload.base.WithIdDto
-import com.paul.dealer.domain.Car
-import com.paul.dealer.domain.Customer
-import com.paul.dealer.domain.Invoice
-import com.paul.dealer.domain.Order
-import com.paul.dealer.domain.TestEntity
+import com.paul.dealer.domain.*
 import com.paul.dealer.domain.base.WithId
-import com.paul.dealer.persintence.CarRepository
-import com.paul.dealer.persintence.CustomerRepository
-import com.paul.dealer.persintence.DefaultRepository
-import com.paul.dealer.persintence.InvoiceRepository
-import com.paul.dealer.persintence.OrderRepository
+import com.paul.dealer.persintence.*
 import groovy.transform.EqualsAndHashCode
 import groovy.util.logging.Slf4j
 import org.springframework.context.event.ContextRefreshedEvent
@@ -30,66 +18,66 @@ import org.springframework.stereotype.Component
 @Slf4j
 class AppInit {
 
-    private final Mapper map
-    private final CarRepository carRepository
-    private final InvoiceRepository invoiceRepository
-    private final OrderRepository orderRepository
-    private final CustomerRepository customerRepository
-    private final DefaultRepository defaultRepository
+  private final Mapper map
+  private final CarRepository carRepository
+  private final InvoiceRepository invoiceRepository
+  private final OrderRepository orderRepository
+  private final CustomerRepository customerRepository
+  private final DefaultRepository defaultRepository
 
-    AppInit(Mapper map,
-            CarRepository carRepository,
-            InvoiceRepository invoiceRepository,
-            OrderRepository orderRepository,
-            CustomerRepository customerRepository,
-            DefaultRepository defaultRepository) {
+  AppInit(Mapper map,
+          CarRepository carRepository,
+          InvoiceRepository invoiceRepository,
+          OrderRepository orderRepository,
+          CustomerRepository customerRepository,
+          DefaultRepository defaultRepository) {
 
-        this.map = map
-        this.carRepository = carRepository
-        this.invoiceRepository = invoiceRepository
-        this.orderRepository = orderRepository
-        this.customerRepository = customerRepository
-        this.defaultRepository = defaultRepository
-    }
+    this.map = map
+    this.carRepository = carRepository
+    this.invoiceRepository = invoiceRepository
+    this.orderRepository = orderRepository
+    this.customerRepository = customerRepository
+    this.defaultRepository = defaultRepository
+  }
 
-    @EventListener(ContextRefreshedEvent.class)
-    void init() {
-        log.info("Context Refreshed")
+  @EventListener(ContextRefreshedEvent.class)
+  void init() {
+    log.info("Context Refreshed")
 
-        List<Customer> customers = initEntity("customers", CustomerDto.class, Customer.class)
-        customerRepository.saveAll(customers)
+    List<Customer> customers = initEntity("customers", CustomerDto.class, Customer.class)
+    customerRepository.saveAll(customers)
 
-        List<Car> cars = initEntity("cars", InitCarsDto.class, Car.class)
-        carRepository.saveAll(cars)
-
-
-        List<Invoice> invoices = initEntity("invoices", InvoiceDto.class, Invoice.class)
-        invoiceRepository.saveAll(invoices)
+    List<Car> cars = initEntity("cars", InitCarsDto.class, Car.class)
+    carRepository.saveAll(cars)
 
 
-        List<Order> orders = initEntity("orders", OrderDto.class, Order.class)
-        orderRepository.saveAll(orders)
+    List<Invoice> invoices = initEntity("invoices", InvoiceDto.class, Invoice.class)
+    invoiceRepository.saveAll(invoices)
 
-        defaultRepository.saveAll(initEntity("data", TestEntityDto.class, TestEntity.class))
 
-    }
+    List<Order> orders = initEntity("orders", OrderDto.class, Order.class)
+    orderRepository.saveAll(orders)
 
-    private <D extends WithIdDto,
-            E extends WithId> List<E> initEntity(String entityJson,
-                                                 Class<D> dto,
-                                                 Class<E> entity) {
+    defaultRepository.saveAll(initEntity("data", TestEntityDto.class, TestEntity.class))
 
-        Resource entityDtos = new ClassPathResource("initdb/${entityJson}.json")
-        List<D> cars = map.oMap.readValue(
-                entityDtos.getFile(),
-                map.oMap.getTypeFactory()
-                        .constructCollectionType(List.class, dto))
-        map.map(cars, entity)
-    }
+  }
 
-    @EqualsAndHashCode
-    @SuppressWarnings("unused")
-    private static final class InitCarsDto extends CarDto {
-        Integer count
-    }
+  private <D extends WithIdDto,
+          E extends WithId> List<E> initEntity(String entityJson,
+                                               Class<D> dto,
+                                               Class<E> entity) {
+
+    Resource entityDtos = new ClassPathResource("initdb/${entityJson}.json")
+    List<D> cars = map.oMap.readValue(
+            entityDtos.getFile(),
+            map.oMap.getTypeFactory()
+                    .constructCollectionType(List.class, dto))
+    map.map(cars, entity)
+  }
+
+  @EqualsAndHashCode
+  @SuppressWarnings("unused")
+  private static final class InitCarsDto extends CarDto {
+    Integer count
+  }
 }

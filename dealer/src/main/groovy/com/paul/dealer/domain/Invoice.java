@@ -18,9 +18,9 @@ import java.util.List;
 @Table(name = "invoices")
 public class Invoice extends WithDate<Invoice> {
 
-  private Integer total;
-  @OneToMany(mappedBy = "invoice")
-  private List<Order> orders;
-  @ManyToOne
-  private Customer customer;
+    private Integer total;
+    @OneToMany(mappedBy = "invoice")
+    private List<Order> orders;
+    @ManyToOne
+    private Customer customer;
 }

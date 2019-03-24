@@ -14,13 +14,13 @@ import java.time.LocalDateTime
 @EqualsAndHashCode
 class WithDateDto extends WithIdDto {
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING,  pattern = "yyyy.MM.dd HH:mm:ss")
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    LocalDateTime createdTime
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd HH:mm:ss")
+  @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+  @JsonSerialize(using = LocalDateTimeSerializer.class)
+  LocalDateTime createdTime
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd HH:mm:ss")
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    LocalDateTime modifiedTime
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd HH:mm:ss")
+  @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+  @JsonSerialize(using = LocalDateTimeSerializer.class)
+  LocalDateTime modifiedTime
 }
