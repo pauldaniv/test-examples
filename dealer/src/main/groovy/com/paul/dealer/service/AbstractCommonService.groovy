@@ -64,13 +64,9 @@ abstract class AbstractCommonService<
     }
   }
 
-  Class<D> getDtoType() {
-    d
-  }
+  Class<D> getDtoType() { d }
 
-  Class<E> getEntityType() {
-    e
-  }
+  Class<E> getEntityType() { e }
 
   private void initClassTypes() {
     d = (Class<D>) getTypeArgument(DTO_TYPE)

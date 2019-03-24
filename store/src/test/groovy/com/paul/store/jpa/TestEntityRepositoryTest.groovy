@@ -1,4 +1,4 @@
-package com.paul.store.integration
+package com.paul.store.jpa
 
 import com.paul.common.payload.TestEntityDto
 import generic.AbstractTest
@@ -15,7 +15,8 @@ import org.springframework.test.context.ContextConfiguration
 @RunWith(DataProviderRunner.class)
 @DataJpaTest
 @ContextConfiguration()
-class DefaultServiceTest {
+class TestEntityRepositoryTest {
+
 
 
     @Test

@@ -1,6 +1,7 @@
 package com.paul.dealer.domain;
 
 import com.paul.dealer.domain.base.WithDate;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -12,6 +13,7 @@ import java.time.YearMonth;
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
+@Builder
 @Data
 @Entity
 @Table(name = "cars")

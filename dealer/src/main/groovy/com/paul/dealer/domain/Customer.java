@@ -1,6 +1,7 @@
 package com.paul.dealer.domain;
 
 import com.paul.dealer.domain.base.WithDate;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -11,6 +12,7 @@ import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
+@Builder
 @Entity
 @Table(name = "customers")
 public class Customer extends WithDate<Customer> {
