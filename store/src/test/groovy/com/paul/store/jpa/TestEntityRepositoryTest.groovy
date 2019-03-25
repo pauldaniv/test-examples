@@ -1,7 +1,7 @@
 package com.paul.store.jpa
 
 import com.paul.common.payload.TestEntityDto
-import generic.AbstractTest
+import com.paul.common.test.generic.AbstractTest
 import com.tngtech.java.junit.dataprovider.DataProvider
 import com.tngtech.java.junit.dataprovider.DataProviderRunner
 import com.tngtech.java.junit.dataprovider.UseDataProvider

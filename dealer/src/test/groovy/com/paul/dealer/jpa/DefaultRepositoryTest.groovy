@@ -52,6 +52,7 @@ class DefaultRepositoryTest {
 
     @Test
     void invoiceRepositoryTest() {
+
         def persist = entityManager.persist(Invoice.builder().build())
         assertNotNull(defaultRepository.findById(persist.getId()))
     }
@@ -67,4 +68,5 @@ class DefaultRepositoryTest {
         def persist = entityManager.persist(Customer.builder().build())
         assertNotNull(defaultRepository.findById(persist.getId()))
     }
+
 }

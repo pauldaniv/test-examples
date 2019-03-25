@@ -1,4 +1,4 @@
-package generic
+package com.paul.common.test.generic
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.paul.common.component.Mapper

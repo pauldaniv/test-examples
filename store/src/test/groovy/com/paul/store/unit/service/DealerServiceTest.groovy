@@ -2,11 +2,11 @@ package com.paul.store.unit.service
 
 import com.paul.store.client.DealerClient
 import com.paul.store.service.DealerServiceImpl
+import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.InjectMocks
 import org.mockito.Spy
 import org.mockito.junit.MockitoJUnitRunner
-import org.testng.annotations.Test
 
 import static com.paul.common.payload.Resp.ok
 import static com.paul.common.payload.TestEntityDto.builder
