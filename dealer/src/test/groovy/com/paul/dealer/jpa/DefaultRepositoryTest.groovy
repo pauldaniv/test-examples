@@ -1,12 +1,10 @@
 package com.paul.dealer.jpa
 
-import com.paul.dealer.domain.Car
-import com.paul.dealer.domain.Customer
-import com.paul.dealer.domain.Invoice
-import com.paul.dealer.domain.Order
-import com.paul.dealer.domain.TestEntity
+import com.paul.common.test.groups.TestGroup
+import com.paul.dealer.domain.*
 import com.paul.dealer.persintence.*
 import org.junit.Test
+import org.junit.experimental.categories.Category
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
@@ -21,6 +19,7 @@ import static junit.framework.TestCase.assertNotNull
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @ContextConfiguration()
+@Category([TestGroup.Slow.Application.class])
 class DefaultRepositoryTest {
 
     @Autowired
