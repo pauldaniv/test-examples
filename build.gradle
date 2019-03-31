@@ -1,67 +1,111 @@
+import java.security.InvalidParameterException
+
 subprojects {
 
-  apply plugin: 'idea'
-  apply plugin: 'groovy'
-  apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: 'groovy'
+    apply plugin: 'java'
 
-  idea {
-    module {
-      outputDir file('build/classes/main/java')
-      testOutputDir file('build/classes/test/java')
+    idea {
+        module {
+            outputDir file('build/classes/main/java')
+            testOutputDir file('build/classes/test/java')
 //      inheritOutputDirs = true
-    }
-  }
-
-  sourceSets {
-    main {
-      java.outputDir = new File(buildDir, "classes/main/java")
-      groovy.outputDir = new File(buildDir, "classes/main/java")
-    }
-    test {
-      java.outputDir = new File(buildDir, "classes/test/java")
-      groovy.outputDir = new File(buildDir, "classes/test/java")
-
+        }
     }
 
-  }
+    sourceSets {
+        main {
+            java.outputDir = new File(buildDir, "classes/main/java")
+            groovy.outputDir = new File(buildDir, "classes/main/java")
+        }
+        test {
+            java.outputDir = new File(buildDir, "classes/test/java")
+            groovy.outputDir = new File(buildDir, "classes/test/java")
 
-  afterEvaluate {
-    repositories {
-      jcenter()
-    }
-
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
-
-    ext {
-      lombokVersion = '1.18.4'
-    }
-
-    dependencies {
-      compileOnly "org.projectlombok:lombok:${lombokVersion}"
-      testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
-      annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
-      testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+        }
 
     }
 
-//    test {
-//      def tests = 'fast'
-//      String sequence = project.property('test.sequence')
-//      sequence.split('')
-//      if (project.hasProperty('integration')) {
-//
-//      }
-//      useTestNG {
-//        includeGroups 'integration'
-//      }
-//      useJUnit {
-//        includeCategories 'com.paul.common.test.groups.Fast$Unit'
-//      }
-// useTestNG {
-//        includeGroups 'integration'
-//      }
-//    }
+    afterEvaluate {
+        repositories {
+            jcenter()
+        }
+
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+
+        ext {
+            lombokVersion = '1.18.4'
+        }
+
+
+        dependencies {
+            compileOnly "org.projectlombok:lombok:${lombokVersion}"
+            testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+            annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+            testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+        }
+
+        test {
+            ext.doThrow = { String message, String data ->
+                throw new GradleScriptException(message, new InvalidParameterException(data))
+            }
+
+            ext.resolveClassName = { String separator, String testType, String rootClass, String testTypeKey ->
+                def theTestType
+                def path = testType.split(separator).each {
+                    !it.empty ? it : ext.doThrow('Invalid test type', testType)
+                }.collect { it.capitalize() }
+                println path
+                if (path.size() > 3) {
+                    ext.doThrow("Invalid value: '$testType' for property: $testTypeKey", testType)
+                } else if (path.size() == 3) {
+                    theTestType = "${path[1]}\$${path[2]}"
+                    if (!path[0].equalsIgnoreCase(rootClass)) {
+                        ext.doThrow("Invalid root test class type", path[0])
+                    }
+                    return "$rootClass\$${theTestType}"
+                } else {
+                    println path
+                    if (path[0].equalsIgnoreCase(rootClass)) {
+                        return "$rootClass\$${path[1]}"
+                    } else {
+                        return "$rootClass\$${path[0]}\$${path[1]}"
+                    }
+                }
+            }
+
+            String testTypeKey = 'test.type'
+            String rootClass = 'TestGroup'
+            String theTestType = rootClass
+            if (project.hasProperty(testTypeKey)) {
+
+                String testType = project.property(testTypeKey)
+                def dollarSeparator = testType.contains('$')
+                def dotSeparator = testType.contains('.')
+                if (!dollarSeparator && !dotSeparator) {
+                    if (testType != 'all') {
+                        theTestType = "$rootClass\$${testType.capitalize()}"
+                    }
+                } else if (dotSeparator) {
+                    theTestType = ext.resolveClassName('\\.', testType, rootClass, testTypeKey)
+                } else if (dollarSeparator) {
+                    theTestType = ext.resolveClassName('\\$', testType, rootClass, testTypeKey)
+                } else {
+                    ext.doThrow('Invalid test type', testType)
+                }
+                println 'got here'
+            }
+
+            println theTestType
+            
+            useJUnit {
+                if (theTestType != rootClass)
+                    includeCategories "com.paul.common.test.groups.$theTestType"
+            }
+        }
+
 
 //        ext {
 //            mainClass = 'org.springframework.boot.loader.JarLauncher'
@@ -96,5 +140,5 @@ subprojects {
 //                    '--add-modules', "com.paul.library", '--launcher', "${launcher}=${mainClass}", '--output', 'dist', '--strip-debug',
 //                    '--compress', '2', '--no-header-files', '--no-man-pages'
 //        }
-  }
+    }
 }

@@ -1,8 +1,10 @@
 package com.paul.store.unit.service
 
+import com.paul.common.test.groups.TestGroup
 import com.paul.store.client.DealerClient
 import com.paul.store.service.DealerServiceImpl
 import org.junit.Test
+import org.junit.experimental.categories.Category
 import org.junit.runner.RunWith
 import org.mockito.InjectMocks
 import org.mockito.Spy
@@ -14,6 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat
 import static org.mockito.Mockito.doReturn
 
 @RunWith(MockitoJUnitRunner.class)
+@Category([TestGroup.Fast.Unit.class])
 class DealerServiceTest {
 
   @InjectMocks

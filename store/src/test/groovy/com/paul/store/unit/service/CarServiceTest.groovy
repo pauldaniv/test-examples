@@ -3,7 +3,7 @@ package com.paul.store.unit.service
 import com.paul.common.client.dealer.CarClient
 import com.paul.common.payload.CarDto
 import com.paul.common.payload.Resp
-import com.paul.common.test.groups.Fast
+import com.paul.common.test.groups.TestGroup
 import com.paul.store.service.CarStoreServiceImpl
 import org.junit.Test
 import org.junit.experimental.categories.Category
@@ -17,7 +17,7 @@ import org.springframework.test.util.ReflectionTestUtils
 import static org.assertj.core.api.Assertions.assertThat
 
 @RunWith(MockitoJUnitRunner.class)
-@Category([Fast.Unit.class])
+@Category([TestGroup.Fast.Unit.class])
 class CarServiceTest {
 
   @InjectMocks
