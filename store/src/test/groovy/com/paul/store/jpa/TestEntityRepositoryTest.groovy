@@ -17,7 +17,7 @@ import org.springframework.test.context.ContextConfiguration
 @RunWith(DataProviderRunner.class)
 @DataJpaTest
 @ContextConfiguration()
-@Category([TestGroup.Fast.class])
+@Category([TestGroup.Slow.Application])
 class TestEntityRepositoryTest {
 
 

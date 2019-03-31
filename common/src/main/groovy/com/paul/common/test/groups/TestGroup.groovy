@@ -2,6 +2,10 @@ package com.paul.common.test.groups
 
 final class TestGroup {
     class Slow {
+        final class Application extends Slow {
+            static final String name = 'application'
+        }
+
         final class Integration extends Slow {
             static final String name = 'integration'
         }

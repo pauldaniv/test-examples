@@ -76,11 +76,22 @@ subprojects {
                 }
             }
 
-            String testTypeKey = 'test.type'
-            String rootClass = 'TestGroup'
-            String theTestType = rootClass
-            if (project.hasProperty(testTypeKey)) {
+            def testTypeKeys = ['test.type',
+                                'testType',
+                                'TestType',
+                                'Test.Type',
+                                'tetstype',
+                                'testProfile',
+                                'TestProfile',
+                                'test.profile',
+                                'testprofile']
 
+            def rootClass = 'TestGroup'
+            def theTestType = rootClass
+
+            def testTypeKeyHolder = testTypeKeys.stream().filter { project.hasProperty(it) }.findFirst()
+            if (testTypeKeyHolder.present) {
+                def testTypeKey = testTypeKeyHolder.get()
                 String testType = project.property(testTypeKey)
                 def dollarSeparator = testType.contains('$')
                 def dotSeparator = testType.contains('.')
@@ -95,11 +106,11 @@ subprojects {
                 } else {
                     ext.doThrow('Invalid test type', testType)
                 }
-                println 'got here'
+            } else {
+                ext.doThrow('No test profile was found', 'No matches with declared test profiles keys were found')
             }
-
             println theTestType
-            
+
             useJUnit {
                 if (theTestType != rootClass)
                     includeCategories "com.paul.common.test.groups.$theTestType"
