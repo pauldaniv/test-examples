@@ -19,7 +19,7 @@ class CarDto extends WithDateDto {
   Double price
   Boolean available
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM")
-  @JsonDeserialize(using = YearMonthDeserializer.class)
-  @JsonSerialize(using = YearMonthSerializer.class)
+  @JsonDeserialize(using = YearMonthDeserializer)
+  @JsonSerialize(using = YearMonthSerializer)
   YearMonth releasedIn
 }

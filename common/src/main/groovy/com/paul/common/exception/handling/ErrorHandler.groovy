@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 
 @ControllerAdvice
 class ErrorHandler {
-  @ExceptionHandler([ObjectNotFoundException.class])
+  @ExceptionHandler([ObjectNotFoundException])
   ResponseEntity<Resp> objectNotFound(ObjectNotFoundException exception) {
     Resp.ok("Entity ${exception.entityName} with id: ${exception.identifier} not found", false)
   }

@@ -16,7 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner
 import static junit.framework.TestCase.assertNotNull
 
 @ActiveProfiles("test")
-@RunWith(SpringRunner.class)
+@RunWith(SpringRunner)
 @DataJpaTest
 @ContextConfiguration()
 @Category([TestGroup.Slow.JPA])

@@ -14,7 +14,7 @@ import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.ContextConfiguration
 
 @ActiveProfiles("test")
-@RunWith(DataProviderRunner.class)
+@RunWith(DataProviderRunner)
 @DataJpaTest
 @ContextConfiguration()
 @Category([TestGroup.Slow.Application])

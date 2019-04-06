@@ -16,7 +16,7 @@ import org.mockito.junit.MockitoJUnitRunner
 import static org.assertj.core.api.Assertions.assertThat
 import static org.springframework.test.util.ReflectionTestUtils.setField
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(MockitoJUnitRunner)
 @Category([TestGroup.Fast.Unit])
 class DefaultServiceTest {
 

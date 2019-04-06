@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.stereotype.Service
 
 @Service
-@EnableConfigurationProperties(ServiceProperties.class)
+@EnableConfigurationProperties(ServiceProperties)
 class MyService {
 
   private final ServiceProperties serviceProperties

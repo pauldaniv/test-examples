@@ -40,23 +40,23 @@ class AppInit {
     this.defaultRepository = defaultRepository
   }
 
-  @EventListener(ContextRefreshedEvent.class)
+  @EventListener(ContextRefreshedEvent)
   void init() {
     log.info("Context Refreshed")
 
-    List<Customer> customers = initEntity("customers", CustomerDto.class, Customer.class)
+    List<Customer> customers = initEntity("customers", CustomerDto, Customer)
     customerRepository.saveAll(customers)
 
-    List<Car> cars = initEntity("cars", InitCarsDto.class, Car.class)
+    List<Car> cars = initEntity("cars", InitCarsDto, Car)
     carRepository.saveAll(cars)
 
-    List<Order> orders = initEntity("orders", OrderDto.class, Order.class)
+    List<Order> orders = initEntity("orders", OrderDto, Order)
     orderRepository.saveAll(orders)
 
-    List<Invoice> invoices = initEntity("invoices", InvoiceDto.class, Invoice.class)
+    List<Invoice> invoices = initEntity("invoices", InvoiceDto, Invoice)
     invoiceRepository.saveAll(invoices)
 
-    defaultRepository.saveAll(initEntity("data", TestEntityDto.class, TestEntity.class))
+    defaultRepository.saveAll(initEntity("data", TestEntityDto, TestEntity))
 
   }
 
@@ -69,7 +69,7 @@ class AppInit {
     List<D> cars = map.oMap.readValue(
             entityDtos.getFile(),
             map.oMap.getTypeFactory()
-                    .constructCollectionType(List.class, dto))
+                    .constructCollectionType(List, dto))
     map.map(cars, entity)
   }
 

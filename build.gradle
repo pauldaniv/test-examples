@@ -25,6 +25,10 @@ subprojects {
       outputDir file('build/classes/main/java')
       testOutputDir file('build/classes/test/java')
 //      inheritOutputDirs = true
+
+      [".idea", "build", "gradle", "classes", "logs", "tmp"].each {
+        excludeDirs << file("$it")
+      }
     }
   }
 
@@ -55,9 +59,18 @@ subprojects {
 
   }
 
+  ext.logsRoot = "logs"
+
+  clean.doFirst {
+    delete "${rootDir}/${logsRoot}"
+  }
   afterEvaluate {
     repositories {
       jcenter()
+    }
+
+    clean.doFirst {
+      delete "${logsRoot}"
     }
 
     sourceCompatibility = 1.8

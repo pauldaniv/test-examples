@@ -12,9 +12,9 @@ class FeignServiceExceptionErrorDecoder {
 //    FeignServiceExceptionErrorDecoder(Class<?> apiClass) throws Exception {
 //        this.apiClass = apiClass
 //        for (Method method : apiClass.getMethods()) {
-//            if (method.getAnnotation(RequestLine.class) != null) {
+//            if (method.getAnnotation(RequestLine) != null) {
 //                for (Class<?> clazz : method.getExceptionTypes()) {
-//                    if (CommonServiceException.class.isAssignableFrom(clazz)) {
+//                    if (CommonServiceException.isAssignableFrom(clazz)) {
 //                        if (Modifier.isAbstract(clazz.getModifiers())) {
 //                            extractServiceExceptionInfoFromSubClasses(clazz)
 //                        } else {
@@ -39,7 +39,7 @@ class FeignServiceExceptionErrorDecoder {
 //            if (parameters.length == 0) {
 //                emptyConstructor = constructor
 //                thrownException = (CommonServiceException) constructor.newInstance()
-//            } else if (parameters.length == 1 && parameters[0].isAssignableFrom(String.class)) {
+//            } else if (parameters.length == 1 && parameters[0].isAssignableFrom(String)) {
 //                messageConstructor = constructor
 //                thrownException = (CommonServiceException) constructor.newInstance(new String())
 //            }
@@ -83,7 +83,7 @@ class FeignServiceExceptionErrorDecoder {
 //                     Response response) {
 //        private JacksonDecoder jacksonDecoder = new JacksonDecoder()
 //        try {
-//            RestException restException = (RestException) jacksonDecoder.decode(response, RestException.class)
+//            RestException restException = (RestException) jacksonDecoder.decode(response, RestException)
 //            if (restException != null && exceptionsThrown.containsKey(restException.getErrorCode())) {
 //                return getExceptionByReflection(restException)
 //            }

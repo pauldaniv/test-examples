@@ -16,8 +16,8 @@ import org.springframework.test.util.ReflectionTestUtils
 
 import static org.assertj.core.api.Assertions.assertThat
 
-@RunWith(MockitoJUnitRunner.class)
-@Category([TestGroup.Fast.Unit.class])
+@RunWith(MockitoJUnitRunner)
+@Category([TestGroup.Fast.Unit])
 class CarServiceTest {
 
   @InjectMocks

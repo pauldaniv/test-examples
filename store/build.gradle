@@ -23,6 +23,10 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'com.palantir.docker'
 
+bootRun {
+  jvmArgs = ["-Dspring.output.ansi.enabled=ALWAYS"]
+}
+
 version = '0.1-SNAPSHOT'
 bootJar {
   archiveBaseName.set(moduleName)

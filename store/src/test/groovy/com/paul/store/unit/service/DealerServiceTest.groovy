@@ -15,8 +15,8 @@ import static com.paul.common.payload.TestEntityDto.builder
 import static org.assertj.core.api.Assertions.assertThat
 import static org.mockito.Mockito.doReturn
 
-@RunWith(MockitoJUnitRunner.class)
-@Category([TestGroup.Fast.Unit.class])
+@RunWith(MockitoJUnitRunner)
+@Category([TestGroup.Fast.Unit])
 class DealerServiceTest {
 
   @InjectMocks

@@ -6,7 +6,7 @@ import org.springframework.cloud.openfeign.FeignClient
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
-@FeignClient(name = "dealerClient", url = '${feign.client.dealer.url}', configuration = FeignConfiguration.class)
+@FeignClient(name = "dealerClient", url = '${feign.client.dealer.url}', configuration = FeignConfiguration)
 @RequestMapping("/test-entity")
 interface DealerClient {
 

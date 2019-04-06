@@ -12,7 +12,7 @@ abstract class AbstractTest {
   private static final Mapper map = new Mapper(new ObjectMapper())
 
   static Object[][] getData(String fileName) throws FileNotFoundException {
-    def dtos = initEntity(fileName, TestEntityDto.class)
+    def dtos = initEntity(fileName, TestEntityDto)
     Object[][] returnValue = new Object[dtos.size()][1]
     int index = 0
     for (Object[] each : returnValue) {
@@ -29,7 +29,7 @@ abstract class AbstractTest {
     return map.oMap.readValue(
             entityDtos.getFile(),
             map.oMap.getTypeFactory()
-                    .constructCollectionType(List.class, dto))
+                    .constructCollectionType(List, dto))
   }
 
   abstract String getFileName()
