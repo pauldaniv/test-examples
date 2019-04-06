@@ -1,9 +1,11 @@
 package com.paul.dealer.domain;
 
 import com.paul.dealer.domain.base.WithDate;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,6 +17,8 @@ import javax.persistence.Table;
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 @Data
 @Entity
@@ -23,8 +27,6 @@ public class Order extends WithDate<Order> {
 
     @ManyToOne
     private Customer customer;
-    @ManyToOne
-    private Invoice invoice;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "car_orders",
             joinColumns = @JoinColumn(name = "order_id", referencedColumnName = "id"),

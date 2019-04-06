@@ -1,6 +1,20 @@
 import java.security.InvalidParameterException
 
+
+buildscript {
+  repositories {
+    maven {
+      url "https://plugins.gradle.org/m2/"
+    }
+  }
+  dependencies {
+    classpath "com.adarshr:gradle-test-logger-plugin:1.6.0"
+  }
+}
+
 subprojects {
+
+  apply plugin: "com.adarshr.test-logger"
 
   apply plugin: 'idea'
   apply plugin: 'groovy'
@@ -12,6 +26,20 @@ subprojects {
       testOutputDir file('build/classes/test/java')
 //      inheritOutputDirs = true
     }
+  }
+
+  testlogger {
+    theme 'mocha'
+    showExceptions true
+    slowThreshold 2000
+    showSummary true
+    showPassed true
+    showSkipped true
+    showFailed true
+    showStandardStreams false
+    showPassedStandardStreams true
+    showSkippedStandardStreams true
+    showFailedStandardStreams true
   }
 
   sourceSets {
@@ -106,10 +134,7 @@ subprojects {
         } else {
           ext.doThrow('Invalid test type', testType)
         }
-      } else {
-        ext.doThrow('No test profile was found', 'No matches with declared test profiles keys were found')
       }
-      println theTestType
 
       useJUnit {
         if (theTestType != rootClass)

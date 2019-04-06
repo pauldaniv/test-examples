@@ -19,7 +19,7 @@ import static junit.framework.TestCase.assertNotNull
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @ContextConfiguration()
-@Category([TestGroup.Slow.Application.class])
+@Category([TestGroup.Slow.JPA])
 class DefaultRepositoryTest {
 
   @Autowired

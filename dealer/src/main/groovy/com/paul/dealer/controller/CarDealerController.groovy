@@ -1,16 +1,16 @@
 package com.paul.dealer.controller
 
 import com.paul.common.payload.CarDto
-import com.paul.dealer.service.CarService
+import com.paul.dealer.service.CarServiceImpl
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/dealer/cars")
 class CarDealerController {
 
-  private final CarService carService
+  private final CarServiceImpl carService
 
-  CarDealerController(CarService carService) {
+  CarDealerController(CarServiceImpl carService) {
     this.carService = carService
   }
 

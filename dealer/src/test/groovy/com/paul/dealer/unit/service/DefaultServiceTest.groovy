@@ -1,10 +1,12 @@
 package com.paul.dealer.unit.service
 
 import com.paul.common.component.Mapper
+import com.paul.common.test.groups.TestGroup
 import com.paul.dealer.domain.TestEntity
 import com.paul.dealer.persintence.DefaultRepository
-import com.paul.dealer.service.DefaultService
+import com.paul.dealer.service.DefaultServiceImpl
 import org.junit.Test
+import org.junit.experimental.categories.Category
 import org.junit.runner.RunWith
 import org.mockito.InjectMocks
 import org.mockito.Mockito
@@ -15,10 +17,11 @@ import static org.assertj.core.api.Assertions.assertThat
 import static org.springframework.test.util.ReflectionTestUtils.setField
 
 @RunWith(MockitoJUnitRunner.class)
+@Category([TestGroup.Fast.Unit])
 class DefaultServiceTest {
 
   @InjectMocks
-  DefaultService defaultService
+  DefaultServiceImpl defaultService
 
   @Spy
   DefaultRepository repository

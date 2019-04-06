@@ -1,9 +1,11 @@
 package com.paul.dealer.domain;
 
 import com.paul.dealer.domain.base.WithDate;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
@@ -13,6 +15,8 @@ import java.time.YearMonth;
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 @Data
 @Entity
