@@ -21,15 +21,15 @@ import org.springframework.test.context.ContextConfiguration
 class TestEntityRepositoryTest {
 
 
-    @Test
-    @UseDataProvider("getData")
-    void test(TestEntityDto dto) {
-        println dto
-        println new URL("https://www.google.com").getText()
-    }
+  @Test
+  @UseDataProvider("getData")
+  void test(TestEntityDto dto) {
+    println dto
+    println new URL("https://www.google.com").getText()
+  }
 
-    @DataProvider
-    static Object[][] getData() throws FileNotFoundException {
-        AbstractTest.getData("test")
-    }
+  @DataProvider
+  static Object[][] getData() throws FileNotFoundException {
+    AbstractTest.getData("test")
+  }
 }

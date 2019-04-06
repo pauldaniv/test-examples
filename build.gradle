@@ -2,122 +2,122 @@ import java.security.InvalidParameterException
 
 subprojects {
 
-    apply plugin: 'idea'
-    apply plugin: 'groovy'
-    apply plugin: 'java'
+  apply plugin: 'idea'
+  apply plugin: 'groovy'
+  apply plugin: 'java'
 
-    idea {
-        module {
-            outputDir file('build/classes/main/java')
-            testOutputDir file('build/classes/test/java')
+  idea {
+    module {
+      outputDir file('build/classes/main/java')
+      testOutputDir file('build/classes/test/java')
 //      inheritOutputDirs = true
-        }
+    }
+  }
+
+  sourceSets {
+    main {
+      java.outputDir = new File(buildDir, "classes/main/java")
+      groovy.outputDir = new File(buildDir, "classes/main/java")
+    }
+    test {
+      java.outputDir = new File(buildDir, "classes/test/java")
+      groovy.outputDir = new File(buildDir, "classes/test/java")
+
     }
 
-    sourceSets {
-        main {
-            java.outputDir = new File(buildDir, "classes/main/java")
-            groovy.outputDir = new File(buildDir, "classes/main/java")
-        }
-        test {
-            java.outputDir = new File(buildDir, "classes/test/java")
-            groovy.outputDir = new File(buildDir, "classes/test/java")
+  }
 
-        }
-
+  afterEvaluate {
+    repositories {
+      jcenter()
     }
 
-    afterEvaluate {
-        repositories {
-            jcenter()
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    ext {
+      lombokVersion = '1.18.4'
+    }
+
+
+    dependencies {
+      compileOnly "org.projectlombok:lombok:${lombokVersion}"
+      testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+      annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+      testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    }
+
+    test {
+      ext.doThrow = { String message, String data ->
+        throw new GradleScriptException(message, new InvalidParameterException(data))
+      }
+
+      ext.resolveClassName = { String separator, String testType, String rootClass, String testTypeKey ->
+        def theTestType
+        def path = testType.split(separator).each {
+          !it.empty ? it : ext.doThrow('Invalid test type', testType)
+        }.collect { it.capitalize() }
+        println path
+        if (path.size() > 3) {
+          ext.doThrow("Invalid value: '$testType' for property: $testTypeKey", testType)
+        } else if (path.size() == 3) {
+          theTestType = "${path[1]}\$${path[2]}"
+          if (!path[0].equalsIgnoreCase(rootClass)) {
+            ext.doThrow("Invalid root test class type", path[0])
+          }
+          return "$rootClass\$${theTestType}"
+        } else {
+          println path
+          if (path[0].equalsIgnoreCase(rootClass)) {
+            return "$rootClass\$${path[1]}"
+          } else {
+            return "$rootClass\$${path[0]}\$${path[1]}"
+          }
         }
+      }
 
-        sourceCompatibility = 1.8
-        targetCompatibility = 1.8
+      def testTypeKeys = ['test.type',
+                          'testType',
+                          'TestType',
+                          'Test.Type',
+                          'tetstype',
+                          'testProfile',
+                          'TestProfile',
+                          'test.profile',
+                          'testprofile']
 
-        ext {
-            lombokVersion = '1.18.4'
+      def rootClass = 'TestGroup'
+      def theTestType = rootClass
+
+      def testTypeKeyHolder = testTypeKeys.stream().filter { project.hasProperty(it) }.findFirst()
+      if (testTypeKeyHolder.present) {
+        def testTypeKey = testTypeKeyHolder.get()
+        String testType = project.property(testTypeKey)
+        def dollarSeparator = testType.contains('$')
+        def dotSeparator = testType.contains('.')
+        if (!dollarSeparator && !dotSeparator) {
+          if (testType != 'all') {
+            theTestType = "$rootClass\$${testType.capitalize()}"
+          }
+        } else if (dotSeparator) {
+          theTestType = ext.resolveClassName('\\.', testType, rootClass, testTypeKey)
+        } else if (dollarSeparator) {
+          theTestType = ext.resolveClassName('\\$', testType, rootClass, testTypeKey)
+        } else {
+          ext.doThrow('Invalid test type', testType)
         }
+      } else {
+        ext.doThrow('No test profile was found', 'No matches with declared test profiles keys were found')
+      }
+      println theTestType
 
+      useJUnit {
+        if (theTestType != rootClass)
+          includeCategories "com.paul.common.test.groups.$theTestType"
+      }
+    }
 
-        dependencies {
-            compileOnly "org.projectlombok:lombok:${lombokVersion}"
-            testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
-            annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
-            testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
-        }
-
-        test {
-            ext.doThrow = { String message, String data ->
-                throw new GradleScriptException(message, new InvalidParameterException(data))
-            }
-
-            ext.resolveClassName = { String separator, String testType, String rootClass, String testTypeKey ->
-                def theTestType
-                def path = testType.split(separator).each {
-                    !it.empty ? it : ext.doThrow('Invalid test type', testType)
-                }.collect { it.capitalize() }
-                println path
-                if (path.size() > 3) {
-                    ext.doThrow("Invalid value: '$testType' for property: $testTypeKey", testType)
-                } else if (path.size() == 3) {
-                    theTestType = "${path[1]}\$${path[2]}"
-                    if (!path[0].equalsIgnoreCase(rootClass)) {
-                        ext.doThrow("Invalid root test class type", path[0])
-                    }
-                    return "$rootClass\$${theTestType}"
-                } else {
-                    println path
-                    if (path[0].equalsIgnoreCase(rootClass)) {
-                        return "$rootClass\$${path[1]}"
-                    } else {
-                        return "$rootClass\$${path[0]}\$${path[1]}"
-                    }
-                }
-            }
-
-            def testTypeKeys = ['test.type',
-                                'testType',
-                                'TestType',
-                                'Test.Type',
-                                'tetstype',
-                                'testProfile',
-                                'TestProfile',
-                                'test.profile',
-                                'testprofile']
-
-            def rootClass = 'TestGroup'
-            def theTestType = rootClass
-
-            def testTypeKeyHolder = testTypeKeys.stream().filter { project.hasProperty(it) }.findFirst()
-            if (testTypeKeyHolder.present) {
-                def testTypeKey = testTypeKeyHolder.get()
-                String testType = project.property(testTypeKey)
-                def dollarSeparator = testType.contains('$')
-                def dotSeparator = testType.contains('.')
-                if (!dollarSeparator && !dotSeparator) {
-                    if (testType != 'all') {
-                        theTestType = "$rootClass\$${testType.capitalize()}"
-                    }
-                } else if (dotSeparator) {
-                    theTestType = ext.resolveClassName('\\.', testType, rootClass, testTypeKey)
-                } else if (dollarSeparator) {
-                    theTestType = ext.resolveClassName('\\$', testType, rootClass, testTypeKey)
-                } else {
-                    ext.doThrow('Invalid test type', testType)
-                }
-            } else {
-                ext.doThrow('No test profile was found', 'No matches with declared test profiles keys were found')
-            }
-            println theTestType
-
-            useJUnit {
-                if (theTestType != rootClass)
-                    includeCategories "com.paul.common.test.groups.$theTestType"
-            }
-        }
-
-
+// the legacy bellow it's a try to create custom jdk build using jlink, might be usefully at some day
 //        ext {
 //            mainClass = 'org.springframework.boot.loader.JarLauncher'
 //            launcher = 'run'
@@ -151,5 +151,5 @@ subprojects {
 //                    '--add-modules', "com.paul.library", '--launcher', "${launcher}=${mainClass}", '--output', 'dist', '--strip-debug',
 //                    '--compress', '2', '--no-header-files', '--no-man-pages'
 //        }
-    }
+  }
 }

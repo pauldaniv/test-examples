@@ -59,7 +59,7 @@ dependencies {
   )
   runtimeOnly 'com.h2database:h2'
 
-  testImplementation (
+  testImplementation(
           'org.springframework.boot:spring-boot-starter-test',
           'com.tngtech.java:junit-dataprovider:1.13.1'
   )
