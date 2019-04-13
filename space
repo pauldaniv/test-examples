@@ -40,7 +40,7 @@ postRequest() {
     --header "Accept: application/json, text/plain, */*" \
     --header "Content-Type: application/json;charset=utf-8" \
     --request POST \
-    --data "$(echo $2 | sed 's/@/%40/g')" \
+    --data "$2" \
     --header "Cookie: JSESSIONID=$AUTH_TOKEN" \
     "${BASE_URL}${1}"
 }
@@ -199,7 +199,7 @@ if [[ -f ${CREDENTIALS_KEY_STORE_FILE} ]]; then
       if [[ $(checkSessionValid) ]]; then
         initUserId
       else
-        echo "Session expired, clearing context"
+        echo "Session expired, logging in again..."
         clearKeyStore
         storeEncryptedLine ${USER_EMAIL}
         storeEncryptedLine ${USER_PASSWORD}
@@ -224,7 +224,7 @@ else
 fi
 
 projects=$(getRequest "/project/worked-with-projects/$USER_ID")
-projects=$(echo $projects | tr ' ' '_')
+projects=$(echo ${projects} | tr ' ' '_')
 active_pr_filter=$(echo ${projects} | jq -r 'map(select(.projectIsActive==true))')
 project_ids=($(echo ${active_pr_filter} | jq -r '.[].id'))
 active_project_names=($(echo ${active_pr_filter} | jq -r '.[].projectTitle'))
@@ -236,8 +236,8 @@ for i in "${!active_project_names[@]}"; do
   printf "  %5s |  %-42s\n"  "$i" "${active_project_names[$i]}"
 done
 
-readValue "Enter project number"
-targetProject=${project_ids[$READ_VALUE_RESULT]}
+readValue "Chose Project To Log In"
+targetProjectId=${project_ids[$READ_VALUE_RESULT]}
 
 currentDate=$(date +%Y-%m-%dT00:00:00.000Z)
 
@@ -249,7 +249,16 @@ timeSpentSeconds=$((timeSpentMinutes*60))
 readValue "Enter Description" raw
 description=${READ_VALUE_RESULT}
 
-requestData="{\"id\":null,\"timeSpent\":$timeSpentMinutes,\"minutes\":0,\"hours\":$timeSpentHours,\"projectId\":$targetProject,\"description\":\"$description\",\"inSeconds\":$timeSpentSeconds,\"dateCalendar\":\"$currentDate\",\"zoneOffset\":180,\"createdByEmail\":\"$USER_EMAIL\",\"timeLogType\":\"works at project\",\"dateCreate\":null}"
-echo $requestData | jq
+requestData="{
+   \"projectId\"      : $targetProjectId    ,
+   \"hours\"          : $timeSpentHours     ,
+   \"timeSpent\"      : $timeSpentMinutes   ,
+   \"inSeconds\"      : $timeSpentSeconds   ,
+   \"description\"    : \"$description\"    ,
+   \"dateCalendar\"   : \"$currentDate\"    ,
+   \"createdByEmail\" : \"$USER_EMAIL\"     ,
+   \"zoneOffset\"     : 180                 ,
+   \"timeLogType\"    : \"works at project\"
+}"
 
 postRequest "/timeLog" "$requestData" | jq
