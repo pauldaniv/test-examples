@@ -1,32 +1,37 @@
 #!/bin/bash
 
-function check_package_installed() {
-  PACKAGE_NAME=$1
-  ${PACKAGE_NAME} --version  &> /dev/null
-  if [[ $? -ne 0 ]]; then
-    echo "Package $PACKAGE_NAME is not installed. Installing..."
-    PACKAGE_INSTALLED=false
-  else
-    PACKAGE_INSTALLED=true
-  fi
-}
-
-check_package_installed jq
-if [[ ${PACKAGE_INSTALLED} == false ]]; then
-  sudo apt-get install jq -y &>/dev/null
-fi
 
 EMAIL_INDEX=0
 PASS_INDEX=1
 AUTH_TOKEN_INDEX=2
 BASE_URL='https://space.sombrainc.com/api'
 
-CREDENTIALS_KEY_STORE_FILE="$HOME/.spaceCredKeyStore"
+CREDENTIALS_KEY_STORE_FILE="$HOME/.space_key_store"
 SPACE_CONFIG_FILE="$HOME/.space_config"
 AUTH_TOKEN=
 KEY_STORE_PASS=
 
 USER_ID=
+
+isAndroid() {
+  [[ "$(uname -a)" = *'Android'* ]] && echo true
+}
+
+check_package_installed() {
+  PACKAGE_NAME=$1
+  ${PACKAGE_NAME} ${3:-"--version"}  &> /dev/null
+  if [[ $? -ne 0 ]]; then
+    if [[ $(isAndroid) ]]; then
+      pkg install $2
+    else
+     sudo apt-get install $2 -y &>/dev/null
+    fi
+  fi
+}
+
+check_package_installed jq jq
+check_package_installed openssl openssl-tool 'help'
+check_package_installed curl curl
 
 checkSessionValid() {
    [[ $(curl -s -o /dev/null -w "%{http_code}"\
@@ -58,13 +63,13 @@ initUserId() {
 
 readValue() {
   READ_VALUE_RESULT=
-
+  local value
   echo "$1: " | tr -d '\n'
-  
+
   local CHECK_MARK="\033[0;32m\xE2\x9C\x94\033[0m"
   if [[ $2 == pass ]]; then
     read -s value
-  else 
+  else
     read -r value
   fi
   echo -e "\\r${CHECK_MARK}\033[K" | tr -d '\d'
@@ -81,19 +86,33 @@ storeToConfig() {
 }
 
 storeEncryptedLine() {
-  echo $(encryptLine ${1} ${KEY_STORE_PASS}) >> ${CREDENTIALS_KEY_STORE_FILE}
+  echo "$KEY_STORE_PASS"
+  echo "$1"
+  echo $(encryptLine ${1}) >> ${CREDENTIALS_KEY_STORE_FILE}
 }
+
 encryptLine() {
   local line=$1
-  local pass=$2
-  echo ${line} | openssl enc -aes-128-cbc -a -salt -pass pass:${pass}
+  if [[ $(isAndroid) ]]; then
+    echo ${line} | openssl enc -aes-128-cbc -pbkdf2 -iter 1000 -a -salt -pass pass:${KEY_STORE_PASS}
+  else
+    echo ${line} | openssl enc -aes-128-cbc -a -salt -pass pass:${KEY_STORE_PASS}
+  fi
+}
+
+decryptLine() {
+if [[ $(isAndroid) ]]; then
+    echo $1 | openssl enc -aes-128-cbc -pbkdf2 -iter 1000 -a -d -salt -pass pass:${2-:${KEY_STORE_PASS}}
+  else
+    echo $1 | openssl enc -aes-128-cbc -a -d -salt -pass pass:${2-:${KEY_STORE_PASS}}
+  fi
 }
 
 openCredentials() {
   IFS=$'\n' read -d '' -r -a keyStoreLines < ${CREDENTIALS_KEY_STORE_FILE}
-  USER_EMAIL=$(echo ${keyStoreLines[$EMAIL_INDEX]} | openssl enc -aes-128-cbc -a -d -salt -pass pass:$1)
-  USER_PASSWORD=$(echo ${keyStoreLines[$PASS_INDEX]} | openssl enc -aes-128-cbc -a -d -salt -pass pass:$1)
-  AUTH_TOKEN=$(echo ${keyStoreLines[$AUTH_TOKEN_INDEX]} | openssl enc -aes-128-cbc -a -d -salt -pass pass:$1)
+  USER_EMAIL=$(decryptLine "${keyStoreLines[$EMAIL_INDEX]}" "${1}")
+  USER_PASSWORD=$(decryptLine "${keyStoreLines[$PASS_INDEX]}" "${1}")
+  AUTH_TOKEN=$(decryptLine "${keyStoreLines[$AUTH_TOKEN_INDEX]}" "${1}")
 }
 
 useKeyStore() {
@@ -101,8 +120,8 @@ useKeyStore() {
   local userPassword=$2
   readValue "Store credentials for further usage? (y/n)"
   if [[ ${READ_VALUE_RESULT} == 'y' ]]; then
-    storeToConfig useKeyStore true    
-    readValue "Enter keyStore password " pass
+    storeToConfig useKeyStore true
+    readValue "Enter KeyStore password " pass
     KEY_STORE_PASS=${READ_VALUE_RESULT}
     readValue "Repeat password" pass
 
@@ -123,21 +142,25 @@ useKeyStore() {
 login() {
   local askForKeyStore=
   local email=
-  if [[ $1 == "askForKeyStore" ]]; then 
-    askForKeyStore=true
 
-    readValue "Enter your sombraSpace email"
+  if [[ $1 == "askForKeyStore" ]]; then
+    askForKeyStore=true
+    readValue "Enter your Sombra Space email"
     email=${READ_VALUE_RESULT}
   elif [[ -z $1 ]];then
-    readValue "Enter your sombraSpace email"
+    readValue "Enter your Sombra Space email"
     email=${READ_VALUE_RESULT}
   else
     email=$1
   fi
 
+  if [[ ! ${email} = *'sombrainc.com' ]]; then
+    email="$email@sombrainc.com"
+  fi
+
   local pass=
-  if [[ -z $2 ]]; then 
-    readValue "Enter your sombraSpace password" pass
+  if [[ -z $2 ]]; then
+    readValue "Enter your Sombra Space password" pass
     pass=${READ_VALUE_RESULT}
   else
     pass=$2
@@ -173,13 +196,14 @@ login() {
     USER_EMAIL=${email}
     USER_PASSWORD=${pass}
     storeEncryptedLine ${auth_token}
-
+    echo "$AUTH_TOKEN"
     echo "Hurray, we are in the system :D"
     initUserId
 
   else
     echo "Sorry mate, something went wrong"
     clearKeyStore
+    exit 1
   fi
 }
 
@@ -188,7 +212,7 @@ login() {
 if [[ -f ${CREDENTIALS_KEY_STORE_FILE} ]]; then
   keyStoreLinesCount=$(cat ${CREDENTIALS_KEY_STORE_FILE} | wc -l)
   if [[ ${keyStoreLinesCount} == 3 ]]; then
-    readValue "Enter keyStore password" pass
+    readValue "Enter KeyStore password" pass
 
     openCredentials "$READ_VALUE_RESULT"
     while [[ $? -ne 0 ]]; do
@@ -222,6 +246,10 @@ else
   fi
 fi
 
+if [[ $? != 0 ]]; then
+  exit $?
+fi
+
 projects=$(getRequest "/project/worked-with-projects/$USER_ID")
 projects=$(echo ${projects} | tr ' ' '_')
 active_pr_filter=$(echo ${projects} | jq -r 'map(select(.projectIsActive==true))')
@@ -232,9 +260,14 @@ echo "Choose project to log time in"
 echo
 
 for i in "${!active_project_names[@]}"; do
-  printf "  %5s |  %-42s\n"  "$i" "${active_project_names[$i]}"
+  if [[ $(isAndroid) ]]; then
+    projectsFormat="  %s | %-32s\n"
+  else
+    projectsFormat="        %5s | %-42s\n"
+  fi
+  printf "$projectsFormat" "$i" "${active_project_names[$i]}"
 done
-
+echo
 readValue "Chose Project To Log In"
 targetProjectId=${project_ids[$READ_VALUE_RESULT]}
 
