@@ -17,6 +17,7 @@ class CarDto extends WithDateDto {
   String brand
   String model
   Double price
+  Integer count
   Boolean available
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM")
   @JsonDeserialize(using = YearMonthDeserializer)

@@ -29,15 +29,15 @@ class DealerServiceTest {
   void testGetUserDetails() {
 
     doReturn(
-            ok(builder()
-                    .firstName("testName")
-                    .lastName("testLastName")
-                    .build())).when(dealerClient).getOne(1L)
+        ok(builder()
+            .firstName("testName")
+            .lastName("testLastName")
+            .build())).when(dealerClient).getOne(1L)
 
     assertThat(
-            ok(builder()
-                    .firstName("TESTNAME")
-                    .lastName("testLastName")
-                    .build())).isEqualToComparingFieldByField(dealerService.getOne(1L))
+        ok(builder()
+            .firstName("TESTNAME")
+            .lastName("testLastName")
+            .build())).isEqualToComparingFieldByField(dealerService.getOne(1L))
   }
 }
