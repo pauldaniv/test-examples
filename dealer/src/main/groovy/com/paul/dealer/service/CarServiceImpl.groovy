@@ -22,12 +22,9 @@ class CarServiceImpl extends AbstractCommonService<CarDto, Car, CarRepository> i
 
   @Override
   ResponseEntity getOne(Long id) {
-
     def car = repository.findById(id).orElseThrow({ new ObjectNotFoundException(id, entityType.simpleName) })
     def carDto = map.map(car, dtoType)
-    if (car.count < 1) {
-      carDto.available = false
-      Resp.ok(carDto)
-    } else Resp.ok(carDto)
+    carDto.available = carDto.count > 0
+    Resp.ok(carDto)
   }
 }

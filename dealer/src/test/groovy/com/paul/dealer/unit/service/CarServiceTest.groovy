@@ -1,11 +1,11 @@
 package com.paul.dealer.unit.service
 
 import com.paul.common.component.Mapper
-import com.paul.common.payload.CarDto
 import com.paul.common.test.groups.TestGroup
 import com.paul.dealer.domain.Car
 import com.paul.dealer.persintence.CarRepository
 import com.paul.dealer.service.CarServiceImpl
+import org.junit.Before
 import org.junit.Test
 import org.junit.experimental.categories.Category
 import org.junit.runner.RunWith
@@ -31,27 +31,30 @@ class CarServiceTest {
 
   Mapper map = new Mapper()
 
-  @Test
-  void defaultTest() {
+  @Before
+  void before() {
     setField(carService, 'map', map)
-    doReturn(getCar()).when(repository).findById(1L)
-
-    assertThat(CarDto.builder()
-            .brand("BMW")
-            .model("whatever")
-            .releasedIn(YearMonth.of(2017, 5))
-            .price(50000)
-            .count(300)
-            .build()).isEqualToComparingFieldByField(carService.getOne(1L).body.body)
   }
 
-  Optional getCar() {
+  @Test
+  void availabilityFalseTest() {
+    doReturn(getCar(0)).when(repository).findById(1L)
+    assertThat(carService.getOne(1L).body.body.available).isEqualTo(false)
+  }
+
+  @Test
+  void availabilityTrueTest() {
+    doReturn(getCar(1)).when(repository).findById(1L)
+    assertThat(carService.getOne(1L).body.body.available).isEqualTo(true)
+  }
+
+  Optional getCar(Integer count) {
     Optional.of(Car.builder()
         .brand("BMW")
         .model("whatever")
         .releasedIn(YearMonth.of(2017, 5))
         .price(50000)
-        .count(300)
+        .count(count)
         .build())
   }
 }
