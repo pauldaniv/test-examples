@@ -23,7 +23,7 @@ class DefaultServiceImpl extends AbstractCommonService<TestEntityDto, TestEntity
 
   @Override
   ResponseEntity getOne(Long id) {
-    def one = repository.findById(id).orElseThrow({ new ObjectNotFoundException(id, entityType.simpleName) })
+    def one = repository.findOne(id)
     one.firstName = one.firstName.toUpperCase()
     Resp.ok(map.map(one, dtoType))
   }

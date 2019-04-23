@@ -38,14 +38,28 @@ class CarServiceTest {
 
   @Test
   void availabilityFalseTest() {
-    doReturn(getCar(0)).when(repository).findById(1L)
+    doReturn(composeNotAvailableCar()).when(repository).findById(1L)
     assertThat(carService.getOne(1L).body.body.available).isEqualTo(false)
   }
 
   @Test
   void availabilityTrueTest() {
-    doReturn(getCar(1)).when(repository).findById(1L)
+    doReturn(composeAvailableCar()).when(repository).findById(1L)
     assertThat(carService.getOne(1L).body.body.available).isEqualTo(true)
+  }
+
+  @Test
+  void carCountTest() {
+    doReturn(composeAvailableCar()).when(repository).findById(1L)
+    assertThat(carService.updateCarCount(1L, 10).body.body.count).isEqualTo(10)
+  }
+
+  Optional composeAvailableCar() {
+    getCar(1)
+  }
+
+  Optional composeNotAvailableCar() {
+    getCar(0)
   }
 
   Optional getCar(Integer count) {

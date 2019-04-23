@@ -12,14 +12,18 @@ buildscript {
   }
 }
 
+
+
 subprojects {
+
 
   apply plugin: "com.adarshr.test-logger"
 
   apply plugin: 'idea'
   apply plugin: 'groovy'
-  apply plugin: 'java'
-
+  apply plugin: 'java'  
+  
+  
   idea {
     module {
       outputDir file('build/classes/main/java')
@@ -68,14 +72,16 @@ subprojects {
     repositories {
       jcenter()
     }
+	
 
+java {
+sourceCompatibility = JavaVersion.VERSION_1_10
+targetCompatibility = JavaVersion.VERSION_1_10
+}
     clean.doFirst {
       delete "${logsRoot}"
     }
-
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
-
+    
     ext {
       lombokVersion = '1.18.4'
     }

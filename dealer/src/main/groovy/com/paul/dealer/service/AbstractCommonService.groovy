@@ -58,7 +58,8 @@ abstract class AbstractCommonService<
   ResponseEntity update(D dto) {
     def entity = repository.findById(dto.id)
     if (entity.present) {
-      Resp.ok(map.map(repository.save(map.map(dto, e)), d))
+      def mappedEntity = map.map(dto, e)
+      Resp.ok(map.map(repository.save(mappedEntity), d))
     } else {
       throw new ObjectNotFoundException(dto.getId(), e.simpleName)
     }
