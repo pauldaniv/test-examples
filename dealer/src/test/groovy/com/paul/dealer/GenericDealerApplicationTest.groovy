@@ -16,11 +16,11 @@ import org.springframework.test.context.junit4.SpringRunner
 @Category([TestGroup.Slow.Application])
 class GenericDealerApplicationTest {
 
-    @Autowired
-    ApplicationContext context
+  @Autowired
+  ApplicationContext context
 
-    @Test
-    void defaultTest() {
-        Assertions.assertThat(context).isNotNull()
-    }
+  @Test
+  void defaultTest() {
+    Assertions.assertThat(context).isNotNull()
+  }
 }

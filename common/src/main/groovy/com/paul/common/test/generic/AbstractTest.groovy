@@ -27,9 +27,9 @@ abstract class AbstractTest {
 
     Resource entityDtos = new ClassPathResource("${entityJson}.json")
     return map.oMap.readValue(
-            entityDtos.getFile(),
-            map.oMap.getTypeFactory()
-                    .constructCollectionType(List, dto))
+        entityDtos.getFile(),
+        map.oMap.getTypeFactory()
+            .constructCollectionType(List, dto))
   }
 
   abstract String getFileName()

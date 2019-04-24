@@ -17,7 +17,6 @@ import org.mockito.junit.MockitoJUnitRunner
 import java.time.YearMonth
 
 import static org.assertj.core.api.Assertions.assertThat
-import static org.mockito.ArgumentMatchers.any
 import static org.mockito.Mockito.doReturn
 import static org.springframework.test.util.ReflectionTestUtils.setField
 
@@ -31,11 +30,9 @@ class CarServiceTest {
   @Spy
   CarRepository repository
 
-  Mapper map = new Mapper()
-
   @Before
   void before() {
-    setField(carService, 'map', map)
+    setField(carService, 'map', new Mapper())
   }
 
   @Test

@@ -15,9 +15,9 @@ import java.lang.reflect.Type
 
 @Service
 abstract class AbstractCommonService<
-        D extends WithIdDto,
-        E extends WithId<E>,
-        R extends CommonRepository<E>> implements CommonService<D> {
+    D extends WithIdDto,
+    E extends WithId<E>,
+    R extends CommonRepository<E>> implements CommonService<D> {
 
   private static final int DTO_TYPE = 0, ENTITY_TYPE = 1
 

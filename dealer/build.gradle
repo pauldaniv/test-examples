@@ -50,18 +50,18 @@ repositories { mavenCentral() }
 
 dependencies {
   implementation('org.springframework.boot:spring-boot-starter-actuator',
-          'org.springframework.boot:spring-boot-starter-web',
-          project(':common'),
-          'org.codehaus.groovy:groovy:3.0.0-alpha-4',
+      'org.springframework.boot:spring-boot-starter-web',
+      project(':common'),
+      'org.codehaus.groovy:groovy:3.0.0-alpha-4',
 //          'org.modelmapper:modelmapper:2.3.2',
-          'org.springframework.boot:spring-boot-starter-data-jpa'
+      'org.springframework.boot:spring-boot-starter-data-jpa'
 
   )
   runtimeOnly 'com.h2database:h2'
 
   testImplementation(
-          'org.springframework.boot:spring-boot-starter-test',
-          'com.tngtech.java:junit-dataprovider:1.13.1'
+      'org.springframework.boot:spring-boot-starter-test',
+      'com.tngtech.java:junit-dataprovider:1.13.1'
   )
 }
 

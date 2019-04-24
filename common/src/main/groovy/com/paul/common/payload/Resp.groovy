@@ -92,8 +92,8 @@ class Resp<T> {
 
   static ResponseEntity<Resp> fail(String message, Exception exception) {
     new ResponseEntity<>(
-            new ResponseExceptionDetailDTO(message, exception.toString()),
-            HttpStatus.INTERNAL_SERVER_ERROR)
+        new ResponseExceptionDetailDTO(message, exception.toString()),
+        HttpStatus.INTERNAL_SERVER_ERROR)
   }
 
   static ResponseEntity<Resp> fail(String message, HttpStatus status,

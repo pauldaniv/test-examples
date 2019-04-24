@@ -31,11 +31,11 @@ class CarServiceTest {
     ReflectionTestUtils.setField(carStoreService, 'margin', 10)
 
     Mockito.doReturn(Resp.ok(CarDto.builder()
-            .price(1000d).build()
+        .price(1000d).build()
     )).when(carClient).info(1L)
 
     def that = assertThat(Resp.ok(CarDto.builder()
-            .price(1100d).build()).body.body)
+        .price(1100d).build()).body.body)
     def info = carStoreService.getCarInfo(1L)
     that.isEqualToComparingFieldByField(info.body.body)
   }

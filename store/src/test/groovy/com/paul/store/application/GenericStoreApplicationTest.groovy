@@ -19,8 +19,8 @@ class GenericStoreApplicationTest {
   @Autowired
   ApplicationContext context
 
- @Test
- void defaultTest() {
+  @Test
+  void defaultTest() {
     Assertions.assertThat(context).isNotNull()
   }
 }

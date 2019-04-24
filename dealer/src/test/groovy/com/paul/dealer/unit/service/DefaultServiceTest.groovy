@@ -5,6 +5,7 @@ import com.paul.common.test.groups.TestGroup
 import com.paul.dealer.domain.TestEntity
 import com.paul.dealer.persintence.DefaultRepository
 import com.paul.dealer.service.DefaultServiceImpl
+import org.junit.Before
 import org.junit.Test
 import org.junit.experimental.categories.Category
 import org.junit.runner.RunWith
@@ -26,15 +27,18 @@ class DefaultServiceTest {
   @Spy
   DefaultRepository repository
 
+  @Before
+  void before() {
+    setField(defaultService, 'map', new Mapper())
+  }
+
   @Test
   void saveTest() {
-    setField(defaultService, 'map', new Mapper())
 
     Mockito.doReturn(Optional.of(TestEntity.builder()
-            .firstName("John")
-            .lastName("Doh")
-            .build())).when(repository).findById(1L)
-
+        .firstName("John")
+        .lastName("Doh")
+        .build())).when(repository).findById(1L)
 
     def list = defaultService.getOne(1L).body.body.firstName.getChars().toList()
     assertThat(list.stream().allMatch(Character::isUpperCase)).isTrue()

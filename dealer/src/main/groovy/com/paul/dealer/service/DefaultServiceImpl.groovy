@@ -5,12 +5,11 @@ import com.paul.common.payload.Resp
 import com.paul.common.payload.TestEntityDto
 import com.paul.dealer.domain.TestEntity
 import com.paul.dealer.persintence.DefaultRepository
-import org.hibernate.ObjectNotFoundException
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 
 @Service
-class DefaultServiceImpl extends AbstractCommonService<TestEntityDto, TestEntity, DefaultRepository> implements DefaultService{
+class DefaultServiceImpl extends AbstractCommonService<TestEntityDto, TestEntity, DefaultRepository> implements DefaultService {
 
   private DefaultRepository repository
   private Mapper map

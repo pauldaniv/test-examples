@@ -13,7 +13,6 @@ buildscript {
 }
 
 
-
 subprojects {
 
 
@@ -21,9 +20,9 @@ subprojects {
 
   apply plugin: 'idea'
   apply plugin: 'groovy'
-  apply plugin: 'java'  
-  
-  
+  apply plugin: 'java'
+
+
   idea {
     module {
       outputDir file('build/classes/main/java')
@@ -72,16 +71,16 @@ subprojects {
     repositories {
       jcenter()
     }
-	
 
-java {
-sourceCompatibility = JavaVersion.VERSION_1_10
-targetCompatibility = JavaVersion.VERSION_1_10
-}
+
+    java {
+      sourceCompatibility = JavaVersion.VERSION_1_10
+      targetCompatibility = JavaVersion.VERSION_1_10
+    }
     clean.doFirst {
       delete "${logsRoot}"
     }
-    
+
     ext {
       lombokVersion = '1.18.4'
     }

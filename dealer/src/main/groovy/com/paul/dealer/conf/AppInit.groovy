@@ -61,15 +61,15 @@ class AppInit {
   }
 
   private <D extends WithIdDto,
-          E extends WithId> List<E> initEntity(String entityJson,
-                                               Class<D> dto,
-                                               Class<E> entity) {
+      E extends WithId> List<E> initEntity(String entityJson,
+                                           Class<D> dto,
+                                           Class<E> entity) {
 
     Resource entityDtos = new ClassPathResource("initdb/${entityJson}.json")
     List<D> cars = map.oMap.readValue(
-            entityDtos.getFile(),
-            map.oMap.getTypeFactory()
-                    .constructCollectionType(List, dto))
+        entityDtos.getFile(),
+        map.oMap.getTypeFactory()
+            .constructCollectionType(List, dto))
     map.map(cars, entity)
   }
 

@@ -20,12 +20,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @Category([TestGroup.Slow.API])
 class DefaultServiceIntegrationTest {
-    @Autowired
-    private MockMvc mvc
+  @Autowired
+  private MockMvc mvc
 
-    @Test
-    void exampleTest() throws Exception {
-        this.mvc.perform(get("/healthCheck")).andExpect(status().isOk())
-                .andExpect(content().string(containsString("true")))
-    }
+  @Test
+  void exampleTest() throws Exception {
+    this.mvc.perform(get("/healthCheck")).andExpect(status().isOk())
+        .andExpect(content().string(containsString("true")))
+  }
 }
