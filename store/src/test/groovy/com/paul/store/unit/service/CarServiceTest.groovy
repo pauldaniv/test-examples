@@ -28,7 +28,7 @@ class CarServiceTest {
 
   @Test
   void tradeMarginTest() {
-    ReflectionTestUtils.setField(carStoreService, 'margin', 10)
+    ReflectionTestUtils.setField(carStoreService, 'margin', 0.1D)
 
     Mockito.doReturn(Resp.ok(CarDto.builder()
         .price(1000d).build()

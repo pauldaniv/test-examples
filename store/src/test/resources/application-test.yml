@@ -11,4 +11,4 @@ spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
 spring.h2.console.enabled: true
 spring.h2.console.path: /h2-console
 
-store.service.car.price.margin: 10
+store.service.car.price.margin: 0.1

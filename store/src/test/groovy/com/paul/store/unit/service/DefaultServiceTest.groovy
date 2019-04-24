@@ -1,7 +1,7 @@
 package com.paul.store.unit.service
 
 import com.paul.common.payload.TestEntityDto
-import com.paul.common.test.generic.AbstractTest
+import com.paul.common.test.generic.DataProviderUtils
 import com.paul.common.test.groups.TestGroup
 import com.tngtech.java.junit.dataprovider.DataProvider
 import com.tngtech.java.junit.dataprovider.DataProviderRunner
@@ -29,7 +29,7 @@ class DefaultServiceTest {
   }
 
   @DataProvider
-  static Object[][] getData() throws FileNotFoundException {
-    AbstractTest.getData("test")
+  static def getData() throws FileNotFoundException {
+    DataProviderUtils.getData("test", TestEntityDto)
   }
 }

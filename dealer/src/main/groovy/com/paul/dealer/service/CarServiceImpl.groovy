@@ -5,6 +5,7 @@ import com.paul.common.payload.CarDto
 import com.paul.common.payload.Resp
 import com.paul.dealer.domain.Car
 import com.paul.dealer.persintence.CarRepository
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 
@@ -14,6 +15,12 @@ import java.security.InvalidParameterException
 class CarServiceImpl extends AbstractCommonService<CarDto, Car, CarRepository> implements CarService {
   private final CarRepository repository
   private final Mapper map
+
+  @Value('${dealer.service.car.price.margin.high}')
+  private final Double marginHigh
+
+  @Value('${dealer.service.car.price.margin.low}')
+  private final Double marginLow
 
   CarServiceImpl(CarRepository repository, Mapper map) {
     super(repository)
@@ -26,6 +33,11 @@ class CarServiceImpl extends AbstractCommonService<CarDto, Car, CarRepository> i
     def car = repository.findOne(id)
     def carDto = map.map(car, dtoType)
     carDto.available = carDto.count > 0
+    if (carDto.count > 100) {
+      carDto.price += carDto.price * marginHigh
+    } else if (carDto.count < 10) {
+      carDto.price += carDto.price * marginLow
+    }
     Resp.ok(carDto)
   }
 

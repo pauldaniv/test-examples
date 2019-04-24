@@ -2,35 +2,31 @@ package com.paul.common.test.generic
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.paul.common.component.Mapper
-import com.paul.common.payload.TestEntityDto
 import com.paul.common.payload.base.WithIdDto
 import org.springframework.core.io.ClassPathResource
-import org.springframework.core.io.Resource
 
-abstract class AbstractTest {
+import java.util.stream.Collectors
+
+final class DataProviderUtils {
 
   private static final Mapper map = new Mapper(new ObjectMapper())
 
-  static Object[][] getData(String fileName) throws FileNotFoundException {
-    def dtos = initEntity(fileName, TestEntityDto)
-    Object[][] returnValue = new Object[dtos.size()][1]
-    int index = 0
-    for (Object[] each : returnValue) {
-      each[0] = dtos.get(index++)
-    }
-    return returnValue
+  static <D extends WithIdDto> List<Object[]> getData(String fileName, Class<D> cls) throws FileNotFoundException {
+    def dtos = initEntity(fileName, cls)
+    dtos.stream().map({
+      def obj = new Object[1]
+      obj[0] = it
+      obj
+    }).collect(Collectors.toList())
   }
-
 
   private static <D extends WithIdDto> List<D> initEntity(String entityJson,
                                                           Class<D> dto) {
 
-    Resource entityDtos = new ClassPathResource("${entityJson}.json")
+    def entityDtos = new ClassPathResource("${entityJson}.json")
     return map.oMap.readValue(
         entityDtos.getFile(),
         map.oMap.getTypeFactory()
             .constructCollectionType(List, dto))
   }
-
-  abstract String getFileName()
 }
