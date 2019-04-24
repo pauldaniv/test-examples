@@ -10,12 +10,14 @@ import org.junit.Test
 import org.junit.experimental.categories.Category
 import org.junit.runner.RunWith
 import org.mockito.InjectMocks
+import org.mockito.Mockito
 import org.mockito.Spy
 import org.mockito.junit.MockitoJUnitRunner
 
 import java.time.YearMonth
 
 import static org.assertj.core.api.Assertions.assertThat
+import static org.mockito.ArgumentMatchers.any
 import static org.mockito.Mockito.doReturn
 import static org.springframework.test.util.ReflectionTestUtils.setField
 
@@ -50,7 +52,9 @@ class CarServiceTest {
 
   @Test
   void carCountTest() {
-    doReturn(composeAvailableCar()).when(repository).findById(1L)
+    def car = composeAvailableCar()
+    doReturn(car).when(repository).findById(1L)
+    Mockito.when(repository.save(car.get())).thenReturn(getCar(10).get())
     assertThat(carService.updateCarCount(1L, 10).body.body.count).isEqualTo(10)
   }
 
