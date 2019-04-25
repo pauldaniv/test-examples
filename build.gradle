@@ -2,6 +2,8 @@ import java.security.InvalidParameterException
 
 
 buildscript {
+  ext.kotlin_version = '1.3.30'
+
   repositories {
     maven {
       url "https://plugins.gradle.org/m2/"
@@ -9,6 +11,8 @@ buildscript {
   }
   dependencies {
     classpath "com.adarshr:gradle-test-logger-plugin:1.6.0"
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+
   }
 }
 
@@ -17,6 +21,7 @@ subprojects {
 
 
   apply plugin: "com.adarshr.test-logger"
+  apply plugin: 'kotlin'
 
   apply plugin: 'idea'
   apply plugin: 'groovy'
@@ -91,6 +96,8 @@ subprojects {
       testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
       annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
       testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+      implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+
     }
 
     test {

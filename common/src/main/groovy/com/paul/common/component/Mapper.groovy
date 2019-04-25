@@ -8,7 +8,6 @@ import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Component
 
 @Component
-
 class Mapper {
 
   final ObjectMapper oMap

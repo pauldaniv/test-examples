@@ -29,7 +29,7 @@ class CarServiceImpl extends AbstractCommonService<CarDto, Car, CarRepository> i
   }
 
   @Override
-  ResponseEntity getOne(Long id) {
+  ResponseEntity<Resp<CarDto>> getOne(Long id) {
     def car = repository.findOne(id)
     def carDto = map.map(car, dtoType)
     carDto.available = carDto.count > 0
@@ -42,7 +42,7 @@ class CarServiceImpl extends AbstractCommonService<CarDto, Car, CarRepository> i
   }
 
   @Override
-  ResponseEntity updateCarCount(Long carId, Integer count) {
+  ResponseEntity<Resp<CarDto>> updateCarCount(Long carId, Integer count) {
     def countValue = OptionalInt.of(count).orElseThrow({
       new InvalidParameterException("Invalid parameter count: $count")
     })
