@@ -78,7 +78,6 @@ class CarPurchasingTest {
     orderService.createOrder(listOf(1, 3, null), 1)
   }
   
-  
   @Test(expected = InvalidParameterException::class)
   fun nullCustomerId() {
     orderService.createOrder(listOf(1, 3), null)
@@ -92,6 +91,32 @@ class CarPurchasingTest {
   @Test(expected = ObjectNotFoundException::class)
   fun customerNotFountTest() {
     orderService.createOrder(listOf(4), 10)
+  }
+  
+  
+  @Test(expected = InvalidParameterException::class)
+  fun invoiceServiceNullOrderId() {
+    orderService.createOrder(listOf(1, 3), 1)
+    invoiceService.createInvoice(listOf(null), 1)
+  }
+  
+  @Test(expected = InvalidParameterException::class)
+  fun invoiceServiceNullCustomerId() {
+    orderService.createOrder(listOf(1, 3), 1)
+    
+    invoiceService.createInvoice(listOf(1), null)
+  }
+  
+  @Test(expected = ObjectNotFoundException::class)
+  fun invoiceServiceOrderNotFountTest() {
+    orderService.createOrder(listOf(1, 3), 1)
+    invoiceService.createInvoice(listOf(100), 1)
+  }
+  
+  @Test(expected = ObjectNotFoundException::class)
+  fun invoiceServiceCustomerNotFountTest() {
+    orderService.createOrder(listOf(1, 3), 1)
+    invoiceService.createInvoice(listOf(1), 10)
   }
   
   private fun <T : Resp<*>> checkResponseIsNotNull(orderResponse: ResponseEntity<T>) {
