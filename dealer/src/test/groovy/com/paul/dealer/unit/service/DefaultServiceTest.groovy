@@ -3,7 +3,7 @@ package com.paul.dealer.unit.service
 import com.paul.common.component.Mapper
 import com.paul.common.test.groups.TestGroup
 import com.paul.dealer.domain.TestEntity
-import com.paul.dealer.persintence.DefaultRepository
+import com.paul.dealer.persistence.DefaultRepository
 import com.paul.dealer.service.DefaultServiceImpl
 import org.junit.Before
 import org.junit.Test

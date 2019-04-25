@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.paul.common.component.Mapper
 import com.paul.common.test.groups.TestGroup
 import com.paul.dealer.domain.Car
-import com.paul.dealer.persintence.CarRepository
+import com.paul.dealer.persistence.CarRepository
 import com.paul.dealer.service.CarServiceImpl
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
@@ -43,13 +43,13 @@ class CarServiceTest {
   @Test
   fun availabilityFalseTest() {
     doReturn(composeNotAvailableCar()).`when`(repository).findById(1L)
-    assertThat(carService.getOne(1L).body.body.available).isEqualTo(false)
+    assertThat(carService.getOne(1L).body!!.body.available).isEqualTo(false)
   }
   
   @Test
   fun availabilityTrueTest() {
     doReturn(composeAvailableCar()).`when`(repository).findById(1L)
-    assertThat(carService.getOne(1L).body.body.available).isEqualTo(true)
+    assertThat(carService.getOne(1L).body!!.body.available).isEqualTo(true)
   }
   
   @Test
@@ -57,7 +57,7 @@ class CarServiceTest {
     val car = composeAvailableCar()
     doReturn(car).`when`(repository).findById(1L)
     Mockito.`when`(repository.save(car.get())).thenReturn(getCar(10).get())
-    assertThat(carService.updateCarCount(1L, 10).body.body.count).isEqualTo(10)
+    assertThat(carService.updateCarCount(1L, 10).body!!.body.count).isEqualTo(10)
   }
   
   private fun composeAvailableCar(): Optional<Car> {

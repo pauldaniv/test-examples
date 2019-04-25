@@ -22,7 +22,7 @@ import java.util.List;
 @Table(name = "invoices")
 public class Invoice extends WithDate<Invoice> {
 
-    private Integer total;
+    private Double total;
     @OneToMany
     private List<Order> orders;
     @ManyToOne

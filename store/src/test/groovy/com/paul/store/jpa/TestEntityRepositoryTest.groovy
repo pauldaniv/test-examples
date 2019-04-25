@@ -20,7 +20,6 @@ import org.springframework.test.context.ContextConfiguration
 @Category([TestGroup.Slow.Application])
 class TestEntityRepositoryTest {
 
-
   @Test
   @UseDataProvider("getData")
   void test(TestEntityDto dto) {

@@ -1,4 +1,4 @@
-package com.paul.dealer.persintence
+package com.paul.dealer.persistence
 
 import com.paul.dealer.domain.Order
 

@@ -2,7 +2,7 @@ package com.paul.dealer.jpa
 
 import com.paul.common.test.groups.TestGroup
 import com.paul.dealer.domain.*
-import com.paul.dealer.persintence.*
+import com.paul.dealer.persistence.*
 import org.junit.Test
 import org.junit.experimental.categories.Category
 import org.junit.runner.RunWith

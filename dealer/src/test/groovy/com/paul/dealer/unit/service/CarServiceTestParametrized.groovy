@@ -5,7 +5,7 @@ import com.paul.common.payload.CarDto
 import com.paul.common.test.generic.DataProviderUtils
 import com.paul.common.test.groups.TestGroup
 import com.paul.dealer.domain.Car
-import com.paul.dealer.persintence.CarRepository
+import com.paul.dealer.persistence.CarRepository
 import com.paul.dealer.service.CarServiceImpl
 import org.junit.Before
 import org.junit.Test

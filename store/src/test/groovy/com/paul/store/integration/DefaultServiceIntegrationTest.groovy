@@ -18,8 +18,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner)
 @SpringBootTest
 @AutoConfigureMockMvc
-@Category([TestGroup.Slow.API])
+@Category(TestGroup.Slow.API)
 class DefaultServiceIntegrationTest {
+
   @Autowired
   private MockMvc mvc
 

@@ -4,7 +4,7 @@ import com.paul.common.component.Mapper
 import com.paul.common.payload.Resp
 import com.paul.common.payload.TestEntityDto
 import com.paul.dealer.domain.TestEntity
-import com.paul.dealer.persintence.DefaultRepository
+import com.paul.dealer.persistence.DefaultRepository
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 

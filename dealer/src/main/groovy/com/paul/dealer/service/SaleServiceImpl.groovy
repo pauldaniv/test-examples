@@ -6,9 +6,9 @@ import com.paul.common.payload.Resp
 import com.paul.dealer.domain.Car
 import com.paul.dealer.domain.Customer
 import com.paul.dealer.domain.Order
-import com.paul.dealer.persintence.CarRepository
-import com.paul.dealer.persintence.CustomerRepository
-import com.paul.dealer.persintence.OrderRepository
+import com.paul.dealer.persistence.CarRepository
+import com.paul.dealer.persistence.CustomerRepository
+import com.paul.dealer.persistence.OrderRepository
 import org.hibernate.ObjectNotFoundException
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service

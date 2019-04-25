@@ -4,7 +4,7 @@ import com.paul.common.component.Mapper
 import com.paul.common.payload.Resp
 import com.paul.common.payload.base.WithIdDto
 import com.paul.dealer.domain.base.WithId
-import com.paul.dealer.persintence.CommonRepository
+import com.paul.dealer.persistence.CommonRepository
 import org.hibernate.ObjectNotFoundException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service
 
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
+import java.security.InvalidParameterException
 import java.util.stream.Collectors
 
 @Service
@@ -57,7 +58,10 @@ abstract class AbstractCommonService<
 
   @Override
   ResponseEntity update(D dto) {
-    saveEntity(repository.findOne(dto.id))
+    if (dto.id == null) {
+      throw new InvalidParameterException("Invalid entity id")
+    }
+    saveEntity(repository.findById(dto.id).orElseThrow(() -> new ObjectNotFoundException(dto.id, entityType.simpleName)))
   }
 
   @Override
@@ -77,6 +81,7 @@ abstract class AbstractCommonService<
   private Type getTypeArgument(int index) {
     ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[index]
   }
+
 
   ResponseEntity<Resp<D>> ok(E dto) { Resp.ok(map(dto)) }
 

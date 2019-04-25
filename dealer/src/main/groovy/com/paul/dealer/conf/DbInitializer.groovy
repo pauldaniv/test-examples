@@ -5,18 +5,14 @@ import com.paul.common.payload.*
 import com.paul.common.payload.base.WithIdDto
 import com.paul.dealer.domain.*
 import com.paul.dealer.domain.base.WithId
-import com.paul.dealer.persintence.*
-import groovy.transform.EqualsAndHashCode
-import groovy.util.logging.Slf4j
-import org.springframework.context.event.ContextRefreshedEvent
-import org.springframework.context.event.EventListener
+import com.paul.dealer.persistence.*
+import lombok.EqualsAndHashCode
 import org.springframework.core.io.ClassPathResource
 import org.springframework.core.io.Resource
 import org.springframework.stereotype.Component
 
 @Component
-@Slf4j
-class AppInit {
+class DbInitializer {
 
   private final Mapper map
   private final CarRepository carRepository
@@ -25,12 +21,12 @@ class AppInit {
   private final CustomerRepository customerRepository
   private final DefaultRepository defaultRepository
 
-  AppInit(Mapper map,
-          CarRepository carRepository,
-          InvoiceRepository invoiceRepository,
-          OrderRepository orderRepository,
-          CustomerRepository customerRepository,
-          DefaultRepository defaultRepository) {
+  DbInitializer(Mapper map,
+                CarRepository carRepository,
+                InvoiceRepository invoiceRepository,
+                OrderRepository orderRepository,
+                CustomerRepository customerRepository,
+                DefaultRepository defaultRepository) {
 
     this.map = map
     this.carRepository = carRepository
@@ -40,10 +36,7 @@ class AppInit {
     this.defaultRepository = defaultRepository
   }
 
-  @EventListener(ContextRefreshedEvent)
   void init() {
-    log.info("Context Refreshed")
-
     List<Customer> customers = initEntity("customers", CustomerDto, Customer)
     customerRepository.saveAll(customers)
 
@@ -57,7 +50,14 @@ class AppInit {
     invoiceRepository.saveAll(invoices)
 
     defaultRepository.saveAll(initEntity("data", TestEntityDto, TestEntity))
+  }
 
+  void clean() {
+    defaultRepository.deleteAll()
+    invoiceRepository.deleteAll()
+    orderRepository.deleteAll()
+    carRepository.deleteAll()
+    customerRepository.deleteAll()
   }
 
   private <D extends WithIdDto,

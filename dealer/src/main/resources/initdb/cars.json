@@ -19,5 +19,12 @@
     "count": 10,
     "model": "A9",
     "releasedIn": "2009.06"
+  },
+  {
+    "brand": "Mitsubishi",
+    "price": 30000,
+    "count": 0,
+    "model": "Whatever",
+    "releasedIn": "2009.06"
   }
 ]

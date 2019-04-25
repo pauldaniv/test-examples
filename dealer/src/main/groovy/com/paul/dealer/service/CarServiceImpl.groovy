@@ -4,7 +4,7 @@ import com.paul.common.component.Mapper
 import com.paul.common.payload.CarDto
 import com.paul.common.payload.Resp
 import com.paul.dealer.domain.Car
-import com.paul.dealer.persintence.CarRepository
+import com.paul.dealer.persistence.CarRepository
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service

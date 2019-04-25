@@ -2,7 +2,7 @@ package com.paul.dealer.service
 
 import com.paul.common.payload.CustomerDto
 import com.paul.dealer.domain.Customer
-import com.paul.dealer.persintence.CustomerRepository
+import com.paul.dealer.persistence.CustomerRepository
 import lombok.RequiredArgsConstructor
 import org.springframework.stereotype.Service
 
