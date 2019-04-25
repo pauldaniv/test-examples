@@ -12,12 +12,13 @@ import org.springframework.stereotype.Service
 
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
+import java.util.stream.Collectors
 
 @Service
 abstract class AbstractCommonService<
     D extends WithIdDto,
     E extends WithId<E>,
-    R extends CommonRepository<E>> implements CommonService<D> {
+    R extends CommonRepository<E>> implements CommonService<D, E> {
 
   private static final int DTO_TYPE = 0, ENTITY_TYPE = 1
 
@@ -56,13 +57,12 @@ abstract class AbstractCommonService<
 
   @Override
   ResponseEntity update(D dto) {
-    def entity = repository.findById(dto.id)
-    if (entity.present) {
-      def mappedEntity = map.map(dto, e)
-      Resp.ok(map.map(repository.save(mappedEntity), d))
-    } else {
-      throw new ObjectNotFoundException(dto.getId(), e.simpleName)
-    }
+    saveEntity(repository.findOne(dto.id))
+  }
+
+  @Override
+  ResponseEntity<Resp<D>> saveEntity(E entity) {
+    return ok(repository.save(entity))
   }
 
   Class<D> getDtoType() { d }
@@ -77,4 +77,12 @@ abstract class AbstractCommonService<
   private Type getTypeArgument(int index) {
     ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[index]
   }
+
+  ResponseEntity<Resp<D>> ok(E dto) { Resp.ok(map(dto)) }
+
+  List<D> map(List<E> entities) {
+    entities.stream().map { map(it) } .collect(Collectors.toList())
+  }
+
+  D map(E entity) { map.map(entity, d) }
 }
