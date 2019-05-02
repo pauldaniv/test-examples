@@ -9,7 +9,7 @@ import com.paul.dealer.domain.Order
 import com.paul.dealer.persistence.CarRepository
 import com.paul.dealer.persistence.CustomerRepository
 import com.paul.dealer.persistence.OrderRepository
-import com.paul.dealer.service.payload.CreateOrderResponse
+import com.paul.common.payload.CreateOrderResponse
 import org.hibernate.ObjectNotFoundException
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service

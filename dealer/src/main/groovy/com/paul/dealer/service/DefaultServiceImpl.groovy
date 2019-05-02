@@ -5,6 +5,7 @@ import com.paul.common.payload.Resp
 import com.paul.common.payload.TestEntityDto
 import com.paul.dealer.domain.TestEntity
 import com.paul.dealer.persistence.DefaultRepository
+import org.hibernate.ObjectNotFoundException
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 
@@ -22,7 +23,9 @@ class DefaultServiceImpl extends AbstractCommonService<TestEntityDto, TestEntity
 
   @Override
   ResponseEntity getOne(Long id) {
-    def one = repository.findOne(id)
+    def one = repository.findById(id).orElseThrow({
+      new ObjectNotFoundException(id, "DefaultEntity")
+    })
     one.firstName = one.firstName.toUpperCase()
     Resp.ok(map.map(one, dtoType))
   }
