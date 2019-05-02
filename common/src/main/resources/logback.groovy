@@ -41,7 +41,7 @@ appender("Console-Appender", ConsoleAppender) {
 }
 
 appender("File-Appender", FileAppender) {
-  file = "${LOG_PATH}/logfile.log"
+  file = "${LOG_PATH}/%d{yyyy-MM}/%d{dd}/%d{yyyy-MM-dd_hh}.log"
   encoder(PatternLayoutEncoder) {
     pattern = FILE_LOG_PATTERN
     outputPatternAsHeader = true

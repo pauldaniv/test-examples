@@ -29,7 +29,7 @@ class DefaultServiceTest {
   }
 
   @DataProvider
-  static def getData() throws FileNotFoundException {
+  static List<TestEntityDto> getData() throws FileNotFoundException {
     DataProviderUtils.getData("test", TestEntityDto)
   }
 }

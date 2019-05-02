@@ -26,27 +26,28 @@ import java.security.InvalidParameterException
 @SpringBootTest(classes = [CreateOrderTestConfiguration::class])
 @Category(TestGroup.Slow.Integration::class)
 @ActiveProfiles("test")
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
+//@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class CarPurchasingTest {
-  
+
   @Autowired
   private lateinit var orderService: OrderService
-  
+
   @Autowired
   private lateinit var dbInitializer: DbInitializer
-  
+
   @Autowired
   private lateinit var invoiceService: InvoiceService
-  
+
   @Autowired
   private lateinit var carRepository: CarRepository
-  
+
   @Before
   fun before() {
     dbInitializer.init()
   }
-  
-  @Test
+
+  @Test  @DirtiesContext
+
   fun createOrderTest() {
     val existingIds = mutableListOf<Long>(1, 2, 3)
     val nonExistingIds = mutableListOf<Long>(4)
@@ -54,71 +55,80 @@ class CarPurchasingTest {
     allIds.addAll(existingIds)
     allIds.addAll(nonExistingIds)
     val createOrder = orderService.createOrder(allIds, 1)
-    
+
     checkResponseIsNotNull(createOrder)
     assertThat(createOrder?.body?.body?.orderedCars?.size).isEqualTo(existingIds.size)
     assertThat(createOrder?.body?.body?.notAvailableCars?.size).isEqualTo(nonExistingIds.size)
   }
-  
+  @DirtiesContext
+
   @Test
   fun createInvoiceTest() {
     val ids = mutableListOf<Long>(1, 2, 3)
     val orderResponse = orderService.createOrder(ids, 1)
     checkResponseIsNotNull(orderResponse)
-    
+
     val orderId = orderResponse?.body?.body?.order?.id
     val invoiceResponse = invoiceService.createInvoice(listOf(orderId), 1)
     checkResponseIsNotNull(invoiceResponse)
     val carsSum = carRepository.findAllById(ids).sumByDouble { it.price }
     assertThat(carsSum).isEqualTo(invoiceResponse?.body?.body?.total)
   }
-  
+  @DirtiesContext
+
   @Test(expected = InvalidParameterException::class)
   fun nullCarId() {
     orderService.createOrder(listOf(1, 3, null), 1)
   }
-  
+  @DirtiesContext
+
   @Test(expected = InvalidParameterException::class)
   fun nullCustomerId() {
     orderService.createOrder(listOf(1, 3), null)
   }
-  
+  @DirtiesContext
+
   @Test(expected = ObjectNotFoundException::class)
   fun carNotFountTest() {
     orderService.createOrder(listOf(5), 1)
   }
-  
+  @DirtiesContext
+
   @Test(expected = ObjectNotFoundException::class)
   fun customerNotFountTest() {
     orderService.createOrder(listOf(4), 10)
   }
-  
-  
+
+  @DirtiesContext
+
   @Test(expected = InvalidParameterException::class)
   fun invoiceServiceNullOrderId() {
     orderService.createOrder(listOf(1, 3), 1)
     invoiceService.createInvoice(listOf(null), 1)
   }
-  
+  @DirtiesContext
+
   @Test(expected = InvalidParameterException::class)
   fun invoiceServiceNullCustomerId() {
     orderService.createOrder(listOf(1, 3), 1)
-    
+
     invoiceService.createInvoice(listOf(1), null)
   }
-  
+  @DirtiesContext
+
   @Test(expected = ObjectNotFoundException::class)
   fun invoiceServiceOrderNotFountTest() {
     orderService.createOrder(listOf(1, 3), 1)
     invoiceService.createInvoice(listOf(100), 1)
   }
-  
+
+  @DirtiesContext
   @Test(expected = ObjectNotFoundException::class)
   fun invoiceServiceCustomerNotFountTest() {
     orderService.createOrder(listOf(1, 3), 1)
     invoiceService.createInvoice(listOf(1), 10)
   }
-  
+
   private fun <T : Resp<*>> checkResponseIsNotNull(orderResponse: ResponseEntity<T>) {
     assertThat(orderResponse).isNotNull
     assertThat(orderResponse.body).isNotNull
