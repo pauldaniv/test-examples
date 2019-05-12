@@ -67,7 +67,7 @@ class DbInitializer {
 
     Resource entityDtos = new ClassPathResource("initdb/${entityJson}.json")
     List<D> cars = map.oMap.readValue(
-        entityDtos.getFile(),
+        entityDtos.getInputStream(),
         map.oMap.getTypeFactory()
             .constructCollectionType(List, dto))
     map.map(cars, entity)
