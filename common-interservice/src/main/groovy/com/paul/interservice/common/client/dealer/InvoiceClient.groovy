@@ -1,4 +1,4 @@
-package com.paul.common.client.dealer
+package com.paul.interservice.common.client.dealer
 
 import com.paul.common.payload.Resp
 import org.springframework.cloud.openfeign.FeignClient

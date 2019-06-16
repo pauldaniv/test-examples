@@ -11,17 +11,17 @@ conversionRule 'wEx', ExtendedWhitespaceThrowableProxyConverter
 
 def LOG_PATH = "logs"
 def LOG_ARCHIVE = "${LOG_PATH}/archive"
-def PID = "%property{PID}"
+def PID = "%-5property{PID}"
 def LOG_EXCEPTION_CONVERSION_WORD = "%wex"
-def LOG_LEVEL_PATTERN = "%6p"
+def LOG_LEVEL_PATTERN = "%4.5p"
 def LOG_DATE_FORMAT_PATTERN = "yyyy-MM-dd HH:mm:ss.SSS"
 
 def CONSOLE_LOG_PATTERN =
     "%clr(%d{${LOG_DATE_FORMAT_PATTERN}}){faint} " +
         "%clr(${LOG_LEVEL_PATTERN}) " +
         "%clr(${PID}){magenta} " +
-        "%clr(---){faint} %clr([%15.15t]){faint} " +
-        "%clr(%-40.40logger{39}){cyan} %clr(:){faint} " +
+        "%clr(---){faint} %clr([%4.41t]){faint} " +
+        "%clr(%-14.80logger{200}){cyan} %clr(:){faint} " +
         "%m%n${LOG_EXCEPTION_CONVERSION_WORD}"
 
 
@@ -29,8 +29,8 @@ def FILE_LOG_PATTERN =
     "%d{${LOG_DATE_FORMAT_PATTERN}} " +
         "${LOG_LEVEL_PATTERN} " +
         "${PID} " +
-        "--- [%15.15t] " +
-        "%-40.40logger{39} : " +
+        "--- [%5.20t] " +
+        "%-70.40logger{39} : " +
         "%m%n${LOG_EXCEPTION_CONVERSION_WORD}"
 
 

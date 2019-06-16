@@ -17,7 +17,7 @@ class DealerServiceImpl implements DealerService {
     this.dealerTestClient = client
   }
 
-  ResponseEntity<Resp<TestEntityDto>> getOne(Long id) {
+  ResponseEntity<Resp<TestEntityDto>> getOne(final Long id) {
     log.debug('Get one {}', id)
     def one = dealerTestClient.getOne(id)
     if (one.body.success) {

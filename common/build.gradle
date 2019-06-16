@@ -6,6 +6,7 @@ buildscript {
 
 apply plugin: 'io.spring.dependency-management'
 
+version = '0.0.1-SNAPSHOT'
 
 jar {
   baseName = 'common'
@@ -25,7 +26,8 @@ dependencies {
       'org.modelmapper:modelmapper:2.3.2',
       'com.fasterxml.jackson.datatype:jackson-datatype-jsr310',
       'io.springfox:springfox-swagger2:2.9.2',
-      'io.springfox:springfox-swagger-ui:2.9.2'      
+      'io.springfox:springfox-swagger-ui:2.9.2',
+      "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
   )
 
   compileOnly 'org.springframework.cloud:spring-cloud-starter-openfeign:2.1.0.RELEASE'

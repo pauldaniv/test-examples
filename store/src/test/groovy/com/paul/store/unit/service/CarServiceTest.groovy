@@ -1,9 +1,9 @@
 package com.paul.store.unit.service
 
-import com.paul.common.client.dealer.CarClient
 import com.paul.common.payload.CarDto
 import com.paul.common.payload.Resp
 import com.paul.common.test.groups.TestGroup
+import com.paul.interservice.common.client.dealer.CarClient
 import com.paul.store.service.CarStoreServiceImpl
 import org.junit.Test
 import org.junit.experimental.categories.Category
