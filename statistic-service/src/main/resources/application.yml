@@ -1,0 +1,10 @@
+server:
+  port: 8205
+
+feign.client.dealer:
+  name: testEntityClient
+  url: http://localhost:8080/api/dealer
+
+
+spark.app.name: Statistic Processor
+spark.master: local[2]

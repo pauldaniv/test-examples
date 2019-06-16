@@ -1,7 +1,7 @@
 buildscript {
   ext {
     moduleName = 'dealer'
-    springBootVersion = '2.1.3.RELEASE'
+    springBootVersion = '2.1.+'
   }
   repositories {
     jcenter()
