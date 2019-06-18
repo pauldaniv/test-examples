@@ -1,5 +1,6 @@
 package com.paul.statistic.config;
 
+import com.twitter.chill.java.SqlDateSerializer;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.springframework.beans.factory.annotation.Value;

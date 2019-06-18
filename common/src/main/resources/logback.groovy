@@ -11,7 +11,7 @@ conversionRule 'wEx', ExtendedWhitespaceThrowableProxyConverter
 
 def LOG_PATH = "logs"
 def LOG_ARCHIVE = "${LOG_PATH}/archive"
-def PID = "%-5property{PID}"
+def PID = "%-1.8property{PID}"
 def LOG_EXCEPTION_CONVERSION_WORD = "%wex"
 def LOG_LEVEL_PATTERN = "%4.5p"
 def LOG_DATE_FORMAT_PATTERN = "yyyy-MM-dd HH:mm:ss.SSS"
