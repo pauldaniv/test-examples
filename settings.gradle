@@ -2,4 +2,7 @@ rootProject.name = 'tests-examples'
 
 include 'store'
 include 'dealer'
+include 'statistic-service'
 include 'common'
+include 'common-interservice'
+

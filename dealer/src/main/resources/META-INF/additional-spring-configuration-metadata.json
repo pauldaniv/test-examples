@@ -1,0 +1,13 @@
+{
+  "properties": [
+    {
+      "name": "service.message",
+      "type": "java.lang.String",
+      "description": "Description for service.message."
+    },
+    {
+      "name": "dealer.service.car.price.margin.low",
+      "type": "java.lang.String",
+      "description": "Description for dealer.service.car.price.margin.low."
+    }
+  ] }

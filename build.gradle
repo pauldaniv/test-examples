@@ -79,8 +79,8 @@ subprojects {
 
 
     java {
-      sourceCompatibility = JavaVersion.VERSION_1_10
-      targetCompatibility = JavaVersion.VERSION_1_10
+      sourceCompatibility = JavaVersion.VERSION_1_8
+      targetCompatibility = JavaVersion.VERSION_1_8
     }
     clean.doFirst {
       delete "${logsRoot}"
@@ -133,7 +133,7 @@ subprojects {
                           'testType',
                           'TestType',
                           'Test.Type',
-                          'tetstype',
+                          'testtype',
                           'testProfile',
                           'TestProfile',
                           'test.profile',

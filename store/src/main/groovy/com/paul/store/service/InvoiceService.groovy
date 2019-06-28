@@ -1,7 +1,7 @@
 package com.paul.store.service
 
-import com.paul.common.client.dealer.InvoiceClient
 import com.paul.common.payload.Resp
+import com.paul.interservice.common.client.dealer.InvoiceClient
 import org.springframework.http.ResponseEntity
 
 class InvoiceService {
@@ -13,7 +13,7 @@ class InvoiceService {
   }
 
   private final
-  ResponseEntity<Resp> findPendingInvoices(Long userId) {
+  ResponseEntity<Resp> findPendingInvoices(final Long userId) {
     invoiceClient.getPending(userId)
   }
 }

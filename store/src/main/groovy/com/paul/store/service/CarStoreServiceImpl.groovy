@@ -1,6 +1,6 @@
 package com.paul.store.service
 
-import com.paul.common.client.dealer.CarClient
+import com.paul.interservice.common.client.dealer.CarClient
 import com.paul.common.payload.CarDto
 import com.paul.common.payload.CarSearchParams
 import com.paul.common.payload.IdsList
@@ -17,12 +17,12 @@ class CarStoreServiceImpl implements CarStoreService {
   @Value('${store.service.car.price.margin}')
   private Double margin
 
-  CarStoreServiceImpl(CarClient client) {
+  CarStoreServiceImpl(final CarClient client) {
     this.client = client
   }
 
   @Override
-  ResponseEntity<Resp<CarDto>> getCarInfo(Long carId) {
+  ResponseEntity<Resp<CarDto>> getCarInfo(final Long carId) {
     def carInfo = client.info(carId)
     if (carInfo.body.success) {
       Double carPrice = carInfo.body.body.price
@@ -33,22 +33,22 @@ class CarStoreServiceImpl implements CarStoreService {
   }
 
   @Override
-  ResponseEntity<Resp<List<CarDto>>> getManyCarCarInfo(Long carId) {
+  ResponseEntity<Resp<List<CarDto>>> getManyCarCarInfo(final Long carId) {
     return null
   }
 
   @Override
-  ResponseEntity<Resp> bookOne(Long carId) {
+  ResponseEntity<Resp> bookOne(final Long carId) {
     return null
   }
 
   @Override
-  ResponseEntity<Resp> bookMany(IdsList ids) {
+  ResponseEntity<Resp> bookMany(final IdsList ids) {
     return null
   }
 
   @Override
-  ResponseEntity<Resp<List<CarDto>>> search(CarSearchParams search) {
+  ResponseEntity<Resp<List<CarDto>>> search(final CarSearchParams search) {
     return null
   }
 }

@@ -1,14 +1,15 @@
 buildscript {
   ext {
-    moduleName = 'store'
-    springBootVersion = '2.1.+'
+    moduleName = 'statistic-service'
+    springBootVersion = '2.1.5.RELEASE'
   }
+
   repositories {
     jcenter()
     mavenCentral()
     gradlePluginPortal()
-
   }
+
   dependencies {
     classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
     classpath('gradle.plugin.com.palantir.gradle.docker:gradle-docker:0.13.0')
@@ -16,7 +17,6 @@ buildscript {
 }
 
 apply plugin: 'java'
-apply plugin: 'groovy'
 apply plugin: 'idea'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
@@ -54,19 +54,22 @@ repositories {
 dependencies {
   implementation(
       'org.springframework.boot:spring-boot-starter-web',
-      'org.codehaus.groovy:groovy',
       'org.springframework.cloud:spring-cloud-starter-config',
       'org.springframework.cloud:spring-cloud-starter',
-      'org.springframework.cloud:spring-cloud-starter-openfeign:2.1.0.RELEASE',
+      "org.springframework.cloud:spring-cloud-starter-openfeign:2.1.0.RELEASE",
+      "com.thoughtworks.paranamer:paranamer:2.8",
+
       project(':common'),
-      project(':common-interservice'),
-      'org.springframework.boot:spring-boot-starter-data-jpa'
+      "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
   )
 
-  runtimeOnly 'com.h2database:h2'
+  implementation("org.apache.spark:spark-core_2.12:2.4.3") {
+    exclude module: 'org.slf4j:slf4j-log4j12'
+  }
+
   testImplementation(
       'org.springframework.boot:spring-boot-starter-test',
-      'com.tngtech.java:junit-dataprovider:1.13.1'
+      "com.tngtech.java:junit-dataprovider:1.13.1"
   )
 }
 
@@ -84,4 +87,15 @@ dependencyManagement {
 
 test {
   useTestNG()
+}
+
+compileKotlin {
+  kotlinOptions {
+    jvmTarget = "1.8"
+  }
+}
+compileTestKotlin {
+  kotlinOptions {
+    jvmTarget = "1.8"
+  }
 }

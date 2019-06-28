@@ -11,13 +11,8 @@ final class DataProviderUtils {
 
   private static final Mapper map = new Mapper(new ObjectMapper())
 
-  static <D extends WithIdDto> List<Object[]> getData(String fileName, Class<D> cls) throws FileNotFoundException {
-    def dtos = initEntity(fileName, cls)
-    dtos.stream().map({
-      def obj = new Object[1]
-      obj[0] = it
-      obj
-    }).collect(Collectors.toList())
+  static <D extends WithIdDto> List<D> getData(String fileName, Class<D> cls) throws FileNotFoundException {
+    initEntity(fileName, cls)
   }
 
   private static <D extends WithIdDto> List<D> initEntity(String entityJson,

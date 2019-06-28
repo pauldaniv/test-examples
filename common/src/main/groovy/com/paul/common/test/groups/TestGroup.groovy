@@ -6,7 +6,7 @@ final class TestGroup {
       static final String name = 'application'
     }
 
-    final class JPA extends Slow {
+    final class Jpa extends Slow {
       static final String name = 'application'
     }
 
@@ -14,7 +14,7 @@ final class TestGroup {
       static final String name = 'integration'
     }
 
-    static final class API extends Slow {
+    static final class Api extends Slow {
       static final String name = 'api'
     }
   }
