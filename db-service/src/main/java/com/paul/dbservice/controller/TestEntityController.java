@@ -1,7 +1,7 @@
 package com.paul.dbservice.controller;
 
 import com.paul.common.payload.Resp;
-import com.paul.common.payload.TestEntityDto;
+import com.paul.dbservice.domain.dto.TestEntityDto;
 import com.paul.dbservice.service.DefaultService;
 
 import lombok.RequiredArgsConstructor;

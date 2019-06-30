@@ -2,7 +2,7 @@ package com.paul.dbservice.service;
 
 import com.paul.common.component.Mapper;
 import com.paul.common.payload.Resp;
-import com.paul.common.payload.base.WithIdDto;
+import com.paul.dbservice.domain.dto.base.WithIdDto;
 import com.paul.dbservice.domain.base.WithId;
 import com.paul.dbservice.persistence.CommonRepository;
 import org.bson.internal.Base64;

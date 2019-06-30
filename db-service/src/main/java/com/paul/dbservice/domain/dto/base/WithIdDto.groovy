@@ -1,4 +1,4 @@
-package com.paul.common.payload.base
+package com.paul.dbservice.domain.dto.base
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import groovy.transform.EqualsAndHashCode
@@ -8,5 +8,5 @@ import groovy.transform.builder.Builder
 @EqualsAndHashCode
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 class WithIdDto {
-  Long id
+  String id
 }
