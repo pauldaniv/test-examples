@@ -8,5 +8,6 @@ import groovy.transform.builder.Builder
 @EqualsAndHashCode
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 class WithIdDto {
-  Long id
+  String id
+  String hello
 }

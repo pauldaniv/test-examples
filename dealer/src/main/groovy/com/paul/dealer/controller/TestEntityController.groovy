@@ -2,7 +2,7 @@ package com.paul.dealer.controller
 
 import com.paul.common.payload.Resp
 import com.paul.common.payload.TestEntityDto
-import com.paul.dealer.service.DefaultServiceImpl
+import com.paul.dealer.service.DefaultService
 import groovy.transform.TypeChecked
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.*
 @TypeChecked
 class TestEntityController {
 
-  private final DefaultServiceImpl service
+  final DefaultService service
 
-  TestEntityController(DefaultServiceImpl defaultService) {
+  TestEntityController(DefaultService defaultService) {
     this.service = defaultService
   }
 
@@ -28,8 +28,7 @@ class TestEntityController {
 
   @GetMapping("/all")
   ResponseEntity<Resp<List<TestEntityDto>>> getAll() {
-    def all = service.getAll()
-    all
+    service.getAll()
   }
 
   @PutMapping("/update")

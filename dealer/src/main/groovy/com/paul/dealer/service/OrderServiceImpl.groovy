@@ -2,6 +2,7 @@ package com.paul.dealer.service
 
 import com.paul.common.component.Mapper
 import com.paul.common.payload.CarDto
+import com.paul.common.payload.CreateOrderResponse
 import com.paul.common.payload.OrderDto
 import com.paul.common.payload.Resp
 import com.paul.dealer.domain.Car
@@ -9,7 +10,6 @@ import com.paul.dealer.domain.Order
 import com.paul.dealer.persistence.CarRepository
 import com.paul.dealer.persistence.CustomerRepository
 import com.paul.dealer.persistence.OrderRepository
-import com.paul.common.payload.CreateOrderResponse
 import org.hibernate.ObjectNotFoundException
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
