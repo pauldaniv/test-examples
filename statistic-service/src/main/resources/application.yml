@@ -7,4 +7,4 @@ feign.client.dealer:
 
 
 spark.app.name: Statistic Processor
-spark.master: local[2]
+spark.master: local[*]
