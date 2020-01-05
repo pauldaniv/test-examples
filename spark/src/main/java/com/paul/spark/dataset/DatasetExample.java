@@ -1,5 +1,9 @@
 package com.paul.spark.dataset;
 
+import com.paul.spark.model.DwellingsStatistic;
+
+import java.util.List;
+
 public interface DatasetExample {
-    Long count(String fileName);
+    List<DwellingsStatistic> loadData(String fileName);
 }

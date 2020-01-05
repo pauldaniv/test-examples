@@ -1,4 +1,4 @@
 package com.paul.spark.graphx;
 
-public class GraphXExample {
+public interface GraphXExample {
 }
