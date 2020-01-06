@@ -12,5 +12,5 @@ public interface DataFrameExample extends Serializable {
 
     Long countRowsDistinct(String fileName);
 
-    List<Engagement> collectData(String fileName);
+    List<Engagement> collectAuraData();
 }

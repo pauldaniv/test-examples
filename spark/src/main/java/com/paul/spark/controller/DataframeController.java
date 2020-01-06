@@ -23,8 +23,8 @@ public class DataframeController {
         return Resp.ok(dataframeService.countColumns(name));
     }
 
-    @GetMapping("/count/rows/{name}")
-    ResponseEntity<Resp<List<Engagement>>> countRows(@PathVariable String name) {
-        return Resp.ok(dataframeService.collectData(name));
+    @GetMapping("/count/rows}")
+    ResponseEntity<Resp<List<Engagement>>> countRows() {
+        return Resp.ok(dataframeService.collectAuraData());
     }
 }

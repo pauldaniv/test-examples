@@ -45,9 +45,9 @@ public class DataFrameExampleImpl implements DataFrameExample {
     }
 
     @Override
-    public List<Engagement> collectData(String fileName) {
+    public List<Engagement> collectAuraData() {
 
-        final Dataset<Row> engagements = fetchRequired(fileName);
+        final Dataset<Row> engagements = fetchRequired("aura.csv");
 
         final Dataset<Row> byEngagementLeaders = engagements
                 .groupBy(asScalaBuffer(singletonList(column("guid"))).seq())
