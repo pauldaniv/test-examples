@@ -74,6 +74,8 @@ dependencies {
   compileOnly("org.apache.spark:spark-sql_$apacheSparkScalaVersion:$apacheSparkVersion")
   compileOnly("org.apache.spark:spark-mllib_$apacheSparkScalaVersion:$apacheSparkVersion")
   compileOnly("org.apache.spark:spark-streaming_$apacheSparkScalaVersion:$apacheSparkVersion")
+
+  compileOnly('org.scala-lang:scala-library:2.11.8')
 }
 
 ext {

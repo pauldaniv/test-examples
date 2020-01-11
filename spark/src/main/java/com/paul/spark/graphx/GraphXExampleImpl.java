@@ -2,15 +2,23 @@ package com.paul.spark.graphx;
 
 import com.paul.spark.dataframe.DataFrameExample;
 import com.paul.spark.model.Engagement;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
+import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
+import org.apache.spark.api.java.function.PairFunction;
 import org.apache.spark.graphx.Edge;
 import org.apache.spark.graphx.Graph;
+import org.apache.spark.graphx.lib.PageRank;
 import org.springframework.stereotype.Service;
+import scala.Tuple2;
 import scala.reflect.ClassTag;
 
-import java.util.Collection;
+import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,55 +26,79 @@ import static org.apache.spark.storage.StorageLevel.MEMORY_ONLY;
 
 @Service
 @RequiredArgsConstructor
-public class GraphXExampleImpl implements GraphXExample {
+public class GraphXExampleImpl implements Serializable {
 
-    private final JavaSparkContext sc;
+    private transient final JavaSparkContext sc;
     private final DataFrameExample dataFrameExample;
 
-    @Override
-    public void getGraph() {
-        final List<Engagement> engagements = dataFrameExample.collectAuraData();
+    public List<Tuple2<String, Long>> getGraph(int limit) {
 
-        final List<Edge<String>> edgesList = engagements.stream()
+        final JavaRDD<Engagement> engagementJavaRDD = sc
+                .parallelize(dataFrameExample.collectAuraData());
+
+        final JavaRDD<Edge<EngagementMeta>> graphRDD = engagementJavaRDD
                 .map(this::getEdges)
-                .flatMap(Collection::stream)
-                .collect(Collectors.toList());
+                .flatMap(List::iterator);
 
-        final JavaRDD<Edge<String>> parallelize = sc.parallelize(edgesList);
+        ClassTag<EngagementMeta> classTag = scala.reflect.ClassTag$.MODULE$.apply(EngagementMeta.class);
 
-        ClassTag<String> stringTag = scala.reflect.ClassTag$.MODULE$.apply(String.class);
+        final JavaPairRDD<Long, EngagementMeta> engagements = graphRDD
+                .mapToPair(it -> Tuple2.apply(it.srcId(), it.attr()));
 
-        Graph<String, String> graph = Graph.fromEdges(
-                parallelize.rdd(),
-                "nothing",
+        final Graph<EngagementMeta, EngagementMeta> engagementGraph = Graph.fromEdges(
+                graphRDD.rdd(),
+                new EngagementMeta(),
                 MEMORY_ONLY(),
                 MEMORY_ONLY(),
-                stringTag,
-                stringTag
+                classTag,
+                classTag
         );
 
-        graph.vertices().toJavaRDD().collect().forEach(System.out::println);
+        final Graph<Object, Object> rankPage = PageRank.run(engagementGraph, 15, 0.001, classTag, classTag);
 
+        final JavaPairRDD<Long, Double> rank = rankPage
+                .vertices()
+                .toJavaRDD()
+                .mapToPair((PairFunction<Tuple2<Object, Object>, Long, Double>) it ->
+                        new Tuple2<>((Long) it._1(), (Double) it._2()));
+
+        final JavaPairRDD<Long, Tuple2<Double, EngagementMeta>> joined = rank.join(engagements);
+
+        return joined
+                .distinct()
+                .mapToPair(it -> Tuple2
+                .apply(it._2, it._2._2))
+                .mapToPair(it -> Tuple2.apply(it._2().userName, 1L))
+                .reduceByKey(Long::sum)
+                .mapToPair(it -> Tuple2.apply(it._1, it._2))
+                .mapToPair(Tuple2::swap)
+                .sortByKey(false)
+                .mapToPair(Tuple2::swap)
+                .take(limit);
     }
 
-    private List<Edge<String>> getEdges(final Engagement engagement) {
+    private List<Edge<EngagementMeta>> getEdges(final Engagement engagement) {
         return engagement.getLeaders()
-                .stream().flatMap(leader -> engagement.getMembers().stream()
+                .stream()
+                .filter(it -> !it.getGuid().equalsIgnoreCase("null"))
+                .flatMap(leader -> engagement.getMembers()
+                        .stream()
+                        .filter(it -> !it.getGuid().equalsIgnoreCase("null"))
                         .map(member -> new Edge<>(
                                 leader.getGuid().hashCode(),
                                 member.getGuid().hashCode(),
-                                engagement.getGuid()
+                                new EngagementMeta(leader.getGuid(), leader.getFullName(), engagement.getName())
                         )))
                 .collect(Collectors.toList());
     }
 
-    private static class Relationship {
-        private String engagementGUID;
-        private RelationshipType first;
-        private RelationshipType second;
-    }
-
-    private enum RelationshipType {
-        MANAGER, LEADER, MEMBER;
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @ToString
+    public static class EngagementMeta implements Serializable {
+        private String userId;
+        private String userName;
+        private String engagementName;
     }
 }

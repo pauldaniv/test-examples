@@ -25,7 +25,7 @@ public class Config implements Serializable {
     }
 
     @Bean
-    public JavaSparkContext sc() {
+    public JavaSparkContext jsc() {
         return new JavaSparkContext(conf());
     }
 

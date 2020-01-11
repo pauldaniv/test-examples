@@ -4,15 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 public class Engagement implements Serializable {
     private String guid;
     private String name;
-    private Set<User> members;
-    private Set<User> leaders;
-    private Set<User> managers;
-    private Set<String> auditUnits;
+    private List<User> members;
+    private List<User> leaders;
+    private List<User> managers;
+    private List<String> auditUnits;
 }

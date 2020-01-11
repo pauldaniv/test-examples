@@ -8,6 +8,8 @@ import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SQLContext;
 import org.springframework.stereotype.Service;
+import scala.Array;
+import scala.collection.JavaConversions;
 import scala.collection.mutable.Seq;
 
 import java.util.List;
@@ -20,6 +22,7 @@ import static java.util.Collections.singletonList;
 import static org.apache.spark.sql.functions.collect_set;
 import static org.apache.spark.sql.functions.column;
 import static scala.collection.JavaConversions.asScalaBuffer;
+import static scala.collection.JavaConversions.seqAsJavaList;
 import static scala.collection.JavaConversions.seqAsJavaList;
 
 
@@ -95,18 +98,19 @@ public class DataFrameExampleImpl implements DataFrameExample {
         return getDataFrame(fileName).select(leadersColumns);
     }
 
-    private Set<User> mapUsers(String rawGUIDs, String rawEmails, String rawFullNames) {
+    private List<User> mapUsers(String rawGUIDs, String rawEmails, String rawFullNames) {
         final List<String> GUIDs = asList(rawGUIDs.split(","));
         final List<String> emails = asList(rawEmails.split(","));
         final List<String> fullName = asList(rawFullNames.split(","));
 
         return IntStream.range(0, GUIDs.size())
                 .mapToObj(i -> new User(GUIDs.get(i).trim(), emails.get(i).trim(), fullName.get(i).trim()))
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
     }
 
-    private Set<String> mapAuditUnits(Seq<String> auditUnits) {
-        return seqAsJavaList(auditUnits).stream().map(String::trim).collect(Collectors.toSet());
+    private List<String> mapAuditUnits(Seq<String> auditUnits) {
+        final List<String> as = JavaConversions.<String>seqAsJavaList(auditUnits);
+        return as.stream().map(String::trim).collect(Collectors.toList());
     }
 
     private Dataset<Row> getDataFrame(String fileName) {
