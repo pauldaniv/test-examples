@@ -22,7 +22,7 @@ public class DefaultServiceImpl extends AbstractCommonService<TestEntityDto, Tes
 
     @Override
     public ResponseEntity<Resp<TestEntityDto>> getOne(final String id) {
-        TestEntity one = repository.findById(id).orElseThrow();
+        TestEntity one = repository.findById(id).orElseThrow(RuntimeException::new);
         one.setFirstName(one.getFirstName().toUpperCase());
         return Resp.ok(map.map(one, getDtoType()));
     }

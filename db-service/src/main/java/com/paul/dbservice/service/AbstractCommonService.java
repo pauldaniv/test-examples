@@ -42,7 +42,7 @@ abstract class AbstractCommonService<
 
     @Override
     public ResponseEntity<Resp<D>> getOne(String id) {
-        E one = repository.findById(id).orElseThrow();
+        E one = repository.findById(id).orElseThrow(RuntimeException::new);
         return Resp.ok(map.map(one, d));
     }
 
@@ -65,7 +65,7 @@ abstract class AbstractCommonService<
         if (dto.getId() == null) {
             throw new InvalidParameterException("Invalid entity id");
         }
-        return saveEntity(repository.findById(dto.getId()).orElseThrow());
+        return saveEntity(repository.findById(dto.getId()).orElseThrow(RuntimeException::new));
     }
 
     @Override
