@@ -96,7 +96,7 @@ public class GraphXExampleImpl implements Serializable {
     @NoArgsConstructor
     @AllArgsConstructor
     @ToString
-    public static class EngagementMeta implements Serializable {
+    private static class EngagementMeta implements Serializable {
         private String userId;
         private String userName;
         private String engagementName;

@@ -8,12 +8,10 @@ import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SQLContext;
 import org.springframework.stereotype.Service;
-import scala.Array;
 import scala.collection.JavaConversions;
 import scala.collection.mutable.Seq;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -22,8 +20,6 @@ import static java.util.Collections.singletonList;
 import static org.apache.spark.sql.functions.collect_set;
 import static org.apache.spark.sql.functions.column;
 import static scala.collection.JavaConversions.asScalaBuffer;
-import static scala.collection.JavaConversions.seqAsJavaList;
-import static scala.collection.JavaConversions.seqAsJavaList;
 
 
 @Service
@@ -50,7 +46,7 @@ public class DataFrameExampleImpl implements DataFrameExample {
     @Override
     public List<Engagement> collectAuraData() {
 
-        final Dataset<Row> engagements = fetchRequired("aura.csv");
+        final Dataset<Row> engagements = fetchRequired("AURA-export.csv");
 
         final Dataset<Row> byEngagementLeaders = engagements
                 .groupBy(asScalaBuffer(singletonList(column("guid"))).seq())
@@ -109,7 +105,7 @@ public class DataFrameExampleImpl implements DataFrameExample {
     }
 
     private List<String> mapAuditUnits(Seq<String> auditUnits) {
-        final List<String> as = JavaConversions.<String>seqAsJavaList(auditUnits);
+        final List<String> as = JavaConversions.seqAsJavaList(auditUnits);
         return as.stream().map(String::trim).collect(Collectors.toList());
     }
 
@@ -118,6 +114,6 @@ public class DataFrameExampleImpl implements DataFrameExample {
                 .format("csv")
                 .option("header", true)
                 .option("inferSchema", true)
-                .load("/home/test/datasets/" + fileName);
+                .load("/home/sombra-50/Documents/upload/" + fileName);
     }
 }
