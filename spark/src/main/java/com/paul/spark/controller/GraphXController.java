@@ -20,7 +20,7 @@ public class GraphXController {
     private final GraphXExampleImpl graphXExample;
 
     @GetMapping("/test/{limit}")
-    ResponseEntity<List<Tuple2<String, Long>>> test(@PathVariable int limit) {
-        return ResponseEntity.ok(graphXExample.getGraph(limit));
+    ResponseEntity<List<Tuple2<String, Tuple2<String, Long>>>> test(@PathVariable int limit) {
+        return ResponseEntity.ok(graphXExample.getGraphResult(limit));
     }
 }

@@ -23,16 +23,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.apache.spark.storage.StorageLevel.MEMORY_ONLY;
+import static scala.Tuple2.apply;
 
 @Service
 @RequiredArgsConstructor
-public class GraphXExampleImpl implements Serializable {
+public class GraphXExampleImpl implements GraphXExample, Serializable {
 
     private transient final JavaSparkContext sc;
     private final DataFrameExample dataFrameExample;
 
-    public List<Tuple2<String, Long>> getGraph(int limit) {
-
+    @Override
+    public JavaPairRDD<String, Tuple2<String, Long>> getGraphRDD() {
         final JavaRDD<Engagement> engagementJavaRDD = sc
                 .parallelize(dataFrameExample.collectAuraData());
 
@@ -43,7 +44,7 @@ public class GraphXExampleImpl implements Serializable {
         ClassTag<EngagementMeta> classTag = scala.reflect.ClassTag$.MODULE$.apply(EngagementMeta.class);
 
         final JavaPairRDD<Long, EngagementMeta> engagements = graphRDD
-                .mapToPair(it -> Tuple2.apply(it.srcId(), it.attr()));
+                .mapToPair(it -> apply(it.srcId(), it.attr()));
 
         final Graph<EngagementMeta, EngagementMeta> engagementGraph = Graph.fromEdges(
                 graphRDD.rdd(),
@@ -66,14 +67,16 @@ public class GraphXExampleImpl implements Serializable {
 
         return joined
                 .distinct()
-                .mapToPair(it -> Tuple2
-                .apply(it._2, it._2._2))
-                .mapToPair(it -> Tuple2.apply(it._2().userName, 1L))
+                .mapToPair(it -> apply(it._2, it._2._2))
+                .mapToPair(it -> apply(apply(it._2().userId, it._2().userName), 1L))
                 .reduceByKey(Long::sum)
-                .mapToPair(it -> Tuple2.apply(it._1, it._2))
-                .mapToPair(Tuple2::swap)
-                .sortByKey(false)
-                .mapToPair(Tuple2::swap)
+                .mapToPair(it -> apply(it._1._1, apply(it._1._2, it._2)))
+                .sortByKey(false);
+    }
+
+    @Override
+    public List<Tuple2<String, Tuple2<String, Long>>> getGraphResult(int limit) {
+        return getGraphRDD()
                 .take(limit);
     }
 
@@ -91,6 +94,7 @@ public class GraphXExampleImpl implements Serializable {
                         )))
                 .collect(Collectors.toList());
     }
+
 
     @Data
     @NoArgsConstructor

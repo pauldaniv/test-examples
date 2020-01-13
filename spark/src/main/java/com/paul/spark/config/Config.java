@@ -17,11 +17,24 @@ public class Config implements Serializable {
     @Value("${spark.master}")
     private String masterUri;
 
+    @Value("${spark.driver.memory}")
+    private String sparkDriverMemory;
+    @Value("${spark.worker.memory}")
+    private String sparkWorkerMemory;
+    @Value("${spark.executor.memory}")
+    private String sparkExecutorMemory;
+    @Value("${spark.rpc.message.maxSize}")
+    private String sparkRpcMessageMaxSize;
+
     @Bean
     public SparkConf conf() {
         return new SparkConf()
                 .setAppName(appName)
-                .setMaster(masterUri);
+                .setMaster(masterUri)
+                .set("spark.driver.memory", sparkDriverMemory)
+                .set("spark.worker.memory", sparkWorkerMemory)//"26g".set("spark.shuffle.memoryFraction","0") //默认0.2
+                .set("spark.executor.memory", sparkExecutorMemory)
+                .set("spark.rpc.message.maxSize", sparkRpcMessageMaxSize);
     }
 
     @Bean

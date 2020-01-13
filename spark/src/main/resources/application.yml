@@ -1,5 +1,15 @@
 server:
   port: 8201
 
-spark.app.name: Spark Examples
-spark.master: local[*]
+spark:
+  app.name: Spark Examples
+  master: local[*]
+
+  driver.memory: 32g
+  worker.memory: 25g
+  executor.memory: 25g
+  rpc.message.maxSize: 1024
+  stream.kafka.durations: 10
+  kafka.topics: primary
+
+kafka.broker.list: localhost:9092
