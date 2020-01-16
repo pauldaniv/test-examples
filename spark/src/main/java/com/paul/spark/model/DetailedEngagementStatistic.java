@@ -5,14 +5,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EngagementStatistic {
+public class DetailedEngagementStatistic {
     private String userId;
-    private String userName;
     private String engagementName;
     private Long consultationsCount;
-    private LocalDateTime date;
+    private Date date;
 }

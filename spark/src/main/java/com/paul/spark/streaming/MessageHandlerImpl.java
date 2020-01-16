@@ -9,6 +9,8 @@ import scala.Tuple2;
 import scala.Tuple3;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.stream.StreamSupport;
 
 import static java.time.LocalDateTime.parse;
@@ -27,17 +29,21 @@ public class MessageHandlerImpl implements MessageHandler {
     @Override
     public void onMessage(final JavaRDD<Tuple3<String, String, String>> message) {
 
-        final JavaPairRDD<Tuple2<String, String>, Tuple2<Long, LocalDateTime>> withLatestTimestamps = (JavaPairRDD<Tuple2<String, String>, Tuple2<Long, LocalDateTime>>) message
-                .mapToPair(it -> apply(apply(it._1(), it._2()), parse(it._3(), ofPattern("yyyy-MM-dd'T'hh:mm:ss"))))
+        final JavaPairRDD<String, Tuple2<String, Long>> auraData = graphXExample.getGraphRDD().cache();
+
+        final JavaPairRDD<String, Tuple3<String, Long, LocalDateTime>> byLatestDate = message
+                .mapToPair(it -> apply(apply(it._1(), it._2()), parse(it._3(),
+                        ofPattern("yyyy-MM-dd'T'hh:mm:ss"))))
                 .groupByKey()
                 .mapToPair(it -> apply(
-                        it._1,
-                        apply(it._2.spliterator().estimateSize(),
+                        it._1._1,
+                        Tuple3.apply(it._1._2, it._2.spliterator().estimateSize(),
                                 stream(it._2.spliterator(), false).max(naturalOrder()).get())));
 
+        final JavaPairRDD<String, Tuple2<Tuple2<String, Long>, Tuple3<String, Long, LocalDateTime>>> joined =
+                auraData.join(byLatestDate);
 
-        final JavaPairRDD<String, Tuple2<String, Long>> auraSummary = graphXExample.getGraphRDD().cache();
 
-//        storage.store();
+        storage.store(joined);
     }
 }
