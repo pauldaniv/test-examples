@@ -1,6 +1,7 @@
 package com.paul.spark.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,7 +11,8 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class DetailedEngagementStatistic {
+@Builder
+public class Statistic {
     private String userId;
     private String engagementName;
     private Long consultationsCount;
