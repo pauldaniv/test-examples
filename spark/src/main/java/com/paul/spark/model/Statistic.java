@@ -5,16 +5,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Statistic {
-    private String userId;
-    private String engagementName;
-    private Long consultationsCount;
+public class Statistic implements Serializable {
+    private String user_id;
+    private String engagement_name;
+    private Long consultations_count;
     private Date date;
 }

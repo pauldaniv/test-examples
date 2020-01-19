@@ -46,7 +46,7 @@ public class DataFrameExampleImpl implements DataFrameExample {
     @Override
     public List<Engagement> collectAuraData() {
 
-        final Dataset<Row> engagements = fetchRequired("AURA-export.csv");
+        final Dataset<Row> engagements = fetchRequired("aura.csv");
 
         final Dataset<Row> byEngagementLeaders = engagements
                 .groupBy(asScalaBuffer(singletonList(column("guid"))).seq())
@@ -114,6 +114,6 @@ public class DataFrameExampleImpl implements DataFrameExample {
                 .format("csv")
                 .option("header", true)
                 .option("inferSchema", true)
-                .load("/home/sombra-50/Documents/upload/" + fileName);
+                .load(System.getProperty("user.home") + "/data-sets/" + fileName);
     }
 }

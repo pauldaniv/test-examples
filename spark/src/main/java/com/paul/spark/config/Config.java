@@ -1,5 +1,7 @@
 package com.paul.spark.config;
 
+import com.paul.spark.streaming.CassandraStatisticStorage;
+import com.paul.spark.streaming.StatisticStorage;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.sql.SQLContext;
@@ -8,10 +10,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.io.Serializable;
+import java.util.function.Supplier;
 
 @Configuration
 public class Config implements Serializable {
-
+    public static Supplier<JavaSparkContext> javaSparkContextSupplier;
     @Value("${spark.app.name}")
     private String appName;
     @Value("${spark.master}")
@@ -26,20 +29,37 @@ public class Config implements Serializable {
     @Value("${spark.rpc.message.maxSize}")
     private String sparkRpcMessageMaxSize;
 
+    @Value("${cassandra.host}")
+    private String cassandraHost;
+    @Value("${cassandra.username}")
+    private String cassandraUsername;
+    @Value("${cassandra.password}")
+    private String cassandraPassword;
+
     @Bean
     public SparkConf conf() {
         return new SparkConf()
                 .setAppName(appName)
                 .setMaster(masterUri)
                 .set("spark.driver.memory", sparkDriverMemory)
-                .set("spark.worker.memory", sparkWorkerMemory)//"26g".set("spark.shuffle.memoryFraction","0") //默认0.2
+                .set("spark.worker.memory", sparkWorkerMemory)
                 .set("spark.executor.memory", sparkExecutorMemory)
-                .set("spark.rpc.message.maxSize", sparkRpcMessageMaxSize);
+                .set("spark.rpc.message.maxSize", sparkRpcMessageMaxSize)
+                .set("spark.cassandra.connection.host", cassandraHost)
+                .set("spark.cassandra.auth.username", cassandraUsername)
+                .set("spark.cassandra.auth.password", cassandraPassword);
     }
 
     @Bean
     public JavaSparkContext jsc() {
-        return new JavaSparkContext(conf());
+        final JavaSparkContext javaSparkContext = new JavaSparkContext(conf());
+        javaSparkContextSupplier = () -> javaSparkContext;
+        return javaSparkContext;
+    }
+
+    @Bean
+    public StatisticStorage statisticStorage() {
+        return new CassandraStatisticStorage();
     }
 
     @Bean

@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 import scala.Tuple3;
 
 import java.io.Serializable;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -28,10 +28,12 @@ public class SparkKafkaStreamExecutor implements Serializable, Runnable {
 
     @Value("${spark.stream.kafka.durations}")
     private String streamDurationTime;
+
     @Value("${kafka.broker.list}")
     private String metadatabrokerlist;
-    @Value("${spark.kafka.topics}")
-    private String topicsAll;
+
+    @Value("${spark.kafka.topic}")
+    private String topic;
 
     private final transient JavaSparkContext javaSparkContext;
     private final MessageHandler messageHandler;
@@ -47,7 +49,7 @@ public class SparkKafkaStreamExecutor implements Serializable, Runnable {
 
     public void startStreamTask() throws InterruptedException {
 
-        Set<String> topics = new HashSet<>(Arrays.asList(topicsAll.split(",")));
+        Set<String> topics = new HashSet<>(Collections.singletonList(topic));
 
         Map<String, String> kafkaParams = new HashMap<>();
         kafkaParams.put("metadata.broker.list", metadatabrokerlist);
@@ -78,6 +80,6 @@ public class SparkKafkaStreamExecutor implements Serializable, Runnable {
                 .filter(it -> it.contains(","))
                 .map(it -> it.split(","))
                 .filter(it -> it.length > 2)
-                .<Tuple3<String, String, String>>map(it -> Tuple3.apply(it[0], it[1], it[2]));
+                .map(it -> Tuple3.apply(it[0].trim(), it[1].trim(), it[2].trim()));
     }
 }

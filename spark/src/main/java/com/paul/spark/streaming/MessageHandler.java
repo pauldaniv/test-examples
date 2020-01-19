@@ -1,6 +1,5 @@
 package com.paul.spark.streaming;
 
-
 import org.apache.spark.api.java.JavaRDD;
 import scala.Tuple3;
 

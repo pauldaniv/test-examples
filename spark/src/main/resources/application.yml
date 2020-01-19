@@ -9,7 +9,25 @@ spark:
   worker.memory: 25g
   executor.memory: 25g
   rpc.message.maxSize: 1024
-  stream.kafka.durations: 10
-  kafka.topics: primary
+  stream.kafka.durations: 20
+  kafka.topic: primary
 
 kafka.broker.list: localhost:9092
+
+cassandra:
+  host: 127.0.0.1
+  username: cassandra
+  password: cassandra
+
+spring:
+  kafka:
+    consumer:
+      bootstrap-servers: localhost:9092
+      group-id: teet
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      bootstrap-servers: localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer

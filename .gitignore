@@ -36,3 +36,6 @@ mem*.db
 README.html
 out/
 logs/
+
+spark/infra/out
+spark/infra/src
