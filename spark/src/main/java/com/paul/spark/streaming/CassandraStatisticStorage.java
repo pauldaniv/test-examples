@@ -1,5 +1,8 @@
 package com.paul.spark.streaming;
 
+import static com.datastax.spark.connector.japi.CassandraJavaUtil.javaFunctions;
+import static com.datastax.spark.connector.japi.CassandraJavaUtil.mapToRow;
+
 import com.datastax.spark.connector.japi.CassandraRow;
 import com.datastax.spark.connector.japi.rdd.CassandraTableScanJavaRDD;
 import com.paul.spark.config.Config;
@@ -10,26 +13,24 @@ import org.apache.spark.api.java.JavaRDD;
 import scala.Tuple2;
 import scala.Tuple3;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Collections;
 import java.util.Date;
 
-import static com.datastax.spark.connector.japi.CassandraJavaUtil.javaFunctions;
-import static com.datastax.spark.connector.japi.CassandraJavaUtil.mapToRow;
-
 @RequiredArgsConstructor
-public class CassandraStatisticStorage implements StatisticStorage {
+public class CassandraStatisticStorage implements StatisticStorage, Serializable {
 
     @Override
-    public JavaRDD<Statistic> store(final JavaPairRDD<String, Tuple2<Tuple2<String, Long>, Tuple3<String, Long, LocalDateTime>>> data) {
-        return data.map(it -> {
+    public void store(final JavaPairRDD<String, Tuple2<Tuple2<String, Long>, Tuple3<String, Long, LocalDateTime>>> data) {
+        data.foreach(it -> {
 
             CassandraTableScanJavaRDD<CassandraRow> statistic =
                     javaFunctions(Config.javaSparkContextSupplier.get())
                             .cassandraTable("aura", "statistic")
-                            .where("user_id = '" + it._1 + "'")
-                            .where("engagement_name = '" + it._2._2._1() + "'");
+                            .where("user_id = ?", it._1)
+                            .where("engagement_name = ?", it._2._2._1());
 
             final Statistic recordToStore = Statistic.builder()
                     .user_id(it._1)
@@ -45,7 +46,7 @@ public class CassandraStatisticStorage implements StatisticStorage {
             }
 
             storeRecord(recordToStore);
-            return recordToStore;
+//            return recordToStore;
         });
     }
 

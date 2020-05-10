@@ -1,8 +1,11 @@
 package com.paul.spark.streaming;
 
+import static java.time.LocalDateTime.parse;
+import static java.time.format.DateTimeFormatter.ofPattern;
+import static java.util.Comparator.naturalOrder;
+import static java.util.stream.StreamSupport.stream;
+
 import com.paul.spark.graphx.GraphXExample;
-import com.paul.spark.model.Statistic;
-import kafka.utils.Json;
 import lombok.RequiredArgsConstructor;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
@@ -12,11 +15,6 @@ import scala.Tuple3;
 
 import java.time.LocalDateTime;
 
-import static java.time.LocalDateTime.parse;
-import static java.time.format.DateTimeFormatter.ofPattern;
-import static java.util.Comparator.naturalOrder;
-import static java.util.stream.StreamSupport.stream;
-import static scala.Tuple2.apply;
 
 @Service
 @RequiredArgsConstructor
@@ -32,20 +30,20 @@ public class MessageHandlerImpl implements MessageHandler {
         final JavaPairRDD<String, Tuple2<String, Long>> auraData = graphXExample.getGraphRDD().cache();
 
         final JavaPairRDD<String, Tuple3<String, Long, LocalDateTime>> byLatestDate = message
-                .mapToPair(it -> apply(apply(it._1(), it._2()), parse(it._3(),
+                .mapToPair(it -> new Tuple2<>(new Tuple2<String, String>(it._1(), it._2()), parse(it._3(),
                         ofPattern("yyyy-MM-dd HH:mm:ss"))))
                 .groupByKey()
-                .mapToPair(it -> apply(
+                .mapToPair(it -> new Tuple2(
                         it._1._1,
-                        Tuple3.apply(it._1._2, it._2.spliterator().estimateSize(),
+                        new Tuple3(it._1._2, it._2.spliterator().estimateSize(),
                                 stream(it._2.spliterator(), false).max(naturalOrder()).get())));
 
         final JavaPairRDD<String, Tuple2<Tuple2<String, Long>, Tuple3<String, Long, LocalDateTime>>> joined =
                 auraData.join(byLatestDate);
 
 
-        final JavaRDD<Statistic> statistic = storage.store(joined);
+        storage.store(joined);
 
-        statistic.foreach(it -> producerService.pushForward(Json.encode(it)));
+//        statistic.forEach(it -> producerService.pushForward(Json.encode(it)));
     }
 }

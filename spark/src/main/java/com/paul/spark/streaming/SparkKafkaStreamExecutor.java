@@ -1,16 +1,19 @@
 package com.paul.spark.streaming;
 
-import kafka.serializer.StringDecoder;
+import static org.apache.spark.streaming.kafka010.KafkaUtils.createDirectStream;
+
 import lombok.RequiredArgsConstructor;
-import org.apache.spark.api.java.JavaPairRDD;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.streaming.Durations;
-import org.apache.spark.streaming.api.java.JavaPairInputDStream;
+import org.apache.spark.streaming.api.java.JavaInputDStream;
 import org.apache.spark.streaming.api.java.JavaStreamingContext;
-import org.apache.spark.streaming.kafka.KafkaUtils;
+import org.apache.spark.streaming.kafka010.ConsumerStrategies;
+import org.apache.spark.streaming.kafka010.LocationStrategies;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import scala.Tuple2;
 import scala.Tuple3;
 
 import java.io.Serializable;
@@ -19,6 +22,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
+//import kafka.serializer.StringDecoder;
+//import org.apache.spark.api.java.JavaPairRDD;
+//import org.apache.spark.streaming.api.java.JavaPairInputDStream;
 
 @Component
 @RequiredArgsConstructor
@@ -51,31 +58,37 @@ public class SparkKafkaStreamExecutor implements Serializable, Runnable {
 
         Set<String> topics = new HashSet<>(Collections.singletonList(topic));
 
-        Map<String, String> kafkaParams = new HashMap<>();
+        Map<String, Object> kafkaParams = new HashMap<>();
         kafkaParams.put("metadata.broker.list", metadatabrokerlist);
+        kafkaParams.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
+        kafkaParams.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
 
         JavaStreamingContext jsc = new JavaStreamingContext(javaSparkContext,
                 Durations.seconds(Integer.parseInt(streamDurationTime)));
         jsc.checkpoint("checkpoint");
-
-        final JavaPairInputDStream<String, String> stream = KafkaUtils.createDirectStream(
+        JavaInputDStream<ConsumerRecord<String, String>> directStream = createDirectStream(
                 jsc,
-                String.class,
-                String.class,
-                StringDecoder.class,
-                StringDecoder.class,
-                kafkaParams,
-                topics
+                LocationStrategies.PreferConsistent(),
+                ConsumerStrategies.Subscribe(topics, kafkaParams)
         );
+//        final JavaPairInputDStream<String, String> stream = createDirectStream(
+//                jsc,
+//                String.class,
+//                String.class,
+//                StringDecoder.class,
+//                StringDecoder.class,
+//                kafkaParams,
+//                topics
+//        );
 
-        stream.foreachRDD(message -> messageHandler.onMessage(composeConsultationEvent(message)));
+        directStream.foreachRDD(message -> messageHandler.onMessage(composeConsultationEvent(message)));
 
         jsc.start();
         jsc.awaitTermination();
     }
 
-    private JavaRDD<Tuple3<String, String, String>> composeConsultationEvent(JavaPairRDD<String, String> raw) {
-        return raw
+    private JavaRDD<Tuple3<String, String, String>> composeConsultationEvent(JavaRDD<ConsumerRecord<String, String>> raw) {
+        return raw.mapToPair(it -> new Tuple2<>(it.key(), it.value()))
                 .values()
                 .filter(it -> it.contains(","))
                 .map(it -> it.split(","))

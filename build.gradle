@@ -204,6 +204,6 @@ subprojects {
 }
 
 ext {
-  apacheSparkVersion = '2.4.0'
+  apacheSparkVersion = '2.3.0'
   apacheSparkScalaVersion = '2.11'
 }

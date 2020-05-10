@@ -33,6 +33,9 @@ public class KafkaTopicsSetup {
         Properties properties = new Properties();
         properties.load(new FileReader(new File("kafka.properties")));
         properties.setProperty("bootstrap.servers", bootstrapServer);
+        properties.setProperty("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
+        properties.setProperty("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
+
 
         AdminClient adminClient = AdminClient.create(properties);
 

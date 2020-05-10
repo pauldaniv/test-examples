@@ -1,5 +1,7 @@
 package com.paul.spark.graphx;
 
+import static org.apache.spark.storage.StorageLevel.MEMORY_ONLY;
+
 import com.paul.spark.dataframe.DataFrameExample;
 import com.paul.spark.model.Engagement;
 import lombok.AllArgsConstructor;
@@ -22,9 +24,6 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.apache.spark.storage.StorageLevel.MEMORY_ONLY;
-import static scala.Tuple2.apply;
-
 @Service
 @RequiredArgsConstructor
 public class GraphXExampleImpl implements GraphXExample, Serializable {
@@ -44,7 +43,7 @@ public class GraphXExampleImpl implements GraphXExample, Serializable {
         ClassTag<EngagementMeta> classTag = scala.reflect.ClassTag$.MODULE$.apply(EngagementMeta.class);
 
         final JavaPairRDD<Long, EngagementMeta> engagements = graphRDD
-                .mapToPair(it -> apply(it.srcId(), it.attr()));
+                .mapToPair(it -> new Tuple2<>(it.srcId(), it.attr()));
 
         final Graph<EngagementMeta, EngagementMeta> engagementGraph = Graph.fromEdges(
                 graphRDD.rdd(),
@@ -67,10 +66,10 @@ public class GraphXExampleImpl implements GraphXExample, Serializable {
 
         return joined
                 .distinct()
-                .mapToPair(it -> apply(it._2, it._2._2))
-                .mapToPair(it -> apply(apply(it._2().userId, it._2().userName), 1L))
+                .mapToPair(it -> new Tuple2<>(it._2, it._2._2))
+                .mapToPair(it -> new Tuple2<>(new Tuple2<>(it._2().userId, it._2().userName), 1L))
                 .reduceByKey(Long::sum)
-                .mapToPair(it -> apply(it._1._1, apply(it._1._2, it._2)))
+                .mapToPair(it -> new Tuple2<>(it._1._1, new Tuple2<>(it._1._2, it._2)))
                 .sortByKey(false);
     }
 

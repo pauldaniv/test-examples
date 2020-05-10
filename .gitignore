@@ -37,5 +37,6 @@ README.html
 out/
 logs/
 
+checkpoint
 spark/infra/out
 spark/infra/src
