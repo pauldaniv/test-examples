@@ -1,6 +1,5 @@
 package com.paul.dealer.integration
 
-
 import com.paul.common.payload.Resp
 import com.paul.common.test.groups.TestGroup
 import com.paul.dealer.conf.DbInitializer
@@ -9,11 +8,13 @@ import com.paul.dealer.service.InvoiceService
 import com.paul.dealer.service.OrderService
 import org.assertj.core.api.Assertions.assertThat
 import org.hibernate.ObjectNotFoundException
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.experimental.categories.Category
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.ResponseEntity
 import org.springframework.test.annotation.DirtiesContext
@@ -21,12 +22,12 @@ import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.junit4.SpringRunner
 import java.security.InvalidParameterException
 
-
 @RunWith(SpringRunner::class)
 @SpringBootTest(classes = [CreateOrderTestConfiguration::class])
 @Category(TestGroup.Slow.Integration::class)
 @ActiveProfiles("test")
-//@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
+@AutoConfigureTestDatabase
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class CarPurchasingTest {
 
   @Autowired
@@ -46,8 +47,7 @@ class CarPurchasingTest {
     dbInitializer.init()
   }
 
-  @Test  @DirtiesContext
-
+  @Test
   fun createOrderTest() {
     val existingIds = mutableListOf<Long>(1, 2, 3)
     val nonExistingIds = mutableListOf<Long>(4)
@@ -60,7 +60,6 @@ class CarPurchasingTest {
     assertThat(createOrder?.body?.body?.orderedCars?.size).isEqualTo(existingIds.size)
     assertThat(createOrder?.body?.body?.notAvailableCars?.size).isEqualTo(nonExistingIds.size)
   }
-  @DirtiesContext
 
   @Test
   fun createInvoiceTest() {
@@ -74,39 +73,32 @@ class CarPurchasingTest {
     val carsSum = carRepository.findAllById(ids).sumByDouble { it.price }
     assertThat(carsSum).isEqualTo(invoiceResponse?.body?.body?.total)
   }
-  @DirtiesContext
 
   @Test(expected = InvalidParameterException::class)
   fun nullCarId() {
-    orderService.createOrder(listOf(1, 3, null), 1)
+    orderService.createOrder(mutableListOf(1, 3, null), 1)
   }
-  @DirtiesContext
 
   @Test(expected = InvalidParameterException::class)
   fun nullCustomerId() {
     orderService.createOrder(listOf(1, 3), null)
   }
-  @DirtiesContext
 
   @Test(expected = ObjectNotFoundException::class)
   fun carNotFountTest() {
     orderService.createOrder(listOf(5), 1)
   }
-  @DirtiesContext
 
   @Test(expected = ObjectNotFoundException::class)
   fun customerNotFountTest() {
     orderService.createOrder(listOf(4), 10)
   }
 
-  @DirtiesContext
-
   @Test(expected = InvalidParameterException::class)
   fun invoiceServiceNullOrderId() {
     orderService.createOrder(listOf(1, 3), 1)
     invoiceService.createInvoice(listOf(null), 1)
   }
-  @DirtiesContext
 
   @Test(expected = InvalidParameterException::class)
   fun invoiceServiceNullCustomerId() {
@@ -114,7 +106,6 @@ class CarPurchasingTest {
 
     invoiceService.createInvoice(listOf(1), null)
   }
-  @DirtiesContext
 
   @Test(expected = ObjectNotFoundException::class)
   fun invoiceServiceOrderNotFountTest() {
@@ -122,7 +113,6 @@ class CarPurchasingTest {
     invoiceService.createInvoice(listOf(100), 1)
   }
 
-  @DirtiesContext
   @Test(expected = ObjectNotFoundException::class)
   fun invoiceServiceCustomerNotFountTest() {
     orderService.createOrder(listOf(1, 3), 1)

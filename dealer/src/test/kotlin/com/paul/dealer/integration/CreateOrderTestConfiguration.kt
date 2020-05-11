@@ -1,13 +1,10 @@
 package com.paul.dealer.integration
 
+import org.springframework.boot.test.context.TestConfiguration
 import org.springframework.context.annotation.ComponentScan
-import org.springframework.context.annotation.Configuration
 
-@Configuration
+@TestConfiguration
 @ComponentScan(
-    "com.paul.common",
-    "com.paul.dealer.conf",
-    "com.paul.dealer.service",
-    "com.paul.dealer.persistence"
+    "com.paul.dealer.*"
 )
 open class CreateOrderTestConfiguration
