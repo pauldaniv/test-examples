@@ -39,3 +39,4 @@ logs/
 
 spark/infra/out
 spark/infra/src
+checkpoint

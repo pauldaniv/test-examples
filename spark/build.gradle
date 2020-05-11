@@ -72,7 +72,7 @@ dependencies {
   compileOnly("org.apache.kafka:kafka_2.11:0.8.2.1")
 
   compileOnly('com.datastax.spark:spark-cassandra-connector_2.11:2.4.2')
-  compileOnly('com.datastax.spark:spark-cassandra-connector-java_2.11:1.6.0-M1')
+//  compileOnly('com.datastax.spark:spark-cassandra-connector-java_2.11:1.6.0-M1')
 //  compileOnly group: 'com.datastax.oss', name: 'java-driver-core', version: '4.4.0'
 
   compileOnly('io.dropwizard.metrics:metrics-core:3.2.2')

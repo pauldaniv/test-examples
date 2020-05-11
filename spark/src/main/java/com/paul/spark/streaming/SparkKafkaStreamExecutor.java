@@ -1,9 +1,11 @@
 package com.paul.spark.streaming;
 
-import kafka.serializer.StringDecoder;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.ser.std.StringSerializer;
+import com.paul.spark.model.ConsultationSubmit;
+import kafka.serializer.DefaultDecoder;
 import lombok.RequiredArgsConstructor;
-import org.apache.spark.api.java.JavaPairRDD;
-import org.apache.spark.api.java.JavaRDD;
+import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.streaming.Durations;
 import org.apache.spark.streaming.api.java.JavaPairInputDStream;
@@ -11,7 +13,6 @@ import org.apache.spark.streaming.api.java.JavaStreamingContext;
 import org.apache.spark.streaming.kafka.KafkaUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import scala.Tuple3;
 
 import java.io.Serializable;
 import java.util.Collections;
@@ -29,10 +30,7 @@ public class SparkKafkaStreamExecutor implements Serializable, Runnable {
     @Value("${spark.stream.kafka.durations}")
     private String streamDurationTime;
 
-    @Value("${kafka.broker.list}")
-    private String metadatabrokerlist;
-
-    @Value("${spark.kafka.topic}")
+    @Value("${spring.kafka.template.default-topic}")
     private String topic;
 
     private final transient JavaSparkContext javaSparkContext;
@@ -52,34 +50,25 @@ public class SparkKafkaStreamExecutor implements Serializable, Runnable {
         Set<String> topics = new HashSet<>(Collections.singletonList(topic));
 
         Map<String, String> kafkaParams = new HashMap<>();
-        kafkaParams.put("metadata.broker.list", metadatabrokerlist);
+        kafkaParams.put("metadata.broker.list", "localhost:9092");
 
         JavaStreamingContext jsc = new JavaStreamingContext(javaSparkContext,
                 Durations.seconds(Integer.parseInt(streamDurationTime)));
         jsc.checkpoint("checkpoint");
 
-        final JavaPairInputDStream<String, String> stream = KafkaUtils.createDirectStream(
+        final JavaPairInputDStream<byte[], ConsultationSubmit> stream = KafkaUtils.createDirectStream(
                 jsc,
-                String.class,
-                String.class,
-                StringDecoder.class,
-                StringDecoder.class,
+                byte[].class,
+                ConsultationSubmit.class,
+                DefaultDecoder.class,
+                ConsultationSubmitDecoder.class,
                 kafkaParams,
                 topics
         );
 
-        stream.foreachRDD(message -> messageHandler.onMessage(composeConsultationEvent(message)));
+        stream.foreachRDD(message -> messageHandler.onMessage(message.values()));
 
         jsc.start();
         jsc.awaitTermination();
-    }
-
-    private JavaRDD<Tuple3<String, String, String>> composeConsultationEvent(JavaPairRDD<String, String> raw) {
-        return raw
-                .values()
-                .filter(it -> it.contains(","))
-                .map(it -> it.split(","))
-                .filter(it -> it.length > 2)
-                .map(it -> Tuple3.apply(it[0].trim(), it[1].trim(), it[2].trim()));
     }
 }

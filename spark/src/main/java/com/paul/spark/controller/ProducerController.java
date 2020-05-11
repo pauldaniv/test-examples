@@ -1,5 +1,7 @@
 package com.paul.spark.controller;
 
+import com.paul.spark.model.ConsultationSubmit;
+import com.paul.spark.model.Statistic;
 import com.paul.spark.streaming.ProducerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,7 +17,7 @@ public class ProducerController {
     private final ProducerService producerService;
 
     @PostMapping()
-    private void push(@RequestBody final String message) {
+    private void push(@RequestBody final Statistic message) {
         producerService.sendMessage(message);
     }
 }
