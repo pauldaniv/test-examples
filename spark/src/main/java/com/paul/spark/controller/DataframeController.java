@@ -25,6 +25,6 @@ public class DataframeController {
 
     @GetMapping("/count/rows}")
     ResponseEntity<Resp<List<Engagement>>> countRows() {
-        return Resp.ok(dataframeService.collectAuraData());
+        return Resp.ok(dataframeService.collectAuraData().collect());
     }
 }

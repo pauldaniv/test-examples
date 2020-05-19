@@ -16,7 +16,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
-import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.PairFunction;
 import org.apache.spark.graphx.Edge;
 import org.apache.spark.graphx.Graph;
@@ -35,13 +34,7 @@ import java.util.stream.Collectors;
 public class GraphXExampleImpl implements GraphXExample, Serializable {
 
     private static final ClassTag<EngagementMeta> CLASS_TAG = MODULE$.apply(EngagementMeta.class);
-    private transient final JavaSparkContext sc;
     private final DataFrameExample dataFrameExample;
-
-    @Override
-    public JavaPairRDD<String, Tuple2<String, Long>> getGraphRDD() {
-        return null;
-    }
 
     @Override
     public List<EngagementView> mostImportantEngagementLeaders(int limit) {
@@ -54,8 +47,7 @@ public class GraphXExampleImpl implements GraphXExample, Serializable {
     }
 
     private JavaPairRDD<Long, Tuple2<Double, EngagementMeta>> rankByEngagements() {
-        final JavaRDD<Edge<EngagementMeta>> edges = sc
-                .parallelize(dataFrameExample.collectAuraData())
+        final JavaRDD<Edge<EngagementMeta>> edges = dataFrameExample.collectAuraData()
                 .map(this::getEdges)
                 .flatMap(List::iterator)
                 .distinct()
@@ -64,6 +56,7 @@ public class GraphXExampleImpl implements GraphXExample, Serializable {
         final JavaPairRDD<Long, EngagementMeta> engagements = edges
                 .mapToPair(it -> apply(it.srcId(), it.attr()));
 
+        // do the page rank here
         final Graph<Object, Object> pageRank = PageRank.run(
                 getEngagementGraph(edges),
                 10,

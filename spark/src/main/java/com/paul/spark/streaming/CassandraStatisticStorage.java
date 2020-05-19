@@ -1,5 +1,8 @@
 package com.paul.spark.streaming;
 
+import static com.datastax.spark.connector.japi.CassandraJavaUtil.javaFunctions;
+import static com.datastax.spark.connector.japi.CassandraJavaUtil.mapToRow;
+
 import com.datastax.spark.connector.japi.CassandraRow;
 import com.datastax.spark.connector.japi.rdd.CassandraTableScanJavaRDD;
 import com.paul.spark.config.Config;
@@ -7,7 +10,6 @@ import com.paul.spark.model.Statistic;
 import lombok.RequiredArgsConstructor;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
-import scala.Tuple2;
 import scala.Tuple3;
 
 import java.time.LocalDateTime;
@@ -15,33 +17,30 @@ import java.time.ZoneOffset;
 import java.util.Collections;
 import java.util.Date;
 
-import static com.datastax.spark.connector.japi.CassandraJavaUtil.javaFunctions;
-import static com.datastax.spark.connector.japi.CassandraJavaUtil.mapToRow;
-
 @RequiredArgsConstructor
 public class CassandraStatisticStorage implements StatisticStorage {
 
     @Override
-    public JavaRDD<Statistic> store(final JavaPairRDD<String, Tuple2<Tuple2<String, Long>, Tuple3<String, Long, LocalDateTime>>> data) {
+    public JavaRDD<Statistic> store(final JavaPairRDD<String, Tuple3<String, Long, LocalDateTime>> data) {
         return data.map(it -> {
 
             CassandraTableScanJavaRDD<CassandraRow> statistic =
                     javaFunctions(Config.javaSparkContextSupplier.get())
                             .cassandraTable("aura", "statistic")
                             .where("user_id = '" + it._1 + "'")
-                            .where("engagement_name = '" + it._2._2._1() + "'");
+                            .where("engagement_name = '" + it._2._1() + "'");
 
             final Statistic recordToStore = Statistic.builder()
                     .user_id(it._1)
-                    .engagement_name(it._2._2._1())
-                    .date(convertTime(it._2._2._3()))
+                    .engagement_name(it._2._1())
+                    .date(convertTime(it._2._3()))
                     .build();
 
             if (statistic.isEmpty()) {
-                recordToStore.setConsultations_count(it._2._2._2());
+                recordToStore.setConsultations_count(it._2._2());
             } else {
                 final CassandraRow entry = statistic.first();
-                recordToStore.setConsultations_count(entry.getLong("consultations_count") + it._2._2._2());
+                recordToStore.setConsultations_count(entry.getLong("consultations_count") + it._2._2());
             }
 
             storeRecord(recordToStore);

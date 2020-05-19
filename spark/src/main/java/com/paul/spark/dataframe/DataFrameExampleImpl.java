@@ -1,8 +1,15 @@
 package com.paul.spark.dataframe;
 
+import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
+import static org.apache.spark.sql.functions.collect_set;
+import static org.apache.spark.sql.functions.column;
+import static scala.collection.JavaConversions.asScalaBuffer;
+
 import com.paul.spark.model.Engagement;
 import com.paul.spark.model.User;
 import lombok.RequiredArgsConstructor;
+import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.sql.Column;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
@@ -14,12 +21,6 @@ import scala.collection.mutable.Seq;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-
-import static java.util.Arrays.asList;
-import static java.util.Collections.singletonList;
-import static org.apache.spark.sql.functions.collect_set;
-import static org.apache.spark.sql.functions.column;
-import static scala.collection.JavaConversions.asScalaBuffer;
 
 
 @Service
@@ -44,7 +45,7 @@ public class DataFrameExampleImpl implements DataFrameExample {
     }
 
     @Override
-    public List<Engagement> collectAuraData() {
+    public JavaRDD<Engagement> collectAuraData() {
 
         final Dataset<Row> engagements = fetchRequired("aura.csv");
 
@@ -56,7 +57,7 @@ public class DataFrameExampleImpl implements DataFrameExample {
                 .drop("auditUnit")
                 .join(byEngagementLeaders, "guid");
 
-        return combidenDF.distinct().javaRDD().map(this::composeEngagement).collect();
+        return combidenDF.distinct().javaRDD().map(this::composeEngagement);
     }
 
     private Engagement composeEngagement(Row row) {
