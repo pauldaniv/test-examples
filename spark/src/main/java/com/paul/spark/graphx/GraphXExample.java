@@ -8,5 +8,5 @@ import java.util.List;
 public interface GraphXExample {
     JavaPairRDD<String, Tuple2<String, Long>> getGraphRDD();
 
-    List<Tuple2<String, Tuple2<String, Long>>> getGraphResult(int limit);
+    List<GraphXExampleImpl.EngagementView> mostImportantEngagementLeaders(int limit);
 }

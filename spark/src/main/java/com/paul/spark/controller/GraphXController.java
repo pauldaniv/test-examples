@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import scala.Tuple2;
 
 import java.util.List;
 
@@ -20,7 +19,7 @@ public class GraphXController {
     private final GraphXExampleImpl graphXExample;
 
     @GetMapping("/test/{limit}")
-    ResponseEntity<List<Tuple2<String, Tuple2<String, Long>>>> test(@PathVariable int limit) {
-        return ResponseEntity.ok(graphXExample.getGraphResult(limit));
+    ResponseEntity<List<GraphXExampleImpl.EngagementView>> test(@PathVariable int limit) {
+        return ResponseEntity.ok(graphXExample.mostImportantEngagementLeaders(limit));
     }
 }
