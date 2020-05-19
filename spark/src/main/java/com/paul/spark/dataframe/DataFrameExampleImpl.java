@@ -45,7 +45,12 @@ public class DataFrameExampleImpl implements DataFrameExample {
     }
 
     @Override
-    public JavaRDD<Engagement> collectAuraData() {
+    public List<Engagement> collectAuraData() {
+        return getAuraRDD().collect();
+    }
+
+    @Override
+    public JavaRDD<Engagement> getAuraRDD() {
 
         final Dataset<Row> engagements = fetchRequired("aura.csv");
 

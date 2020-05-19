@@ -4,6 +4,7 @@ import com.paul.spark.model.Engagement;
 import org.apache.spark.api.java.JavaRDD;
 
 import java.io.Serializable;
+import java.util.List;
 
 public interface DataFrameExample extends Serializable {
     Long countColumns(String fileName);
@@ -12,5 +13,7 @@ public interface DataFrameExample extends Serializable {
 
     Long countRowsDistinct(String fileName);
 
-    JavaRDD<Engagement> collectAuraData();
+    List<Engagement> collectAuraData();
+
+    JavaRDD<Engagement> getAuraRDD();
 }

@@ -25,6 +25,7 @@ public class MessageHandlerImpl implements MessageHandler {
 
     private transient final JavaSparkContext sc;
     private final DataFrameExample dataFrameExample;
+
     private final StatisticStorage storage;
     private final ProducerService producerService;
 
@@ -32,7 +33,8 @@ public class MessageHandlerImpl implements MessageHandler {
     public void onMessage(final JavaRDD<ConsultationSubmit> message) {
         if (message.isEmpty()) return;
 
-        final JavaPairRDD<String, Engagement> auraData = dataFrameExample.collectAuraData()
+        final JavaPairRDD<String, Engagement> auraData = sc
+                .parallelize(dataFrameExample.collectAuraData())
                 .map(it -> it.getLeaders().stream().map(l -> apply(l.getGuid(), it)).collect(Collectors.toList()))
                 .flatMapToPair(List::iterator)
                 .distinct()

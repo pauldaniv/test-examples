@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
+import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.PairFunction;
 import org.apache.spark.graphx.Edge;
 import org.apache.spark.graphx.Graph;
@@ -35,6 +36,7 @@ public class GraphXExampleImpl implements GraphXExample, Serializable {
 
     private static final ClassTag<EngagementMeta> CLASS_TAG = MODULE$.apply(EngagementMeta.class);
     private final DataFrameExample dataFrameExample;
+    private transient final JavaSparkContext sc;
 
     @Override
     public List<EngagementView> mostImportantEngagementLeaders(int limit) {
@@ -47,7 +49,8 @@ public class GraphXExampleImpl implements GraphXExample, Serializable {
     }
 
     private JavaPairRDD<Long, Tuple2<Double, EngagementMeta>> rankByEngagements() {
-        final JavaRDD<Edge<EngagementMeta>> edges = dataFrameExample.collectAuraData()
+        final JavaRDD<Edge<EngagementMeta>> edges = sc
+                .parallelize(dataFrameExample.collectAuraData())
                 .map(this::getEdges)
                 .flatMap(List::iterator)
                 .distinct()
