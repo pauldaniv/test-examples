@@ -21,6 +21,6 @@ public class GraphXController {
 
     @GetMapping("/test/{limit}")
     ResponseEntity<List<Tuple2<String, Tuple2<String, Long>>>> test(@PathVariable int limit) {
-        return ResponseEntity.ok(graphXExample.getGraphResult(limit));
+        return ResponseEntity.ok(graphXExample.mostImportantEngagementLeaders(limit));
     }
 }

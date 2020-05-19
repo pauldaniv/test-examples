@@ -11,8 +11,8 @@ import java.util.List;
 public class Engagement implements Serializable {
     private String guid;
     private String name;
-    private List<User> members;
     private List<User> leaders;
     private List<User> managers;
+    private List<User> members;
     private List<String> auditUnits;
 }
