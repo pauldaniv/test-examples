@@ -1,11 +1,8 @@
 package com.paul.spark.streaming;
 
-import com.fasterxml.jackson.databind.JsonSerializer;
-import com.fasterxml.jackson.databind.ser.std.StringSerializer;
 import com.paul.spark.model.ConsultationSubmit;
 import kafka.serializer.DefaultDecoder;
 import lombok.RequiredArgsConstructor;
-import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.streaming.Durations;
 import org.apache.spark.streaming.api.java.JavaPairInputDStream;
@@ -54,7 +51,7 @@ public class SparkKafkaStreamExecutor implements Serializable, Runnable {
 
         JavaStreamingContext jsc = new JavaStreamingContext(javaSparkContext,
                 Durations.seconds(Integer.parseInt(streamDurationTime)));
-        jsc.checkpoint("checkpoint");
+        jsc.checkpoint("build/checkpoint");
 
         final JavaPairInputDStream<byte[], ConsultationSubmit> stream = KafkaUtils.createDirectStream(
                 jsc,

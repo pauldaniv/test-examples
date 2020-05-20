@@ -11,7 +11,7 @@ services:
       - "HEAP_NEWSIZE=128M"
     restart: always
     volumes:
-      - ./out/cassandra_data:/var/lib/cassandra
+      - ../build/tmp/out/cassandra_data:/var/lib/cassandra
     healthcheck:
       test: ["CMD", "cqlsh", "-u cassandra", "-p cassandra" ,"-e describe keyspaces"]
       interval: 15s
