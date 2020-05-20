@@ -1,5 +1,5 @@
 buildscript {
-  ext { springBootVersion = '2.1.+' }
+  ext { springBootVersion = '2.3.+' }
   repositories { mavenCentral() }
   dependencies { classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}") }
 }
@@ -9,8 +9,8 @@ apply plugin: 'io.spring.dependency-management'
 version = '0.0.1-SNAPSHOT'
 
 jar {
-  baseName = 'common'
-  version = '0.0.1-SNAPSHOT'
+  archiveBaseName = 'common'
+  archiveVersion = '0.0.1-SNAPSHOT'
 }
 
 repositories {
@@ -19,7 +19,7 @@ repositories {
 }
 
 dependencies {
-
+  implementation platform("org.springframework.boot:spring-boot-dependencies:${springBootVersion}")
   implementation(
       'org.codehaus.groovy:groovy:3.0.0-alpha-4',
       'org.springframework.boot:spring-boot-starter-data-jpa',
@@ -37,6 +37,6 @@ dependencies {
   testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
-dependencyManagement {
-  imports { mavenBom("org.springframework.boot:spring-boot-dependencies:${springBootVersion}") }
-}
+//dependencyManagement {
+//  imports { mavenBom("org.springframework.boot:spring-boot-dependencies:${springBootVersion}") }
+//}

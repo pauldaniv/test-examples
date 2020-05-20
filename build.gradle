@@ -93,7 +93,7 @@ subprojects {
 
 
     dependencies {
-      compile "org.projectlombok:lombok:${lombokVersion}"
+      implementation "org.projectlombok:lombok:${lombokVersion}"
       annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
       testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
       implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
@@ -102,7 +102,7 @@ subprojects {
 
     test {
       ext.doThrow = { String message, String data ->
-        throw new GradleScriptException(message, new InvalidParameterException(data))
+        throw new RuntimeException(message, new InvalidParameterException(data))
       }
 
       ext.resolveClassName = { String separator, String testType, String rootClass, String testTypeKey ->

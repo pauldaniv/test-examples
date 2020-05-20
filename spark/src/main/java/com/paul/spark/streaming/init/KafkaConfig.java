@@ -3,8 +3,6 @@ package com.paul.spark.streaming.init;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.paul.spark.model.ConsultationSubmit;
-import com.paul.spark.model.Statistic;
-import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
