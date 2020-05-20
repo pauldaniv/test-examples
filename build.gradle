@@ -37,6 +37,7 @@ subprojects {
       [".idea", "build", "gradle", "classes", "logs", "tmp"].each {
         excludeDirs << file("$it")
       }
+      downloadSources = true
     }
   }
 
@@ -169,6 +170,7 @@ subprojects {
 }
 
 ext {
+  dockerRepo = project.property('docker.registry.url')
   apacheSparkVersion = '2.4.0'
   apacheSparkScalaVersion = '2.11'
 }

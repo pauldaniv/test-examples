@@ -40,7 +40,7 @@ task unpack(type: Copy) {
 }
 
 docker {
-  name "${project.group}/${bootJar.archiveBaseName.getOrElse(moduleName)}:${project.version}"
+  name "$dockerRepo/store:${project.version}"
   copySpec.from(tasks.unpack.outputs).into("dependency")
   buildArgs(['DEPENDENCY': "dependency"])
 }
