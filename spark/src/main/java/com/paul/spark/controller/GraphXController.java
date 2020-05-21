@@ -1,6 +1,6 @@
 package com.paul.spark.controller;
 
-import com.paul.spark.graphx.GraphXExampleImpl;
+import com.paul.spark.services.graphx.GraphXExampleImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +12,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/api/spark/graphx")
+@RequestMapping("/api/graphx")
 @RequiredArgsConstructor
 public class GraphXController {
 

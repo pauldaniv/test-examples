@@ -1,4 +1,4 @@
-package com.paul.spark.streaming;
+package com.paul.spark.services.streaming;
 
 import static com.datastax.spark.connector.japi.CassandraJavaUtil.javaFunctions;
 import static com.datastax.spark.connector.japi.CassandraJavaUtil.mapToRow;
@@ -10,6 +10,7 @@ import com.paul.spark.model.Statistic;
 import lombok.RequiredArgsConstructor;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
+import org.springframework.stereotype.Service;
 import scala.Tuple3;
 
 import java.time.LocalDateTime;
@@ -17,6 +18,7 @@ import java.time.ZoneOffset;
 import java.util.Collections;
 import java.util.Date;
 
+@Service
 @RequiredArgsConstructor
 public class CassandraStatisticStorage implements StatisticStorage {
 

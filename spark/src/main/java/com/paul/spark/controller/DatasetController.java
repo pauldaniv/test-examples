@@ -1,7 +1,7 @@
 package com.paul.spark.controller;
 
 import com.paul.common.payload.Resp;
-import com.paul.spark.dataset.DatasetExample;
+import com.paul.spark.services.dataset.DatasetExample;
 import com.paul.spark.model.DwellingsStatistic;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/spark/dataset")
+@RequestMapping("/api/dataset")
 @RequiredArgsConstructor
 public class DatasetController {
     private final DatasetExample datasetExample;

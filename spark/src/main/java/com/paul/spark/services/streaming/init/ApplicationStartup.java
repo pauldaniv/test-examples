@@ -1,6 +1,7 @@
-package com.paul.spark.streaming.init;
+package com.paul.spark.services.streaming.init;
 
-import com.paul.spark.streaming.SparkKafkaStreamExecutor;
+import com.paul.spark.services.streaming.SparkKafkaStreamExecutor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Profile;
@@ -11,13 +12,15 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 @Profile("!test")
+@RequiredArgsConstructor
 public class ApplicationStartup {
+
+    private final SparkKafkaStreamExecutor sparkKafkaStreamExecutor;
 
     @EventListener(ContextRefreshedEvent.class)
     public void start(ContextRefreshedEvent event) {
         ApplicationContext ac = event.getApplicationContext();
-        SparkKafkaStreamExecutor sparkKafkaStreamExecutor = ac.getBean(SparkKafkaStreamExecutor.class);
-        Thread thread = new Thread(sparkKafkaStreamExecutor);
+        Thread thread = new Thread(sparkKafkaStreamExecutor::execute);
         thread.start();
     }
 }

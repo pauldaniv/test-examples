@@ -1,10 +1,10 @@
-package com.paul.spark.graphx;
+package com.paul.spark.services.graphx;
 
 import static org.apache.spark.storage.StorageLevel.MEMORY_ONLY;
 import static scala.Tuple2.apply;
 import static scala.reflect.ClassTag$.MODULE$;
 
-import com.paul.spark.dataframe.DataFrameExample;
+import com.paul.spark.services.dataframe.DataFrameExample;
 import com.paul.spark.model.Engagement;
 import com.paul.spark.model.User;
 import lombok.AllArgsConstructor;

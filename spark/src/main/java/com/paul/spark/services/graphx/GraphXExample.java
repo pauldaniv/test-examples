@@ -1,4 +1,4 @@
-package com.paul.spark.graphx;
+package com.paul.spark.services.graphx;
 
 import java.util.List;
 

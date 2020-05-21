@@ -1,4 +1,10 @@
-package com.paul.spark.dataset;
+package com.paul.spark.services.dataset;
+
+import static org.apache.spark.sql.types.DataTypes.IntegerType;
+import static org.apache.spark.sql.types.DataTypes.StringType;
+import static org.apache.spark.sql.types.DataTypes.TimestampType;
+import static org.apache.spark.sql.types.DataTypes.createStructField;
+import static org.apache.spark.sql.types.DataTypes.createStructType;
 
 import com.paul.spark.model.DwellingsStatistic;
 import lombok.RequiredArgsConstructor;
@@ -9,12 +15,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
-
-import static org.apache.spark.sql.types.DataTypes.IntegerType;
-import static org.apache.spark.sql.types.DataTypes.StringType;
-import static org.apache.spark.sql.types.DataTypes.TimestampType;
-import static org.apache.spark.sql.types.DataTypes.createStructField;
-import static org.apache.spark.sql.types.DataTypes.createStructType;
 
 @Service
 @RequiredArgsConstructor

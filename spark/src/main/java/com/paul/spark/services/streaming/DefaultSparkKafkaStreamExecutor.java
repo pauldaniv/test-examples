@@ -1,7 +1,14 @@
-package com.paul.spark.streaming;
+package com.paul.spark.services.streaming;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.paul.spark.model.ConsultationSubmit;
+import kafka.serializer.Decoder;
 import kafka.serializer.DefaultDecoder;
+import kafka.utils.VerifiableProperties;
 import lombok.RequiredArgsConstructor;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.streaming.Durations;
@@ -9,18 +16,20 @@ import org.apache.spark.streaming.api.java.JavaPairInputDStream;
 import org.apache.spark.streaming.api.java.JavaStreamingContext;
 import org.apache.spark.streaming.kafka.KafkaUtils;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.io.Serializable;
+import java.nio.charset.Charset;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-@Component
+@Service
 @RequiredArgsConstructor
-public class SparkKafkaStreamExecutor implements Serializable, Runnable {
+public class DefaultSparkKafkaStreamExecutor implements Serializable, SparkKafkaStreamExecutor {
 
     private static final long serialVersionUID = 1L;
 
@@ -34,7 +43,7 @@ public class SparkKafkaStreamExecutor implements Serializable, Runnable {
     private final MessageHandler messageHandler;
 
     @Override
-    public void run() {
+    public void execute() {
         try {
             startStreamTask();
         } catch (InterruptedException e) {
@@ -51,7 +60,7 @@ public class SparkKafkaStreamExecutor implements Serializable, Runnable {
 
         JavaStreamingContext jsc = new JavaStreamingContext(javaSparkContext,
                 Durations.seconds(Integer.parseInt(streamDurationTime)));
-        jsc.checkpoint("build/checkpoint");
+        jsc.checkpoint("spark/build/tmp/checkpoint");
 
         final JavaPairInputDStream<byte[], ConsultationSubmit> stream = KafkaUtils.createDirectStream(
                 jsc,
@@ -67,5 +76,26 @@ public class SparkKafkaStreamExecutor implements Serializable, Runnable {
 
         jsc.start();
         jsc.awaitTermination();
+    }
+
+    private static class ConsultationSubmitDecoder implements Decoder<ConsultationSubmit> {
+        private final Charset encoding;
+
+        @Override
+        public ConsultationSubmit fromBytes(byte[] bytes) {
+            try {
+                ObjectMapper objectMapper = new ObjectMapper();
+                objectMapper.configure(MapperFeature.DEFAULT_VIEW_INCLUSION, false);
+                objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+                return objectMapper.readValue(new String(bytes, encoding), ConsultationSubmit.class);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        public ConsultationSubmitDecoder(VerifiableProperties props) {
+            this.encoding = props == null ? UTF_8 : Charset.forName(props.getString("serializer.encoding", UTF_8.name()));
+        }
     }
 }

@@ -1,4 +1,4 @@
-package com.paul.spark.streaming.init;
+package com.paul.spark.services.streaming.init;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.core.KafkaOperations;
 import org.springframework.kafka.support.converter.RecordMessageConverter;
 import org.springframework.kafka.support.converter.StringJsonMessageConverter;
 
@@ -18,12 +18,12 @@ import java.util.function.Supplier;
 
 @Configuration
 public class KafkaConfig implements Serializable {
-    public static Supplier<KafkaTemplate<Object, Object>> kafkaTemplateSupplier;
+    public static Supplier<KafkaOperations<Object, Object>> kafkaTemplateSupplier;
 
     @Value("${spring.kafka.template.default-topic}")
     private String defaultTopic;
     @Autowired
-    public void kafkaTemplate(KafkaTemplate<Object, Object> kafkaTemplate) {
+    public void kafkaTemplate(KafkaOperations<Object, Object> kafkaTemplate) {
         kafkaTemplateSupplier = () -> kafkaTemplate;
     }
 

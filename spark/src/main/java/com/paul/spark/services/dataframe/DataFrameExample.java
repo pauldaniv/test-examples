@@ -1,4 +1,4 @@
-package com.paul.spark.dataframe;
+package com.paul.spark.services.dataframe;
 
 import com.paul.spark.model.Engagement;
 import org.apache.spark.api.java.JavaRDD;

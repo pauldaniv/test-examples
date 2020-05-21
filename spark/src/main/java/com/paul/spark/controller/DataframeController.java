@@ -1,7 +1,7 @@
 package com.paul.spark.controller;
 
 import com.paul.common.payload.Resp;
-import com.paul.spark.dataframe.DataFrameExample;
+import com.paul.spark.services.dataframe.DataFrameExample;
 import com.paul.spark.model.Engagement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/spark/dataframe")
+@RequestMapping("/api/dataframe")
 @RequiredArgsConstructor
 public class DataframeController {
     private final DataFrameExample dataframeService;

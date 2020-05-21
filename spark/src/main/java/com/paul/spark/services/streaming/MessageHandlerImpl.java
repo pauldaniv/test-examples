@@ -1,10 +1,10 @@
-package com.paul.spark.streaming;
+package com.paul.spark.services.streaming;
 
 import static java.util.Comparator.naturalOrder;
 import static java.util.stream.StreamSupport.stream;
 import static scala.Tuple2.apply;
 
-import com.paul.spark.dataframe.DataFrameExample;
+import com.paul.spark.services.dataframe.DataFrameExample;
 import com.paul.spark.model.ConsultationSubmit;
 import com.paul.spark.model.Engagement;
 import lombok.RequiredArgsConstructor;

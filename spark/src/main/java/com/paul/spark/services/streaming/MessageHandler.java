@@ -1,4 +1,4 @@
-package com.paul.spark.streaming;
+package com.paul.spark.services.streaming;
 
 import com.paul.spark.model.ConsultationSubmit;
 import org.apache.spark.api.java.JavaRDD;

@@ -1,7 +1,5 @@
 package com.paul.spark.config;
 
-import com.paul.spark.streaming.CassandraStatisticStorage;
-import com.paul.spark.streaming.StatisticStorage;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.sql.SQLContext;
@@ -55,11 +53,6 @@ public class Config implements Serializable {
         final JavaSparkContext javaSparkContext = new JavaSparkContext(conf());
         javaSparkContextSupplier = () -> javaSparkContext;
         return javaSparkContext;
-    }
-
-    @Bean
-    public StatisticStorage statisticStorage() {
-        return new CassandraStatisticStorage();
     }
 
     @Bean

@@ -1,4 +1,4 @@
-package com.paul.spark.streaming;
+package com.paul.spark.services.streaming;
 
 import com.paul.spark.model.Statistic;
 import org.apache.spark.api.java.JavaPairRDD;

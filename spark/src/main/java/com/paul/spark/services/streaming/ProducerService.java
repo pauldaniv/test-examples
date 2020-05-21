@@ -1,8 +1,7 @@
-package com.paul.spark.streaming;
+package com.paul.spark.services.streaming;
 
-import com.paul.spark.model.ConsultationSubmit;
 import com.paul.spark.model.Statistic;
-import com.paul.spark.streaming.init.KafkaConfig;
+import com.paul.spark.services.streaming.init.KafkaConfig;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

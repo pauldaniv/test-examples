@@ -1,8 +1,7 @@
 package com.paul.spark.controller;
 
-import com.paul.spark.model.ConsultationSubmit;
 import com.paul.spark.model.Statistic;
-import com.paul.spark.streaming.ProducerService;
+import com.paul.spark.services.streaming.ProducerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/spark/streaming/produce")
+@RequestMapping("/api/streaming/produce")
 @RequiredArgsConstructor
 public class ProducerController {
 

@@ -1,4 +1,4 @@
-package com.paul.spark.dataframe;
+package com.paul.spark.services.dataframe;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;

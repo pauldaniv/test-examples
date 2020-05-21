@@ -10,4 +10,4 @@ COPY ${DEPENDENCY}/BOOT-INF/classes /app
 
 ENTRYPOINT ["java","-cp","app:app/lib/*","com.paul.store.SparkApplication"]
 
-EXPOSE 8787
+EXPOSE 4201

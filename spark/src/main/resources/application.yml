@@ -1,5 +1,5 @@
 server:
-  port: 8201
+  port: 4201
 
 spark:
   app.name: Spark Examples
@@ -9,7 +9,7 @@ spark:
   worker.memory: 25g
   executor.memory: 25g
   rpc.message.maxSize: 1024
-  stream.kafka.durations: 20
+  stream.kafka.durations: 5
 
 cassandra:
   host: 127.0.0.1
