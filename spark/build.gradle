@@ -58,9 +58,9 @@ dependencies {
   implementation 'org.springframework.boot:spring-boot-starter-web'
   implementation 'org.springframework.kafka:spring-kafka'
 
-  compileOnly("org.apache.spark:spark-core_$apacheSparkScalaVersion:$apacheSparkVersion")
-  compileOnly("org.apache.spark:spark-sql_$apacheSparkScalaVersion:$apacheSparkVersion")
-  compileOnly("org.apache.spark:spark-mllib_$apacheSparkScalaVersion:$apacheSparkVersion")
+  implementation("org.apache.spark:spark-core_$apacheSparkScalaVersion:$apacheSparkVersion")
+  implementation("org.apache.spark:spark-sql_$apacheSparkScalaVersion:$apacheSparkVersion")
+  implementation("org.apache.spark:spark-mllib_$apacheSparkScalaVersion:$apacheSparkVersion")
 //  compileOnly("org.apache.spark:spark-streaming_$apacheSparkScalaVersion:$apacheSparkVersion")
 
   implementation("org.apache.spark:spark-streaming-kafka_$apacheSparkScalaVersion:1.6.3") {
@@ -86,7 +86,7 @@ dependencyManagement {
 
 configurations {
   // We don't want the Spark dependencies in our shadowJar.
-  runtime.exclude group: 'org.apache.spark'
+//  runtime.exclude group: 'org.apache.spark'
   all*.exclude module: 'slf4j-log4j12'
 }
 
