@@ -31,7 +31,7 @@ bootRun {
 version = '0.0.1-SNAPSHOT'
 bootJar {
   archiveBaseName.set(moduleName)
-  version = project.version
+  archiveVersion = project.version
 }
 group = 'paul'
 
