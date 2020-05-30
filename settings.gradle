@@ -1,4 +1,4 @@
-rootProject.name = 'tests-examples'
+rootProject.name = 'test-examples'
 
 include 'store'
 include 'dealer'
