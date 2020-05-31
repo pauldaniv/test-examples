@@ -16,6 +16,7 @@ on:
 env:
   # TODO: Change variable to your image's name.
   IMAGE_NAME: spark-app
+  ORG_GRADLE_PROJECT_DOCKER_REGISTRY_URL: ${{ secrets.DOCKER_REGISTRY_URL }}
 
 jobs:
   # Run tests.
@@ -27,9 +28,9 @@ jobs:
       - uses: actions/checkout@v2
       - name: Run tests
         run: |
-          ./gradlew :spark:docker
-          docker-compose -f spark/infra/services.yml up -d
-          docker-compose -f spark/infra/services.yml down
+          ./gradlew :spark:test
+#          docker-compose -f spark/infra/services.yml up -d
+#          docker-compose -f spark/infra/services.yml down
 
   # Push image to GitHub Packages.
   # See also https://docs.docker.com/docker-hub/builds/
