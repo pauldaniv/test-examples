@@ -10,6 +10,7 @@ import kafka.serializer.Decoder;
 import kafka.serializer.DefaultDecoder;
 import kafka.utils.VerifiableProperties;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.streaming.Durations;
 import org.apache.spark.streaming.api.java.JavaPairInputDStream;
@@ -27,6 +28,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class DefaultSparkKafkaStreamExecutor implements Serializable, SparkKafkaStreamExecutor {
@@ -38,6 +40,9 @@ public class DefaultSparkKafkaStreamExecutor implements Serializable, SparkKafka
 
     @Value("${spring.kafka.template.default-topic}")
     private String topic;
+
+    @Value("${spring.kafka.bootstrap-servers}")
+    private String kafkaBootstrapServers;
 
     private final transient JavaSparkContext javaSparkContext;
     private final MessageHandler messageHandler;
@@ -56,7 +61,7 @@ public class DefaultSparkKafkaStreamExecutor implements Serializable, SparkKafka
         Set<String> topics = new HashSet<>(Collections.singletonList(topic));
 
         Map<String, String> kafkaParams = new HashMap<>();
-        kafkaParams.put("metadata.broker.list", "localhost:9092");
+        kafkaParams.put("bootstrap.servers", kafkaBootstrapServers);
 
         JavaStreamingContext jsc = new JavaStreamingContext(javaSparkContext,
                 Durations.seconds(Integer.parseInt(streamDurationTime)));

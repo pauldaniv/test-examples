@@ -69,7 +69,7 @@ dependencies {
 
   compileOnly('org.scala-lang:scala-library:2.11.8')
 
-  compileOnly("org.apache.kafka:kafka_$apacheSparkScalaVersion:0.8.2.1")
+  implementation("org.apache.kafka:kafka_$apacheSparkScalaVersion:0.8.2.1")
 
   compileOnly("com.datastax.spark:spark-cassandra-connector_2.11:$apacheSparkVersion")
 //  compileOnly('com.datastax.spark:spark-cassandra-connector-java_2.11:1.6.0-M1')

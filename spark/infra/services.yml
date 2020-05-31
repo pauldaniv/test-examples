@@ -4,8 +4,12 @@ services:
   spark-app:
     image: registry.gitlab.com/miamibeach87/test-examples/spark:0.0.2-SNAPSHOT
     container_name: spark-app
+    ports:
+      - 4201:4201
     environment:
       SPARK_APP_STORAGE_DIR: /app/data-sets
+      CASSANDRA_URL: cassandra
+      KAFKA_URL: kafka:29092
     volumes:
       - ~/data-sets:/app/data-sets
     depends_on:

@@ -12,22 +12,23 @@ spark:
   stream.kafka.durations: 5
 
 cassandra:
-  host: 127.0.0.1
+  host: ${CASSANDRA_URL:localhost}
   username: cassandra
   password: cassandra
+
 
 spring:
   jackson:
     serialization:
       write_dates_as_timestamps: false
   kafka:
+    bootstrap-servers:  ${KAFKA_URL:localhost:9092}
     producer:
-      bootstrap-servers: localhost:9092
+      bootstrap-servers:
       key-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
     template:
       default-topic: primary
     consumer:
-      bootstrap-servers: localhost:9092
-      group-id: teet
+      group-id: test
       auto-offset-reset: earliest
