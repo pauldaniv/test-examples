@@ -8,6 +8,7 @@ import static scala.collection.JavaConversions.asScalaBuffer;
 
 import com.paul.spark.model.Engagement;
 import com.paul.spark.model.User;
+import com.paul.spark.services.ResourceResolver;
 import lombok.RequiredArgsConstructor;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.sql.Column;
@@ -28,6 +29,7 @@ import java.util.stream.IntStream;
 public class DataFrameExampleImpl implements DataFrameExample {
 
     private final SQLContext sqlContext;
+    private final ResourceResolver resourceResolver;
 
     @Override
     public Long countColumns(String fileName) {
@@ -120,6 +122,6 @@ public class DataFrameExampleImpl implements DataFrameExample {
                 .format("csv")
                 .option("header", true)
                 .option("inferSchema", true)
-                .load(System.getProperty("user.home") + "/data-sets/" + fileName);
+                .load(resourceResolver.resolve(fileName));
     }
 }

@@ -28,7 +28,7 @@ bootRun {
   jvmArgs = ["-Dspring.output.ansi.enabled=ALWAYS"]
 }
 
-version = '0.0.1-SNAPSHOT'
+version = '0.0.2-SNAPSHOT'
 bootJar {
   archiveBaseName.set(moduleName)
   archiveVersion = project.version

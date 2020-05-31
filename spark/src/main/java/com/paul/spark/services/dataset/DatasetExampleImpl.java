@@ -7,6 +7,7 @@ import static org.apache.spark.sql.types.DataTypes.createStructField;
 import static org.apache.spark.sql.types.DataTypes.createStructType;
 
 import com.paul.spark.model.DwellingsStatistic;
+import com.paul.spark.services.ResourceResolver;
 import lombok.RequiredArgsConstructor;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Encoders;
@@ -21,6 +22,7 @@ import java.util.List;
 public class DatasetExampleImpl implements DatasetExample {
 
     private final SQLContext sqlContext;
+    private final ResourceResolver resourceResolver;
 
     @Override
     public List<DwellingsStatistic> loadData(String fileName) {
@@ -43,7 +45,7 @@ public class DatasetExampleImpl implements DatasetExample {
                         createStructField("apartments", IntegerType, false),
                         createStructField("retirementVillageUnits", IntegerType, false),
                         createStructField("townhousesFlatUnitsOther", IntegerType, false))))
-                .csv("/home/test/datasets/" + fileName)
+                .csv(resourceResolver.resolve(fileName))
                 .as(Encoders.bean(DwellingsStatistic.class));
     }
 }

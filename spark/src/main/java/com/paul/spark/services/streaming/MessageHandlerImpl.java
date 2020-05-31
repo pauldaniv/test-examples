@@ -58,7 +58,7 @@ public class MessageHandlerImpl implements MessageHandler {
                 .mapToPair(it -> apply(
                         it._1._1,
                         Tuple3.apply(it._1._2, it._2.spliterator().estimateSize(),
-                                stream(it._2.spliterator(), false).max(naturalOrder()).get())));
+                                stream(it._2.spliterator(), false).max(naturalOrder()).orElse(null))));
 
 
         JavaPairRDD<String, Tuple3<String, Long, LocalDateTime>> joined

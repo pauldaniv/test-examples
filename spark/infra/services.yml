@@ -1,6 +1,17 @@
 version: '2.2'
 
 services:
+  spark-app:
+    image: registry.gitlab.com/miamibeach87/test-examples/spark:0.0.2-SNAPSHOT
+    container_name: spark-app
+    environment:
+      SPARK_APP_STORAGE_DIR: /app/data-sets
+    volumes:
+      - ~/data-sets:/app/data-sets
+    depends_on:
+      - cassandra
+      - kafka
+
   cassandra:
     image: cassandra:3.11.2
     container_name: cassandra
