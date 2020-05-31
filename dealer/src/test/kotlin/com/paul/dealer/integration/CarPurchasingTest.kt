@@ -8,25 +8,24 @@ import com.paul.dealer.service.InvoiceService
 import com.paul.dealer.service.OrderService
 import org.assertj.core.api.Assertions.assertThat
 import org.hibernate.ObjectNotFoundException
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.experimental.categories.Category
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.ResponseEntity
-import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.junit4.SpringRunner
 import java.security.InvalidParameterException
+import javax.persistence.EntityManagerFactory
 
 @RunWith(SpringRunner::class)
 @SpringBootTest(classes = [CreateOrderTestConfiguration::class])
 @Category(TestGroup.Slow.Integration::class)
 @ActiveProfiles("test")
-@AutoConfigureTestDatabase
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
+//@AutoConfigureTestDatabase
 class CarPurchasingTest {
 
   @Autowired
@@ -41,9 +40,24 @@ class CarPurchasingTest {
   @Autowired
   private lateinit var carRepository: CarRepository
 
+  @Autowired
+  private lateinit var entityManagerFactory: EntityManagerFactory
+
   @Before
-  fun before() {
-    dbInitializer.init()
+  fun before() = dbInitializer.init()
+
+  @After
+  fun after() {
+    val entityManager = entityManagerFactory.createEntityManager()
+    entityManager.transaction.begin()
+    entityManager.createNativeQuery("SET REFERENTIAL_INTEGRITY FALSE").executeUpdate()
+    entityManager.createNativeQuery(truncateTable("cars")).executeUpdate()
+    entityManager.createNativeQuery(truncateTable("orders")).executeUpdate()
+    entityManager.createNativeQuery(truncateTable("invoices")).executeUpdate()
+    entityManager.createNativeQuery(truncateTable("customers")).executeUpdate()
+    entityManager.createNativeQuery("truncate table invoices_orders").executeUpdate()
+    entityManager.createNativeQuery("truncate table car_orders").executeUpdate()
+    entityManager.transaction.commit()
   }
 
   @Test
@@ -122,6 +136,15 @@ class CarPurchasingTest {
     assertThat(orderResponse).isNotNull
     assertThat(orderResponse.body).isNotNull
     assertThat(orderResponse.body?.body).isNotNull
+  }
+
+  private fun truncateTable(table : String): String {
+    return "truncate table $table; ${cleanupIdentity(table)}"
+  }
+
+  // yeah, so the h2 doesn't do this automatically
+  private fun cleanupIdentity(table: String): String {
+    return "ALTER TABLE $table ALTER COLUMN id RESTART WITH 1"
   }
 }
 
