@@ -28,3 +28,4 @@ jobs:
       run: ./gradlew :common:publish
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        ORG_GRADLE_PROJECT_DOCKER_REGISTRY_URL: ${{ secrets.GITHUB_TOKEN }}
