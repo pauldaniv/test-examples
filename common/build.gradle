@@ -5,12 +5,32 @@ buildscript {
 }
 
 apply plugin: 'io.spring.dependency-management'
+apply plugin: 'maven-publish'
 
 version = '0.0.1-SNAPSHOT'
+group = 'test-examples-common'
 
 jar {
   archiveBaseName = 'common'
   archiveVersion = '0.0.1-SNAPSHOT'
+}
+
+publishing {
+  repositories {
+    maven {
+      name = "GitHubPackages"
+      url = uri("https://maven.pkg.github.com/pauldaniv/test-examples")
+      credentials {
+        username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+        password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+      }
+    }
+  }
+  publications {
+    gpr(MavenPublication) {
+      from(components.java)
+    }
+  }
 }
 
 repositories {
