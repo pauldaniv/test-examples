@@ -83,7 +83,7 @@ public class DefaultSparkKafkaStreamExecutor implements Serializable, SparkKafka
         jsc.awaitTermination();
     }
 
-    private static class ConsultationSubmitDecoder implements Decoder<ConsultationSubmit> {
+    public static class ConsultationSubmitDecoder implements Decoder<ConsultationSubmit> {
         private final Charset encoding;
 
         @Override

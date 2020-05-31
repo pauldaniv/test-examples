@@ -24,7 +24,6 @@ spring:
   kafka:
     bootstrap-servers:  ${KAFKA_URL:localhost:9092}
     producer:
-      bootstrap-servers:
       key-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
     template:

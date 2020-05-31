@@ -21,7 +21,7 @@ def CONSOLE_LOG_PATTERN =
         "%clr(${LOG_LEVEL_PATTERN}) " +
         "%clr(${PID}){magenta} " +
         "%clr(---){faint} %clr([%4.41t]){faint} " +
-        "%clr(%-14.80logger{200}){cyan} %clr(:){faint} " +
+        "%clr(%-14.89logger{200}){cyan} %clr(:){faint} " +
         "%m%n${LOG_EXCEPTION_CONVERSION_WORD}"
 
 
@@ -68,5 +68,7 @@ appender("Async-Appender", AsyncAppender) {
 
 logger("guru.springframework.blog.logbackgroovy", INFO, ["Console-Appender", "File-Appender", "Async-Appender"], false)
 logger("com.paul.store", DEBUG, ["Console-Appender"], false)
+logger("org.apache.spark", WARN, ["Console-Appender"], false)
+logger("org.apache.kafka", WARN, ["Console-Appender"], false)
 
 root(INFO, ["Console-Appender"])
