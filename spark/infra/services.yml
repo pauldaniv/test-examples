@@ -2,7 +2,7 @@ version: '2.2'
 
 services:
   spark-app:
-    image: registry.gitlab.com/miamibeach87/test-examples/spark:0.0.2-SNAPSHOT
+    image: registry.gitlab.com/miamibeach87/test-examples/spark:0.0.3-SNAPSHOT
     container_name: spark-app
     ports:
       - 4201:4201
