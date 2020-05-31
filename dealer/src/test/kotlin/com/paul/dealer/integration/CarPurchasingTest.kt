@@ -14,6 +14,7 @@ import org.junit.Test
 import org.junit.experimental.categories.Category
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.ResponseEntity
 import org.springframework.test.context.ActiveProfiles
@@ -25,7 +26,7 @@ import javax.persistence.EntityManagerFactory
 @SpringBootTest(classes = [CreateOrderTestConfiguration::class])
 @Category(TestGroup.Slow.Integration::class)
 @ActiveProfiles("test")
-//@AutoConfigureTestDatabase
+@AutoConfigureTestDatabase
 class CarPurchasingTest {
 
   @Autowired

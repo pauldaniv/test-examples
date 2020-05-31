@@ -60,7 +60,7 @@ public class DefaultSparkKafkaStreamExecutor implements Serializable, SparkKafka
 
         JavaStreamingContext jsc = new JavaStreamingContext(javaSparkContext,
                 Durations.seconds(Integer.parseInt(streamDurationTime)));
-        jsc.checkpoint("spark/build/tmp/checkpoint");
+        jsc.checkpoint("build/tmp/checkpoint");
 
         final JavaPairInputDStream<byte[], ConsultationSubmit> stream = KafkaUtils.createDirectStream(
                 jsc,
