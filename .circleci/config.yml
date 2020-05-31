@@ -40,6 +40,9 @@ jobs:
 
       # run tests!
       - run: gradle test #-P  proprerties for GPR
+      # setup remote docker, otherwise dockerPush ain't gonna work
       - setup_remote_docker
+      # login to gitlab private registry
       - run: echo $DOCKER_PASS | docker login registry.gitlab.com -u $DOCKER_USER --password-stdin
+      # push all the crap to the gitlab
       - run: gradle dockerPush
