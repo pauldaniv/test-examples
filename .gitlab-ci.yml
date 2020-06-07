@@ -2,9 +2,8 @@
 # This is the Gradle build system for JVM applications
 # https://gradle.org/
 # https://github.com/gradle/gradle
-image: docker:19.03.11
-services:
-  - docker:19.03.11-dind
+image: gradle:alpine
+
 # Disable the Gradle daemon for Continuous Integration servers as correctness
 # is usually a priority over speed in CI environments. Using a fresh
 # runtime for each build is more reliable since the runtime is completely
@@ -37,7 +36,7 @@ test:
 
 build-docker:
   image: docker:latest
-  stage: build
+  stage: test
   services:
     - docker:dind
   script: ./gradlew docker
@@ -47,7 +46,7 @@ build-docker:
 
 docker-push:
   image: docker:latest
-  stage: build
+  stage: deploy
   services:
     - docker:dind
   before_script:
