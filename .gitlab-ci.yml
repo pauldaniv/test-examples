@@ -33,3 +33,15 @@ test:
     paths:
       - build
       - .gradle
+
+docker-build:
+  stage: Build Image
+  script: ./gradlew docker
+
+docker-login:
+  stage: Docker Login
+  script: echo $GITHUB_TOKEN | docker login docker.pkg.github.com -u $GITHUB_USER --password-stdin
+
+dradle-push:
+  stage: Gradle Docker Push
+  script: ./gradlew dockerPush
