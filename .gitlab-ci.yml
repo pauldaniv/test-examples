@@ -35,13 +35,13 @@ test:
       - .gradle
 
 docker-build:
-  stage: Build Image
+  stage: build
   script: ./gradlew docker
 
 docker-login:
-  stage: Docker Login
+  stage: .pre
   script: echo $GITHUB_TOKEN | docker login docker.pkg.github.com -u $GITHUB_USER --password-stdin
 
-dradle-push:
-  stage: Gradle Docker Push
+gradle-push:
+  stage: deploy
   script: ./gradlew dockerPush
