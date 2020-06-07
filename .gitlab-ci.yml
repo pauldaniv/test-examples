@@ -11,8 +11,10 @@ image: gradle:alpine
 variables:
   GRADLE_OPTS: "-Dorg.gradle.daemon=false"
 
+
 before_script:
   - export GRADLE_USER_HOME=`pwd`/.gradle
+  - export ORG_GRADLE_PROJECT_DOCKER_REGISTRY_URL=`echo $DOCKER_REGISTRY_URL`
 
 build:
   stage: build
