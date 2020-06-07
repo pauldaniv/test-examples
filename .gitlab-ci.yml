@@ -36,12 +36,23 @@ test:
       - .gradle
 
 build-docker:
+  image: docker:latest
   stage: build
+  services:
+    - docker:dind
   script: ./gradlew docker
+#  may want to use in future
+#  only:
+#    - master
 
 docker-push:
-  stage: deploy
-  script:
+  image: docker:latest
+  stage: build
+  services:
+    - docker:dind
+  before_script:
     - echo $GITHUB_TOKEN | docker login docker.pkg.github.com -u $GITHUB_USER --password-stdin
-    - ./gradlew dockerPush
-
+  script: ./gradlew dockerPush
+#  may want to use in future
+#  only:
+#    - master
