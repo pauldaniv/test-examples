@@ -1,4 +1,4 @@
-package com.paul.spark.services.streaming;
+package com.paul.spark.controller;
 
 import com.paul.spark.model.ConsultationSubmit;
 import com.paul.spark.services.streaming.init.KafkaConfig;

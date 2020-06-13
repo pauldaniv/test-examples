@@ -19,7 +19,7 @@ public class DatasetController {
     private final DatasetExample datasetExample;
 
     @GetMapping("/count/{fileName}")
-    ResponseEntity<Resp<List<DwellingsStatistic>>> count(@PathVariable String fileName) {
-        return Resp.ok(datasetExample.loadData(fileName));
+    ResponseEntity<List<DwellingsStatistic>> count(@PathVariable String fileName) {
+        return ResponseEntity.ok(datasetExample.loadData(fileName));
     }
 }

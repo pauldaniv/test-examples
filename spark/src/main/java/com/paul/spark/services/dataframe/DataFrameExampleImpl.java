@@ -28,6 +28,31 @@ import java.util.stream.IntStream;
 @RequiredArgsConstructor
 public class DataFrameExampleImpl implements DataFrameExample {
 
+    public static final String GUID = "guid";
+    public static final String AUDIT_UNITS = "auditUnits";
+    public static final String AUDIT_UNIT = "auditUnit";
+    public static final String LEADERS_GUI_DS_RAW = "leadersGUIDsRaw";
+    public static final String LEADERS_EMAILS_RAW = "leadersEmailsRaw";
+    public static final String LEADERS_FULL_NAMES_RAW = "leadersFullNamesRaw";
+    public static final String MANAGERS_GUI_DS_RAW = "managersGUIDsRaw";
+    public static final String MANAGERS_EMAILS_RAW = "managersEmailsRaw";
+    public static final String MANAGERS_FULL_NAMES_RAW = "managersFullNamesRaw";
+    public static final String MEMBERS_GUIDS_RAW = "membersGUIDsRaw";
+    public static final String MEMBERS_EMAILS_RAW = "membersEmailsRaw";
+    public static final String MEMBERS_FULL_NAMES_RAW = "membersFullNamesRaw";
+    public static final String NAME = "name";
+    public static final String COLUMN_ENGAGEMENT_ID = "EngagementID";
+    public static final String COLUMN_ENGAGEMENT_NAME = "Engagement Name";
+    public static final String COLUMN_AUDIT_UNIT_NAME = "Audit Unit name";
+    public static final String COLUMN_TEAM_MANAGER = "Team Manager";
+    public static final String COLUMN_TEAM_MANAGER_GUID = "Team Manager GUID";
+    public static final String COLUMN_TEAM_MANAGER_EMAIL = "Team Manager email";
+    public static final String COLUMN_ENGAGEMENT_LEADER = "Engagement Leader";
+    public static final String COLUMN_ENGAGEMENT_LEADER_GUID = "Engagement Leader GUID";
+    public static final String COLUMN_ENGAGEMENT_LEADER_EMAIL = "Engagement Leader email";
+    public static final String COLUMN_TEAM_MEMBER = "Team Member";
+    public static final String COLUMN_TEAM_MEMBER_GUID = "Team Member GUID";
+    public static final String COLUMN_TEAM_MEMBER_EMAIL = "Team Member email";
     private final SQLContext sqlContext;
     private final ResourceResolver resourceResolver;
 
@@ -43,7 +68,7 @@ public class DataFrameExampleImpl implements DataFrameExample {
 
     @Override
     public Long countRowsDistinct(String fileName) {
-        return fetchRequired(fileName).select("guid").distinct().count();
+        return fetchRequired(fileName).select(GUID).distinct().count();
     }
 
     @Override
@@ -57,46 +82,46 @@ public class DataFrameExampleImpl implements DataFrameExample {
         final Dataset<Row> engagements = fetchRequired("aura.csv");
 
         final Dataset<Row> byEngagementLeaders = engagements
-                .groupBy(asScalaBuffer(singletonList(column("guid"))).seq())
-                .agg(collect_set("auditUnit").as("auditUnits"));
+                .groupBy(asScalaBuffer(singletonList(column(GUID))).seq())
+                .agg(collect_set(AUDIT_UNIT).as(AUDIT_UNITS));
 
         final Dataset<Row> combidenDF = engagements
-                .drop("auditUnit")
-                .join(byEngagementLeaders, "guid");
+                .drop(AUDIT_UNIT)
+                .join(byEngagementLeaders, GUID);
 
         return combidenDF.distinct().javaRDD().map(this::composeEngagement);
     }
 
     private Engagement composeEngagement(Row row) {
         return new Engagement(
-                row.getAs("guid"),
-                row.getAs("name"),
-                mapUsers(row.getAs("leadersGUIDsRaw"), row.getAs("leadersEmailsRaw"), row.getAs("leadersFullNamesRaw")),
-                mapUsers(row.getAs("managersGUIDsRaw"), row.getAs("managersEmailsRaw"), row.getAs("managersFullNamesRaw")),
-                mapUsers(row.getAs("membersGUIDsRaw"), row.getAs("membersEmailsRaw"), row.getAs("membersFullNamesRaw")),
-                mapAuditUnits(row.getAs("auditUnits"))
+                row.getAs(GUID),
+                row.getAs(NAME),
+                mapUsers(row.getAs(LEADERS_GUI_DS_RAW), row.getAs(LEADERS_EMAILS_RAW), row.getAs(LEADERS_FULL_NAMES_RAW)),
+                mapUsers(row.getAs(MANAGERS_GUI_DS_RAW), row.getAs(MANAGERS_EMAILS_RAW), row.getAs(MANAGERS_FULL_NAMES_RAW)),
+                mapUsers(row.getAs(MEMBERS_GUIDS_RAW), row.getAs(MEMBERS_EMAILS_RAW), row.getAs(MEMBERS_FULL_NAMES_RAW)),
+                mapAuditUnits(row.getAs(AUDIT_UNITS))
         );
     }
 
     private Dataset<Row> fetchRequired(final String fileName) {
 
         final Seq<Column> leadersColumns = asScalaBuffer(asList(
-                column("EngagementID").as("guid"),
-                column("Engagement Name").as("name"),
+                column(COLUMN_ENGAGEMENT_ID).as(GUID),
+                column(COLUMN_ENGAGEMENT_NAME).as(NAME),
 
-                column("Audit Unit name").as("auditUnit"),
+                column(COLUMN_AUDIT_UNIT_NAME).as(AUDIT_UNIT),
 
-                column("Team Manager").as("managersFullNamesRaw"),
-                column("Team Manager GUID").as("managersGUIDsRaw"),
-                column("Team Manager email").as("managersEmailsRaw"),
+                column(COLUMN_TEAM_MANAGER).as(MANAGERS_FULL_NAMES_RAW),
+                column(COLUMN_TEAM_MANAGER_GUID).as(MANAGERS_GUI_DS_RAW),
+                column(COLUMN_TEAM_MANAGER_EMAIL).as(MANAGERS_EMAILS_RAW),
 
-                column("Engagement Leader").as("leadersFullNamesRaw"),
-                column("Engagement Leader GUID").as("leadersGUIDsRaw"),
-                column("Engagement Leader email").as("leadersEmailsRaw"),
+                column(COLUMN_ENGAGEMENT_LEADER).as(LEADERS_FULL_NAMES_RAW),
+                column(COLUMN_ENGAGEMENT_LEADER_GUID).as(LEADERS_GUI_DS_RAW),
+                column(COLUMN_ENGAGEMENT_LEADER_EMAIL).as(LEADERS_EMAILS_RAW),
 
-                column("Team Member").as("membersFullNamesRaw"),
-                column("Team Member GUID").as("membersGUIDsRaw"),
-                column("Team Member email").as("membersEmailsRaw")
+                column(COLUMN_TEAM_MEMBER).as(MEMBERS_FULL_NAMES_RAW),
+                column(COLUMN_TEAM_MEMBER_GUID).as(MEMBERS_GUIDS_RAW),
+                column(COLUMN_TEAM_MEMBER_EMAIL).as(MEMBERS_EMAILS_RAW)
         )).seq();
 
         return getDataFrame(fileName).select(leadersColumns);

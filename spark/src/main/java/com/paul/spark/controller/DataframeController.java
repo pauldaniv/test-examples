@@ -19,12 +19,12 @@ public class DataframeController {
     private final DataFrameExample dataframeService;
 
     @GetMapping("/count/columns/{name}")
-    ResponseEntity<Resp<Long>> countColumns(@PathVariable String name) {
-        return Resp.ok(dataframeService.countColumns(name));
+    ResponseEntity<Long> countColumns(@PathVariable String name) {
+        return ResponseEntity.ok(dataframeService.countColumns(name));
     }
 
     @GetMapping("/count/rows}")
-    ResponseEntity<Resp<List<Engagement>>> countRows() {
-        return Resp.ok(dataframeService.collectAuraData());
+    ResponseEntity<List<Engagement>> countRows() {
+        return ResponseEntity.ok(dataframeService.collectAuraData());
     }
 }
