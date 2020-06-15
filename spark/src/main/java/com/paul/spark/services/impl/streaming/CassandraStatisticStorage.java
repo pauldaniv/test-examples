@@ -1,4 +1,4 @@
-package com.paul.spark.services.streaming;
+package com.paul.spark.services.impl.streaming;
 
 import static com.datastax.spark.connector.japi.CassandraJavaUtil.javaFunctions;
 import static com.datastax.spark.connector.japi.CassandraJavaUtil.mapToRow;
@@ -20,7 +20,7 @@ import java.util.Date;
 
 @Service
 @RequiredArgsConstructor
-public class CassandraStatisticStorage implements StatisticStorage {
+public class CassandraStatisticStorage implements StatisticPersistence<String, Tuple3<String, Long, LocalDateTime>> {
 
     @Override
     public JavaRDD<Statistic> store(final JavaPairRDD<String, Tuple3<String, Long, LocalDateTime>> data) {
@@ -51,7 +51,8 @@ public class CassandraStatisticStorage implements StatisticStorage {
     }
 
     private void storeRecord(final Statistic record) {
-        final JavaRDD<Statistic> rdd = Config.javaSparkContextSupplier.get().parallelize(Collections.singletonList(record));
+        final JavaRDD<Statistic> rdd = Config.javaSparkContextSupplier.get()
+                .parallelize(Collections.singletonList(record));
         javaFunctions(rdd)
                 .writerBuilder("aura", "statistic", mapToRow(Statistic.class))
                 .saveToCassandra();

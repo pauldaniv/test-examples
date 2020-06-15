@@ -1,4 +1,4 @@
-package com.paul.spark.services.dataframe;
+package com.paul.spark.services;
 
 import com.paul.spark.model.Engagement;
 import org.apache.spark.api.java.JavaRDD;
@@ -10,8 +10,6 @@ public interface DataFrameExample extends Serializable {
     Long countColumns(String fileName);
 
     Long countRows(String fileName);
-
-    Long countRowsDistinct(String fileName);
 
     List<Engagement> collectAuraData();
 

@@ -1,35 +1,36 @@
-package com.paul.spark.services.streaming;
+package com.paul.spark.services.impl.streaming;
 
 import static java.util.Comparator.naturalOrder;
 import static java.util.stream.StreamSupport.stream;
 import static scala.Tuple2.apply;
 
-import com.paul.spark.services.dataframe.DataFrameExample;
 import com.paul.spark.model.ConsultationSubmit;
 import com.paul.spark.model.Engagement;
+import com.paul.spark.services.DataFrameExample;
 import lombok.RequiredArgsConstructor;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import scala.Tuple2;
 import scala.Tuple3;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service
+@Component
 @RequiredArgsConstructor
-public class MessageHandlerImpl implements MessageHandler {
+public class MessageHandler implements Serializable {
+    private static final String TOPIC = "primary";
 
     private transient final JavaSparkContext sc;
     private final DataFrameExample dataFrameExample;
 
-    private final StatisticStorage storage;
+    private final StatisticPersistence<String, Tuple3<String, Long, LocalDateTime>> storage;
     private final ProducerService producerService;
 
-    @Override
     public void onMessage(final JavaRDD<ConsultationSubmit> message) {
         if (message.isEmpty()) return;
 
@@ -42,7 +43,7 @@ public class MessageHandlerImpl implements MessageHandler {
 
 
         final JavaPairRDD<Tuple2<String, String>, LocalDateTime> messageRdd = message
-                .mapToPair(it -> apply(apply(it.getUserId(), it.getConsultationId()), it.getSubmittedAt())).cache();
+                .mapToPair(it -> apply(apply(it.getUserId(), it.getDepartmentId()), it.getSubmittedAt())).cache();
 
         JavaPairRDD<String, String> engagementsById = auraData.mapToPair(it -> apply(it._2.getGuid(), it._2.getName()));
 
@@ -68,6 +69,6 @@ public class MessageHandlerImpl implements MessageHandler {
                 .distinct();
 
         if (joined.isEmpty()) return;
-        producerService.pushForward(storage.store(joined).collect());
+        producerService.pushMessage(TOPIC, storage.store(joined).collect());
     }
 }

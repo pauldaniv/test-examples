@@ -1,4 +1,4 @@
-package com.paul.spark.services.streaming;
+package com.paul.spark.services.impl.streaming;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -17,7 +17,7 @@ import org.apache.spark.streaming.api.java.JavaPairInputDStream;
 import org.apache.spark.streaming.api.java.JavaStreamingContext;
 import org.apache.spark.streaming.kafka.KafkaUtils;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -29,9 +29,9 @@ import java.util.Map;
 import java.util.Set;
 
 @Slf4j
-@Service
+@Component
 @RequiredArgsConstructor
-public class DefaultSparkKafkaStreamExecutor implements Serializable, SparkKafkaStreamExecutor {
+public class KafkaStreamExecutor implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -47,7 +47,6 @@ public class DefaultSparkKafkaStreamExecutor implements Serializable, SparkKafka
     private final transient JavaSparkContext javaSparkContext;
     private final MessageHandler messageHandler;
 
-    @Override
     public void execute() {
         try {
             startStreamTask();

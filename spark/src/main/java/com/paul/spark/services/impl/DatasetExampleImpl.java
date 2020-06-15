@@ -1,4 +1,4 @@
-package com.paul.spark.services.dataset;
+package com.paul.spark.services.impl;
 
 import static org.apache.spark.sql.types.DataTypes.IntegerType;
 import static org.apache.spark.sql.types.DataTypes.StringType;
@@ -8,6 +8,7 @@ import static org.apache.spark.sql.types.DataTypes.createStructType;
 
 import com.paul.spark.model.DwellingsStatistic;
 import com.paul.spark.services.ResourceResolver;
+import com.paul.spark.services.DatasetExample;
 import lombok.RequiredArgsConstructor;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Encoders;

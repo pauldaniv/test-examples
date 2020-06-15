@@ -1,6 +1,6 @@
-package com.paul.spark.services.streaming.init;
+package com.paul.spark.config;
 
-import com.paul.spark.services.streaming.SparkKafkaStreamExecutor;
+import com.paul.spark.services.impl.streaming.KafkaStreamExecutor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class ApplicationStartup {
 
-    private final SparkKafkaStreamExecutor sparkKafkaStreamExecutor;
+    private final KafkaStreamExecutor sparkKafkaStreamExecutor;
 
     @EventListener(ContextRefreshedEvent.class)
     public void start() {

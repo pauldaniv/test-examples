@@ -1,4 +1,4 @@
-package com.paul.spark.services.streaming.init;
+package com.paul.spark.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -18,13 +18,14 @@ import java.util.function.Supplier;
 
 @Configuration
 public class KafkaConfig implements Serializable {
-    public static Supplier<KafkaOperations<Object, Object>> kafkaTemplateSupplier;
+    public static Supplier<KafkaOperations<String, Object>> kafkaTemplateSupplier;
 
     @Value("${spring.kafka.template.default-topic}")
     private String defaultTopic;
+
     @Autowired
-    public void kafkaTemplate(KafkaOperations<Object, Object> kafkaTemplate) {
-        kafkaTemplateSupplier = () -> kafkaTemplate;
+    public void kafkaTemplate(KafkaOperations<String, Object> kafkaOperations) {
+        kafkaTemplateSupplier = () -> kafkaOperations;
     }
 
     @Bean
@@ -33,8 +34,8 @@ public class KafkaConfig implements Serializable {
     }
 
     @Autowired
-    public  void objectMapper(ObjectMapper objectMapper) {
-         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+    public void objectMapper(ObjectMapper objectMapper) {
+        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
     }
 
     @KafkaListener(topics = "primary")

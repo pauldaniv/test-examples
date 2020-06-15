@@ -1,4 +1,4 @@
-package com.paul.spark.services.dataset;
+package com.paul.spark.services;
 
 import com.paul.spark.model.DwellingsStatistic;
 

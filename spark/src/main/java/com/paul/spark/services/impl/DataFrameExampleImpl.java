@@ -1,4 +1,4 @@
-package com.paul.spark.services.dataframe;
+package com.paul.spark.services.impl;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
@@ -9,6 +9,7 @@ import static scala.collection.JavaConversions.asScalaBuffer;
 import com.paul.spark.model.Engagement;
 import com.paul.spark.model.User;
 import com.paul.spark.services.ResourceResolver;
+import com.paul.spark.services.DataFrameExample;
 import lombok.RequiredArgsConstructor;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.sql.Column;
@@ -22,7 +23,6 @@ import scala.collection.mutable.Seq;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-
 
 @Service
 @RequiredArgsConstructor
@@ -64,11 +64,6 @@ public class DataFrameExampleImpl implements DataFrameExample {
     @Override
     public Long countRows(String fileName) {
         return getDataFrame(fileName).count();
-    }
-
-    @Override
-    public Long countRowsDistinct(String fileName) {
-        return fetchRequired(fileName).select(GUID).distinct().count();
     }
 
     @Override

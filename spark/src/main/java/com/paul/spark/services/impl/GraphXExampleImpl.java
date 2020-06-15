@@ -1,12 +1,13 @@
-package com.paul.spark.services.graphx;
+package com.paul.spark.services.impl;
 
 import static org.apache.spark.storage.StorageLevel.MEMORY_ONLY;
 import static scala.Tuple2.apply;
 import static scala.reflect.ClassTag$.MODULE$;
 
-import com.paul.spark.services.dataframe.DataFrameExample;
+import com.paul.spark.services.DataFrameExample;
 import com.paul.spark.model.Engagement;
 import com.paul.spark.model.User;
+import com.paul.spark.services.GraphXExample;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -34,29 +35,29 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class GraphXExampleImpl implements GraphXExample, Serializable {
 
-    private static final ClassTag<EngagementMeta> CLASS_TAG = MODULE$.apply(EngagementMeta.class);
+    private static final ClassTag<DepartmentMeta> CLASS_TAG = MODULE$.apply(DepartmentMeta.class);
     private final DataFrameExample dataFrameExample;
     private transient final JavaSparkContext sc;
 
     @Override
-    public List<EngagementView> mostImportantEngagementLeaders(int limit) {
-        JavaPairRDD<Long, Tuple2<Double, EngagementMeta>> engagementsRank = rankByEngagements();
+    public List<LeaderInfo> mostImportantDepartmentLeaders(int limit) {
+        JavaPairRDD<Long, Tuple2<Double, DepartmentMeta>> engagementsRank = rankByEngagements();
         return engagementsRank
                 .mapToPair(it -> apply(it._2._1, it._2._2))
                 .sortByKey(false)
-                .map(it -> EngagementView.builder().rank(it._1).userId(it._2.userId).userName(it._2.userName).build())
+                .map(it -> LeaderInfo.builder().rank(it._1).userId(it._2.userId).userName(it._2.userName).build())
                 .take(limit);
     }
 
-    private JavaPairRDD<Long, Tuple2<Double, EngagementMeta>> rankByEngagements() {
-        final JavaRDD<Edge<EngagementMeta>> edges = sc
+    private JavaPairRDD<Long, Tuple2<Double, DepartmentMeta>> rankByEngagements() {
+        final JavaRDD<Edge<DepartmentMeta>> edges = sc
                 .parallelize(dataFrameExample.collectAuraData())
                 .map(this::getEdges)
                 .flatMap(List::iterator)
                 .distinct()
                 .cache();
 
-        final JavaPairRDD<Long, EngagementMeta> engagements = edges
+        final JavaPairRDD<Long, DepartmentMeta> engagements = edges
                 .mapToPair(it -> apply(it.srcId(), it.attr()));
 
         // do the page rank here
@@ -78,10 +79,10 @@ public class GraphXExampleImpl implements GraphXExample, Serializable {
         return rank.join(engagements);
     }
 
-    private Graph<EngagementMeta, EngagementMeta> getEngagementGraph(JavaRDD<Edge<EngagementMeta>> graphRDD) {
+    private Graph<DepartmentMeta, DepartmentMeta> getEngagementGraph(JavaRDD<Edge<DepartmentMeta>> graphRDD) {
         return Graph.fromEdges(
                 graphRDD.rdd(),
-                new EngagementMeta(),
+                new DepartmentMeta(),
                 MEMORY_ONLY(),
                 MEMORY_ONLY(),
                 CLASS_TAG,
@@ -94,7 +95,7 @@ public class GraphXExampleImpl implements GraphXExample, Serializable {
      * Each engagement id and all it's members are turned into edges
      * engId (src) -> eachMemberId (dst)
      */
-    private List<Edge<EngagementMeta>> getEdges(final Engagement engagement) {
+    private List<Edge<DepartmentMeta>> getEdges(final Engagement engagement) {
         return engagement.getLeaders()
                 .stream()
                 .filter(notNull())
@@ -106,7 +107,7 @@ public class GraphXExampleImpl implements GraphXExample, Serializable {
                         .map(member -> new Edge<>(
                                 member.getGuid().hashCode(),
                                 leader.getGuid().hashCode(),
-                                new EngagementMeta(
+                                new DepartmentMeta(
                                         leader.getGuid(),
                                         leader.getFullName(),
                                         engagement.getName()
@@ -124,7 +125,7 @@ public class GraphXExampleImpl implements GraphXExample, Serializable {
     @AllArgsConstructor
     @ToString
     @EqualsAndHashCode
-    private static class EngagementMeta implements Serializable {
+    private static class DepartmentMeta implements Serializable {
         private String userId;
         private String userName;
         private String engagementName;
@@ -136,7 +137,7 @@ public class GraphXExampleImpl implements GraphXExample, Serializable {
     @ToString
     @EqualsAndHashCode
     @Builder
-    public static class EngagementView implements Serializable {
+    public static class LeaderInfo implements Serializable {
         private String userName;
         private String userId;
         private Double rank;
