@@ -19,6 +19,7 @@ services:
   cassandra:
     image: cassandra:3.11.2
     container_name: cassandra
+    build: service_dockerfile
     ports:
       - 9042:9042
     environment:
