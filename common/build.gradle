@@ -1,21 +1,8 @@
-buildscript {
-  ext { springBootVersion = '2.3.0.RELEASE' }
-  repositories { mavenCentral() }
-  dependencies { classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}") }
-}
+group = 'com.paul.test-examples'
+version = '0.0.1-SNAPSHOT'
 
-apply plugin: 'io.spring.dependency-management'
 apply plugin: 'maven-publish'
 //apply plugin: 'signing'
-apply plugin: 'java-library'
-
-version = '0.0.1-SNAPSHOT'
-group = 'com.paul.test-examples'
-
-jar {
-  archiveBaseName = 'common'
-  archiveVersion = '0.0.1-SNAPSHOT'
-}
 
 publishing {
   repositories {
@@ -78,21 +65,14 @@ publishing {
   }
 }
 
-
 //signing {
 //  sign publishing.publications.mavenJava
 //}
-
 
 javadoc {
   if (JavaVersion.current().isJava9Compatible()) {
     options.addBooleanOption('html5', true)
   }
-}
-
-repositories {
-  mavenCentral()
-  jcenter()
 }
 
 dependencies {
@@ -101,8 +81,7 @@ dependencies {
       'org.codehaus.groovy:groovy:3.0.0-alpha-4',
       'org.springframework.boot:spring-boot-starter-data-jpa',
       'org.modelmapper:modelmapper:2.3.2',
-      'com.fasterxml.jackson.datatype:jackson-datatype-jsr310',
-      "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+      'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
   )
 
   api('io.springfox:springfox-swagger2:2.9.2',
@@ -118,3 +97,5 @@ dependencies {
 //dependencyManagement {
 //  imports { mavenBom("org.springframework.boot:spring-boot-dependencies:${springBootVersion}") }
 //}
+
+ext['library'] = true

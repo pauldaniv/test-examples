@@ -1,57 +1,5 @@
-buildscript {
-  ext {
-    moduleName = 'spark'
-    springBootVersion = '2.3.+'
-  }
-
-  repositories {
-    jcenter()
-    mavenCentral()
-    gradlePluginPortal()
-  }
-
-  dependencies {
-    classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-    classpath('gradle.plugin.com.palantir.gradle.docker:gradle-docker:0.13.0')
-  }
-}
-
-apply plugin: 'java'
-apply plugin: 'groovy'
-apply plugin: 'idea'
-apply plugin: 'eclipse'
-apply plugin: 'org.springframework.boot'
-apply plugin: 'io.spring.dependency-management'
-apply plugin: 'com.palantir.docker'
-
-bootRun {
-  jvmArgs = ["-Dspring.output.ansi.enabled=ALWAYS"]
-}
-
-version = '0.0.3-SNAPSHOT'
 group = 'paul'
-
-bootJar {
-  archiveBaseName.set(moduleName)
-  archiveVersion = project.version
-}
-
-task unpack(type: Copy) {
-  dependsOn bootJar
-  from(zipTree(tasks.bootJar.outputs.files.singleFile))
-  into("build/dependency")
-}
-
-docker {
-  name "$dockerRepo/spark:${project.version}"
-  copySpec.from(tasks.unpack.outputs).into("dependency")
-  buildArgs(['DEPENDENCY': "dependency"])
-}
-
-repositories {
-  mavenCentral()
-  maven { url 'https://repo.spring.io/milestone' }
-}
+version = '0.0.3-SNAPSHOT'
 
 dependencies {
   implementation project(':common')
@@ -85,12 +33,6 @@ dependencies {
       "org.easymock:easymock:4.2",
 //      "org.junit.jupiter:junit-jupiter:5.6.2"
   )
-}
-
-dependencyManagement {
-  imports {
-    mavenBom "org.springframework.boot:spring-boot-dependencies:${springBootVersion}"
-  }
 }
 
 configurations {

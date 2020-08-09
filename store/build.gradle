@@ -1,64 +1,15 @@
-buildscript {
-  ext {
-    moduleName = 'store'
-    springBootVersion = '2.1.+'
-  }
-  repositories {
-    jcenter()
-    mavenCentral()
-    gradlePluginPortal()
-
-  }
-  dependencies {
-    classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-    classpath('gradle.plugin.com.palantir.gradle.docker:gradle-docker:0.13.0')
-  }
-}
-
-apply plugin: 'java'
-apply plugin: 'groovy'
-apply plugin: 'eclipse'
-apply plugin: 'org.springframework.boot'
-apply plugin: 'io.spring.dependency-management'
-apply plugin: 'com.palantir.docker'
-
-bootRun {
-  jvmArgs = ["-Dspring.output.ansi.enabled=ALWAYS"]
-}
-
-version = '0.1-SNAPSHOT'
-bootJar {
-  archiveBaseName.set(moduleName)
-  archiveVersion = project.version
-}
 group = 'paul'
-
-task unpack(type: Copy) {
-  dependsOn bootJar
-  from(zipTree(tasks.bootJar.outputs.files.singleFile))
-  into("build/dependency")
-}
-
-docker {
-  name "$dockerRepo/store:${project.version}"
-  copySpec.from(tasks.unpack.outputs).into("dependency")
-  buildArgs(['DEPENDENCY': "dependency"])
-}
-
-repositories {
-  mavenCentral()
-  maven { url 'https://repo.spring.io/milestone' }
-}
+version = '0.1-SNAPSHOT'
 
 dependencies {
   implementation(
+      project(':common'),
+      project(':common-interservice'),
       'org.springframework.boot:spring-boot-starter-web',
       'org.codehaus.groovy:groovy',
       'org.springframework.cloud:spring-cloud-starter-config',
       'org.springframework.cloud:spring-cloud-starter',
       'org.springframework.cloud:spring-cloud-starter-openfeign:2.1.0.RELEASE',
-      project(':common'),
-      project(':common-interservice'),
       'org.springframework.boot:spring-boot-starter-data-jpa'
   )
 
@@ -73,11 +24,9 @@ ext {
   set('springCloudVersion', 'Greenwich.RELEASE')
 }
 
-
 dependencyManagement {
   imports {
     mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
-    mavenBom "org.springframework.boot:spring-boot-dependencies:${springBootVersion}"
   }
 }
 
