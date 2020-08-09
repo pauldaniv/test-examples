@@ -1,0 +1,9 @@
+rootProject.name = 'test-examples'
+
+include 'store'
+include 'dealer'
+include 'statistic-service'
+include 'common'
+include 'common-interservice'
+include 'db-service'
+include 'spark'

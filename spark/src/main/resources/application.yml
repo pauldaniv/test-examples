@@ -1,0 +1,33 @@
+server:
+  port: 4201
+
+spark:
+  app.name: Spark Examples
+  master: local[*]
+
+  driver.memory: 32g
+  worker.memory: 25g
+  executor.memory: 25g
+  rpc.message.maxSize: 1024
+  stream.kafka.durations: 5
+
+cassandra:
+  host: ${CASSANDRA_URL:localhost}
+  username: cassandra
+  password: cassandra
+
+
+spring:
+  jackson:
+    serialization:
+      write_dates_as_timestamps: false
+  kafka:
+    bootstrap-servers:  ${KAFKA_URL:localhost:9092}
+    producer:
+      key-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    template:
+      default-topic: primary
+    consumer:
+      group-id: test
+      auto-offset-reset: earliest

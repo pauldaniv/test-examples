@@ -1,0 +1,70 @@
+buildscript {
+  ext {
+    moduleName = 'db-service'
+    springBootVersion = '2.1.+'
+  }
+  repositories {
+    jcenter()
+    mavenCentral()
+    gradlePluginPortal()
+
+  }
+  dependencies {
+    classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    classpath('gradle.plugin.com.palantir.gradle.docker:gradle-docker:0.13.0')
+  }
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'groovy'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'com.palantir.docker'
+
+version = '0.1-SNAPSHOT'
+bootJar {
+  archiveBaseName.set(moduleName)
+  archiveVersion = project.version
+}
+
+bootRun {
+  jvmArgs = ["-Dspring.output.ansi.enabled=ALWAYS"]
+}
+group = 'paul'
+
+task unpack(type: Copy) {
+  dependsOn bootJar
+  from(zipTree(tasks.bootJar.outputs.files.singleFile))
+  into("build/dependency")
+}
+
+docker {
+  name "$dockerRepo/db-service:${project.version}"
+  copySpec.from(tasks.unpack.outputs).into("dependency")
+  buildArgs(['DEPENDENCY': "dependency"])
+}
+
+repositories { mavenCentral() }
+
+dependencies {
+  implementation('org.springframework.boot:spring-boot-starter-actuator',
+      'org.springframework.boot:spring-boot-starter-web',
+      project(':common'),
+      project(':common-interservice'),
+      'org.codehaus.groovy:groovy:3.0.0-alpha-4',
+      "org.springframework.boot:spring-boot-starter-data-mongodb"
+  )
+
+  testImplementation(
+      'org.springframework.boot:spring-boot-starter-test',
+      'com.tngtech.java:junit-dataprovider:1.13.1'
+  )
+}
+
+dependencyManagement {
+  imports {
+    mavenBom "org.springframework.boot:spring-boot-dependencies:${springBootVersion}"
+  }
+}

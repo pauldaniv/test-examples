@@ -1,0 +1,14 @@
+server:
+  port: 8201
+
+spring.datasource.url: jdbc:h2:mem:testdb;MV_STORE=FALSE;MVCC=FALSE
+spring.datasource.driverClassName: org.h2.Driver
+spring.datasource.username: sa
+spring.datasource.password:
+
+spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
+connection.r
+spring.h2.console.enabled: true
+spring.h2.console.path: /h2-console
+
+store.service.car.price.margin: 0.1

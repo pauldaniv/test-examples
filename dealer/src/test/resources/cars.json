@@ -1,0 +1,44 @@
+[
+  {
+    "brand": "Audi",
+    "price": 10000,
+    "model": "A5",
+    "count": 105,
+    "releasedIn": "2005.05"
+  },
+  {
+    "brand": "Audi",
+    "price": 10000,
+    "model": "A5",
+    "count": 125,
+    "releasedIn": "2005.05"
+  },
+  {
+    "brand": "Audi",
+    "price": 10000,
+    "count": 20,
+    "model": "A7",
+    "releasedIn": "2007.07"
+  },
+  {
+    "brand": "Audi",
+    "price": 10000,
+    "count": 12,
+    "model": "A7",
+    "releasedIn": "2007.07"
+  },
+  {
+    "brand": "Audi",
+    "price": 10000,
+    "count": 7,
+    "model": "A9",
+    "releasedIn": "2009.06"
+  },
+  {
+    "brand": "Audi",
+    "price": 10000,
+    "count": 8,
+    "model": "A9",
+    "releasedIn": "2009.06"
+  }
+]

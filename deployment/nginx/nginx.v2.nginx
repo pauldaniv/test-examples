@@ -1,0 +1,37 @@
+worker_processes  1;
+
+events {
+    worker_connections  1024;
+}
+
+http {
+    map $service $port {
+        spark          4201;
+        shop           4202;
+        store          4203;
+        default        4200;
+    }
+
+    include       mime.types;
+    default_type  application/octet-stream;
+
+    sendfile        on;
+
+    keepalive_timeout  65;
+
+    server {
+        listen       80 default_server;
+
+        location ~ ^/(?<service>(\w+)) {
+            rewrite ^/(\w+)/(.*) /api/$2$is_args$args break;
+            proxy_pass http://127.0.0.1:$port;
+        }
+
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   html;
+        }
+    }
+
+    include servers/*;
+}

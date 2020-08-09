@@ -1,0 +1,59 @@
+# This file is a template, and might need editing before it works on your project.
+# This is the Gradle build system for JVM applications
+# https://gradle.org/
+# https://github.com/gradle/gradle
+image: gradle:alpine
+
+# Disable the Gradle daemon for Continuous Integration servers as correctness
+# is usually a priority over speed in CI environments. Using a fresh
+# runtime for each build is more reliable since the runtime is completely
+# isolated from any previous builds.
+variables:
+  GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+
+
+before_script:
+  - export GRADLE_USER_HOME=`pwd`/.gradle
+  - export ORG_GRADLE_PROJECT_DOCKER_REGISTRY_URL=`echo $DOCKER_REGISTRY_URL`
+
+build:
+  stage: build
+  script: ./gradlew --build-cache build
+  cache:
+    key: "$CI_COMMIT_REF_NAME"
+    policy: push
+    paths:
+      - build
+      - .gradle
+
+test:
+  stage: test
+  script: ./gradlew test
+  cache:
+    key: "$CI_COMMIT_REF_NAME"
+    policy: pull
+    paths:
+      - build
+      - .gradle
+
+build-docker:
+  image: docker:latest
+  stage: test
+  services:
+    - docker:dind
+  script: ./gradlew docker
+#  may want to use in future
+#  only:
+#    - master
+
+docker-push:
+  image: docker:latest
+  stage: deploy
+  services:
+    - docker:dind
+  before_script:
+    - echo $GITHUB_TOKEN | docker login docker.pkg.github.com -u $GITHUB_USER --password-stdin
+  script: ./gradlew dockerPush
+#  may want to use in future
+#  only:
+#    - master

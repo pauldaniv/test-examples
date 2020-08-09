@@ -1,0 +1,9 @@
+server:
+  port: 8080
+
+service.message: test
+
+dealer.service.car.price.margin.high: 0.1
+dealer.service.car.price.margin.low: 0.2
+
+spring.profiles.active: dev

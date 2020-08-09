@@ -1,0 +1,205 @@
+import java.security.InvalidParameterException
+
+
+buildscript {
+  ext.kotlin_version = '1.3.30'
+
+  repositories {
+    maven {
+      url "https://plugins.gradle.org/m2/"
+    }
+  }
+  dependencies {
+    classpath "com.adarshr:gradle-test-logger-plugin:1.6.0"
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+
+  }
+}
+
+
+subprojects {
+
+
+  apply plugin: "com.adarshr.test-logger"
+  apply plugin: 'kotlin'
+
+  apply plugin: 'idea'
+  apply plugin: 'groovy'
+  apply plugin: 'java'
+  apply plugin: 'signing'
+
+  idea {
+    module {
+      outputDir file('build/classes/main/java')
+      testOutputDir file('build/classes/test/java')
+//      inheritOutputDirs = true
+
+      [".idea", "build", "gradle", "classes", "logs", "tmp"].each {
+        excludeDirs << file("$it")
+      }
+      downloadSources = true
+    }
+  }
+
+  testlogger {
+    theme 'mocha'
+    showExceptions true
+    slowThreshold 2000
+    showSummary true
+    showPassed true
+    showSkipped true
+    showFailed true
+    showStandardStreams false
+    showPassedStandardStreams true
+    showSkippedStandardStreams true
+    showFailedStandardStreams true
+  }
+
+  sourceSets {
+    main {
+      java.outputDir = new File(buildDir, "classes/main/java")
+      groovy.outputDir = new File(buildDir, "classes/main/java")
+    }
+    test {
+      java.outputDir = new File(buildDir, "classes/test/java")
+      groovy.outputDir = new File(buildDir, "classes/test/java")
+
+    }
+
+  }
+
+  ext.logsRoot = "logs"
+
+  clean.doFirst {
+    delete "${rootDir}/${logsRoot}"
+  }
+  afterEvaluate {
+    repositories {
+      jcenter()
+    }
+
+
+    java {
+      sourceCompatibility = JavaVersion.VERSION_1_8
+      targetCompatibility = JavaVersion.VERSION_1_8
+    }
+    clean.doFirst {
+      delete "${logsRoot}"
+    }
+
+    ext {
+      lombokVersion = '1.18.4'
+    }
+
+
+    dependencies {
+      implementation "org.projectlombok:lombok:${lombokVersion}"
+      annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+      testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+      implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+
+    }
+
+    test {
+      ext.doThrow = { String message, String data ->
+        throw new RuntimeException(message, new InvalidParameterException(data))
+      }
+
+      ext.resolveClassName = { String separator, String testType, String rootClass, String testTypeKey ->
+        def theTestType
+        def path = testType.split(separator).each {
+          !it.empty ? it : ext.doThrow('Invalid test type', testType)
+        }.collect { it.capitalize() }
+        println path
+        if (path.size() > 3) {
+          ext.doThrow("Invalid value: '$testType' for property: $testTypeKey", testType)
+        } else if (path.size() == 3) {
+          theTestType = "${path[1]}\$${path[2]}"
+          if (!path[0].equalsIgnoreCase(rootClass)) {
+            ext.doThrow("Invalid root test class type", path[0])
+          }
+          return "$rootClass\$${theTestType}"
+        } else {
+          println path
+          if (path[0].equalsIgnoreCase(rootClass)) {
+            return "$rootClass\$${path[1]}"
+          } else {
+            return "$rootClass\$${path[0]}\$${path[1]}"
+          }
+        }
+      }
+
+      def testTypeKeys = ['test.type',
+                          'testType',
+                          'TestType',
+                          'Test.Type',
+                          'testtype',
+                          'testProfile',
+                          'TestProfile',
+                          'test.profile',
+                          'testprofile']
+
+      def rootClass = 'TestGroup'
+      def theTestType = rootClass
+
+      def testTypeKeyHolder = testTypeKeys.stream().filter { project.hasProperty(it) }.findFirst()
+      if (testTypeKeyHolder.present) {
+        def testTypeKey = testTypeKeyHolder.get()
+        String testType = project.property(testTypeKey)
+        def dollarSeparator = testType.contains('$')
+        def dotSeparator = testType.contains('.')
+        if (!dollarSeparator && !dotSeparator) {
+          if (testType != 'all') {
+            theTestType = "$rootClass\$${testType.capitalize()}"
+          }
+        } else if (dotSeparator) {
+          theTestType = ext.resolveClassName('\\.', testType, rootClass, testTypeKey)
+        } else if (dollarSeparator) {
+          theTestType = ext.resolveClassName('\\$', testType, rootClass, testTypeKey)
+        } else {
+          ext.doThrow('Invalid test type', testType)
+        }
+      }
+
+      useJUnit {
+        if (theTestType != rootClass)
+          includeCategories "com.paul.common.test.groups.$theTestType"
+      }
+    }
+  }
+}
+
+//gradle.taskGraph.whenReady { taskGraph ->
+//  if (taskGraph.allTasks.any { it instanceof Sign }) {
+//    // Use Java's console to read from the console (no good for
+//    // a CI environment)
+//    def console = System.console()
+//    console.printf "\n\nWe have to sign some things in this build." +
+//        "\n\nPlease enter your signing details.\n\n"
+//
+//    def id = console.readLine("PGP Key Id: ")
+//    def file = console.readLine("PGP Secret Key Ring File (absolute path): ")
+//    def password = console.readPassword("PGP Private Key Password: ")
+//
+//    allprojects {
+//      ext."signing.keyId" = id
+//      ext."signing.secretKeyRingFile" = file
+//      ext."signing.password" = password
+//    }
+//
+//    console.printf "\nThanks.\n\n"
+//  }
+//}
+
+//signing {
+//  def signingKey = findProperty("signingKey")
+//  def signingPassword = findProperty("signingPassword")
+//  useInMemoryPgpKeys(signingKey, signingPassword)
+//  sign stuffZip
+//}
+
+ext {
+  dockerRepo = project.property('DOCKER_REGISTRY_URL')
+  apacheSparkVersion = '2.4.0'
+  apacheSparkScalaVersion = '2.11'
+}

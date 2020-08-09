@@ -1,0 +1,39 @@
+{
+  "id": "/infra/nginx",
+  "cmd": "",
+  "cpus": 1,
+  "mem": 512,
+  "disk": 0,
+  "instances": 1,
+  "acceptedResourceRoles": [
+    "slave_public"
+  ],
+  "container": {
+    "type": "DOCKER",
+    "docker": {
+      "forcePullImage": false,
+      "image": "local/nginx",
+      "privileged": false
+    },
+    "portMappings": [
+      {
+        "containerPort": 8787,
+        "protocol": "tcp"
+      }
+    ]
+  },
+  "healthChecks": [
+    {
+      "gracePeriodSeconds": 300,
+      "ignoreHttp1xx": false,
+      "intervalSeconds": 60,
+      "maxConsecutiveFailures": 3,
+      "path": "/healthCheck",
+      "portIndex": 0,
+      "protocol": "HTTP",
+      "ipProtocol": "IPv4",
+      "timeoutSeconds": 20,
+      "delaySeconds": 15
+    }
+  ]
+}

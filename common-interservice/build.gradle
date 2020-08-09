@@ -1,0 +1,52 @@
+buildscript {
+  ext {
+    springBootVersion = '2.1.+'
+  }
+
+  repositories { mavenCentral() }
+  dependencies { classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}") }
+}
+
+
+apply plugin: 'io.spring.dependency-management'
+
+version = '0.0.1-SNAPSHOT'
+
+jar {
+  archiveBaseName = 'common-interservice'
+  archiveVersion = '0.0.1-SNAPSHOT'
+}
+
+repositories {
+  mavenCentral()
+  jcenter()
+}
+
+dependencies {
+  implementation 'org.codehaus.groovy:groovy-all:2.3.11'
+  implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+  testImplementation group: 'junit', name: 'junit', version: '4.12'
+  implementation(
+      "org.codehaus.groovy:groovy:3.0.0-alpha-4",
+      "org.modelmapper:modelmapper:2.3.2",
+      "com.fasterxml.jackson.datatype:jackson-datatype-jsr310",
+      "io.springfox:springfox-swagger2:2.9.2",
+      "io.springfox:springfox-swagger-ui:2.9.2",
+      project(':common')
+  )
+
+  compileOnly "org.springframework.cloud:spring-cloud-starter-openfeign:2.1.0.RELEASE"
+
+  testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+dependencyManagement {
+  imports { mavenBom("org.springframework.boot:spring-boot-dependencies:${springBootVersion}") }
+}
+
+compileKotlin {
+  kotlinOptions.jvmTarget = "1.8"
+}
+compileTestKotlin {
+  kotlinOptions.jvmTarget = "1.8"
+}

@@ -1,0 +1,10 @@
+server:
+  port: 8201
+
+feign.client.dealer:
+  name: testEntityClient
+  url: http://localhost:8080/api/dealer
+
+service.message: test
+
+store.service.car.price.margin: 12
