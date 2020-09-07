@@ -1,4 +1,3 @@
-group = 'paul'
 version = '0.0.3-SNAPSHOT'
 
 dependencies {
