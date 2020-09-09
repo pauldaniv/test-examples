@@ -4,7 +4,7 @@ buildscript {
   ext.kotlin_version = '1.4.0'
   ext.springBootVersion = '2.3.+'
   ext.springCloudVersion = '2020.0.0-SNAPSHOT'
-  ext.dockerRepo = project.property("${project.property("TARGET_REGISTRY")}_DOCKER_REGISTRY_URL")
+  ext.dockerRepo = project.findProperty("${project.findProperty("TARGET_REGISTRY")}_DOCKER_REGISTRY_URL")
 
   repositories {
     maven {url "https://plugins.gradle.org/m2/"}
