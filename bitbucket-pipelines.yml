@@ -6,7 +6,7 @@
 image: openjdk:8
 
 pipelines:
-  test:
+  default:
     - step:
         caches:
           - gradle
