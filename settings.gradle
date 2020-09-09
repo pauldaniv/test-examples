@@ -7,4 +7,9 @@ include 'common'
 include 'common-interservice'
 include 'db-service'
 include 'spark'
-include 'kafka-service'
+
+include 's3-file-discovery'
+include 's3-file-handling'
+
+project(':s3-file-discovery').projectDir = new File(rootDir, 'kafka/s3-file-discovery')
+project(':s3-file-handling').projectDir = new File(rootDir, 'kafka/s3-file-handling')
