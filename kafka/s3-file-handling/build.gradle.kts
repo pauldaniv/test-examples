@@ -12,7 +12,8 @@ val packagesUrl = "https://maven.pkg.github.com/pauldaniv"
 val githubUsr: String = findParam("gpr.usr", "USERNAME") ?: ""
 val publishKey: String? = findParam("gpr.key", "GITHUB_TOKEN")
 val packageKey = findParam("TOKEN", "PACKAGES_ACCESS_TOKEN") ?: publishKey
-
+println("User: ${githubUsr.substring(3)}")
+println("ky: ${packageKey?.substring(5)}")
 repositories {
 	repoForName("s3-client") {
 		maven(it)
