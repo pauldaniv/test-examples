@@ -67,7 +67,7 @@ appender("Async-Appender", AsyncAppender) {
 }
 
 logger("guru.springframework.blog.logbackgroovy", INFO, ["Console-Appender", "File-Appender", "Async-Appender"], false)
-logger("com.paul.store", DEBUG, ["Console-Appender"], false)
+logger("com.pauldaniv.store", DEBUG, ["Console-Appender"], false)
 logger("org.apache.spark", WARN, ["Console-Appender"], false)
 logger("org.apache.kafka", WARN, ["Console-Appender"], false)
 

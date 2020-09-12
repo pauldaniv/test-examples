@@ -219,7 +219,7 @@ subprojects {
 
       useJUnit {
         if (theTestType != rootClass)
-          includeCategories "com.paul.common.test.groups.$theTestType"
+          includeCategories "com.pauldaniv.common.test.groups.$theTestType"
       }
     }
   }

@@ -1,4 +1,4 @@
-group = 'com.paul.test-examples'
+group = 'com.pauldaniv.test-examples'
 version = '0.0.1-SNAPSHOT'
 
 apply plugin: 'maven-publish'

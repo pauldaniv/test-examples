@@ -1,7 +1,7 @@
-package com.paul.spark.graphx
+package com.pauldaniv.spark.graphx
 
-import com.paul.spark.dataframe.DataFrameExample
-import com.paul.spark.model.Engagement
+import com.pauldaniv.spark.dataframe.DataFrameExample
+import com.pauldaniv.spark.model.Engagement
 import org.apache.spark.SparkContext
 import org.apache.spark.graphx.{Edge, Graph, VertexRDD}
 import org.springframework.stereotype.Component
