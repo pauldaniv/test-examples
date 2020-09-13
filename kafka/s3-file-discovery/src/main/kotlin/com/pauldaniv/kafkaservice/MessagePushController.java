@@ -17,19 +17,19 @@ import javax.validation.Valid;
 @RequestMapping("/api/v1/queue")
 @RequiredArgsConstructor
 public class MessagePushController {
-    private final ProducerService kafkaProducer;
-
-    @Operation(
-            summary = "Push message to queue",
-            description = "Pushes new 'ticket' about work assign to specific leader",
-            tags = "streaming"
-    )
-    @PostMapping("/{topic}")
-    String post(
-            @Parameter(description = "The topic to be used to push message to, default 'primary'")
-            @PathVariable String topic,
-            @Parameter(description = "The data that represents a single event of work assigning")
-            @RequestBody @Valid String data) {
-        return kafkaProducer.pushMessage(topic, data);
-    }
+//    private final ProducerService kafkaProducer;
+//
+//    @Operation(
+//            summary = "Push message to queue",
+//            description = "Pushes new 'ticket' about work assign to specific leader",
+//            tags = "streaming"
+//    )
+//    @PostMapping("/{topic}")
+//    String post(
+//            @Parameter(description = "The topic to be used to push message to, default 'primary'")
+//            @PathVariable String topic,
+//            @Parameter(description = "The data that represents a single event of work assigning")
+//            @RequestBody @Valid String data) {
+//        return kafkaProducer.pushMessage(topic, data);
+//    }
 }

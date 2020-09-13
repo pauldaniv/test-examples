@@ -1,49 +1,109 @@
-package com.pauldaniv.kafkaservice;
+package com.pauldaniv.kafkaservice
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import org.apache.kafka.clients.admin.NewTopic;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.kafka.core.KafkaOperations;
-import org.springframework.kafka.support.converter.RecordMessageConverter;
-import org.springframework.kafka.support.converter.StringJsonMessageConverter;
-
-import java.io.Serializable;
-import java.util.function.Supplier;
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.SerializationFeature
+import com.pauldaniv.kafkaservice.common.Bar2
+import com.pauldaniv.kafkaservice.common.Foo2
+import org.apache.kafka.clients.admin.NewTopic
+import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
+import org.springframework.kafka.annotation.KafkaListener
+import org.springframework.kafka.config.TopicBuilder
+import org.springframework.kafka.core.KafkaOperations
+import org.springframework.kafka.core.KafkaTemplate
+import org.springframework.kafka.listener.DeadLetterPublishingRecoverer
+import org.springframework.kafka.listener.SeekToCurrentErrorHandler
+import org.springframework.kafka.support.converter.*
+import org.springframework.util.backoff.FixedBackOff
+import java.io.Serializable
+import java.util.*
 
 @Configuration
-public class KafkaConfig implements Serializable {
-    public static Supplier<KafkaOperations<String, Object>> kafkaTemplateSupplier;
+class KafkaConfig : Serializable {
 
-    @Value("${spring.kafka.template.default-topic}")
-    private String defaultTopic;
+  private val log = LoggerFactory.getLogger(KafkaConfig::class.java)
+//
+//  @Value("\${spring.kafka.template.default-topic}")
+//  private val defaultTopic: String? = null
 
-    @Autowired
-    public void kafkaTemplate(KafkaOperations<String, Object> kafkaOperations) {
-        kafkaTemplateSupplier = () -> kafkaOperations;
+  @Bean
+  fun converter(): RecordMessageConverter {
+    val converter = StringJsonMessageConverter()
+    val typeMapper = DefaultJackson2JavaTypeMapper()
+    typeMapper.typePrecedence = Jackson2JavaTypeMapper.TypePrecedence.TYPE_ID
+    typeMapper.addTrustedPackages("com.pauldaniv.kafkaservice.common")
+    val mappings: MutableMap<String, Class<*>> = HashMap()
+    mappings["foo"] = Foo2::class.java
+    mappings["bar"] = Bar2::class.java
+    typeMapper.idClassMapping = mappings
+    converter.typeMapper = typeMapper
+    return converter
+  }
+
+  @Bean
+  fun topic2(): NewTopic {
+    return TopicBuilder.name("topic2").partitions(1).replicas(1).build()
+  }
+
+  @Bean
+  fun topic3(): NewTopic {
+    return TopicBuilder.name("topic3").partitions(1).replicas(1).build()
+  }
+
+  @Bean
+  fun errorHandler(template: KafkaTemplate<*, *>): SeekToCurrentErrorHandler {
+    return SeekToCurrentErrorHandler(
+        DeadLetterPublishingRecoverer(template as KafkaOperations<out Any, out Any>), FixedBackOff(1000L, 2))
+  }
+
+  @Bean
+  fun foos(): NewTopic {
+    return NewTopic("foos", 1, 1.toShort())
+  }
+
+  @Bean
+  fun bars(): NewTopic {
+    return NewTopic("bars", 1, 1.toShort())
+  }
+
+  @Autowired
+  fun objectMapper(objectMapper: ObjectMapper) {
+    objectMapper.enable(SerializationFeature.INDENT_OUTPUT)
+  }
+
+  @KafkaListener(id = "default", topics = ["primary"])
+  fun primaryListen(`in`: String) {
+    println("Received message: $`in`")
+  }
+
+  @Bean
+  fun defaultTopic(): NewTopic {
+    return NewTopic("primary", 1, 1.toShort())
+  }
+
+  @KafkaListener(id = "fooGroup", topics = ["topic1"])
+  fun listen(foo: Foo2) {
+    log.info("Received: $foo")
+    if ((foo.foo?:"").startsWith("fail")) {
+      throw RuntimeException("failed")
     }
+  }
 
-    @Bean
-    public RecordMessageConverter converter() {
-        return new StringJsonMessageConverter();
-    }
+  @KafkaListener(id = "dltGroup", topics = ["topic1.DLT"])
+  fun dltListen(`in`: String) {
+    log.info("Received from DLT: $`in`")
+  }
 
-    @Autowired
-    public void objectMapper(ObjectMapper objectMapper) {
-        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
-    }
+  @Bean
+  fun topic(): NewTopic {
+    return NewTopic("topic1", 1, 1.toShort())
+  }
 
-    @KafkaListener(topics = "primary")
-    public void primaryListen(String in) {
-        System.out.println("Received message: " + in);
-    }
+  @Bean
+  fun dlt(): NewTopic {
+    return NewTopic("topic1.DLT", 1, 1.toShort())
+  }
 
-    @Bean
-    public NewTopic defaultTopic() {
-        return new NewTopic(defaultTopic, 1, (short) 1);
-    }
 }
