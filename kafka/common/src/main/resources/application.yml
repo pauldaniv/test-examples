@@ -1,10 +1,10 @@
-server.port: 4306
+server.port: 4305
 
 spring:
   kafka:
     producer:
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-      transaction-id-prefix: txh.
+      transaction-id-prefix: tx.
     consumer:
       properties:
         isolation.level: read_committed

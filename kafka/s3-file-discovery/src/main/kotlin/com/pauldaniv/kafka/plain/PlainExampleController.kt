@@ -1,6 +1,6 @@
-package com.pauldaniv.kafkaservice.plain
+package com.pauldaniv.kafka.plain
 
-import com.pauldaniv.kafkaservice.common.Foo1
+import com.pauldaniv.kafka.common.Foo1
 import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping

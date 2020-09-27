@@ -1,7 +1,7 @@
-package com.pauldaniv.kafkaservice.multymethod
+package com.pauldaniv.kafka.multymethod
 
-import com.pauldaniv.kafkaservice.common.Bar2
-import com.pauldaniv.kafkaservice.common.Foo2
+import com.pauldaniv.kafka.common.Bar2
+import com.pauldaniv.kafka.common.Foo2
 import org.springframework.kafka.annotation.KafkaHandler
 import org.springframework.kafka.annotation.KafkaListener
 import org.springframework.stereotype.Component

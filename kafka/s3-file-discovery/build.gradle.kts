@@ -20,9 +20,10 @@ repositories {
 }
 
 dependencies {
-
 	implementation(project(":common"))
 	implementation(project(":common-interservice"))
+	implementation(project(":kafka-common"))
+
 	implementation("com.pauldaniv.aws.s3:client:0.0.3-SNAPSHOT")
 
 	implementation("org.springframework.boot:spring-boot-starter-web")

@@ -10,6 +10,8 @@ include 'spark'
 
 include 's3-file-discovery'
 include 's3-file-handling'
+include 'kafka-common'
 
 project(':s3-file-discovery').projectDir = new File(rootDir, 'kafka/s3-file-discovery')
 project(':s3-file-handling').projectDir = new File(rootDir, 'kafka/s3-file-handling')
+project(':kafka-common').projectDir = new File(rootDir, 'kafka/common')

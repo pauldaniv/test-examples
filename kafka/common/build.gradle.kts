@@ -20,10 +20,9 @@ repositories {
 }
 
 dependencies {
+
 	implementation(project(":common"))
 	implementation(project(":common-interservice"))
-	implementation(project(":kafka-common"))
-
 	implementation("com.pauldaniv.aws.s3:client:0.0.3-SNAPSHOT")
 
 	implementation("org.springframework.boot:spring-boot-starter-web")
@@ -47,6 +46,7 @@ tasks.withType<KotlinCompile> {
 	}
 }
 
+project.extra["library"] = true
 
 fun repoForName(vararg repos: String, repoRegistrar: (MavenArtifactRepository.() -> Unit) -> Unit) = repos.forEach {
 	val maven: MavenArtifactRepository.() -> Unit = {

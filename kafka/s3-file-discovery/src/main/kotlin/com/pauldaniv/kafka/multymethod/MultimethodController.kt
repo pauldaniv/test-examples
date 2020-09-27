@@ -1,7 +1,7 @@
-package com.pauldaniv.kafkaservice.multymethod
+package com.pauldaniv.kafka.multymethod
 
-import com.pauldaniv.kafkaservice.common.Bar1
-import com.pauldaniv.kafkaservice.common.Foo1
+import com.pauldaniv.kafka.common.Bar1
+import com.pauldaniv.kafka.common.Foo1
 import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping

@@ -1,4 +1,4 @@
-package com.pauldaniv.kafkaservice.common
+package com.pauldaniv.kafka.common
 
 data class Foo1(val foo: String?) {
   override fun toString(): String {
