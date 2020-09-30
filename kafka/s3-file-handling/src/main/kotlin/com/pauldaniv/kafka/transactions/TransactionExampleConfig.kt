@@ -22,7 +22,7 @@ class TransactionExampleConfig(private val template: KafkaTemplate<Any?, Any?>) 
   @KafkaListener(id = "fooGroup2", topics = ["topic2"])
   fun listen1(foos: List<Foo1>) {
     log.info("Received: $foos")
-    foos.forEach { f: Foo1 -> template.send("topic3", f.foo?.toUpperCase()) }
+    foos.forEach { f: Foo1 -> template.send("topic3", f.foo) }
     log.info("Messages sent, hit Enter to commit tx")
     System.`in`.read()
     println()

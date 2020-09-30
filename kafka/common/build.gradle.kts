@@ -20,6 +20,7 @@ repositories {
 }
 
 dependencies {
+	api("com.pauldaniv.aws.s3:client:0.1.0-SNAPSHOT")
 
 	implementation(project(":common"))
 	implementation(project(":common-interservice"))

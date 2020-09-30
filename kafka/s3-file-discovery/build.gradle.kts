@@ -24,8 +24,6 @@ dependencies {
 	implementation(project(":common-interservice"))
 	implementation(project(":kafka-common"))
 
-	implementation("com.pauldaniv.aws.s3:client:0.0.3-SNAPSHOT")
-
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.springframework.cloud:spring-cloud-stream")
