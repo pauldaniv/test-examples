@@ -1,7 +1,7 @@
 import java.security.InvalidParameterException
 
 buildscript {
-  ext.kotlin_version = '1.4.0'
+  ext.kotlin_version = '1.4.10'
   ext.springBootVersion = '2.3.+'
   ext.springCloudVersion = '2020.0.0-SNAPSHOT'
   ext.dockerRepo = project.findProperty("${project.findProperty("TARGET_REGISTRY")}_DOCKER_REGISTRY_URL")
@@ -19,8 +19,8 @@ buildscript {
 
 //plugins {
 //  id 'io.spring.dependency-management' version '1.0.10.RELEASE'
-//  id 'org.jetbrains.kotlin.jvm' version '1.4.0'
-//  id 'org.jetbrains.kotlin.plugin.spring' version '1.4.0'
+//  id 'org.jetbrains.kotlin.jvm' version '1.4.10'
+//  id 'org.jetbrains.kotlin.plugin.spring' version '1.4.10'
 //}
 
 subprojects {

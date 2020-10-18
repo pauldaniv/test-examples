@@ -1,6 +1,6 @@
 package com.pauldaniv.kafka.controller
 
-import com.pauldaniv.kafka.common.Foo1
+import com.pauldaniv.kafka.common.model.Foo1
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.kafka.core.KafkaOperations
 import org.springframework.kafka.core.KafkaTemplate
@@ -23,9 +23,9 @@ class TransactionsController(private val template: KafkaTemplate<Any?, Any?>, pr
   fun sendFoo(@PathVariable what: String?) {
     template.executeInTransaction<Any?> { kafkaTemplate: KafkaOperations<Any?, in Any?> ->
       StringUtils.commaDelimitedListToSet(what).stream()
-          .map { s: String? -> Foo1(s) }
+          .map { s: String? -> Foo1("key", s) }
           .forEach { foo: Foo1? -> kafkaTemplate.send("topic2", foo) }
-      Foo1("done")
+      Foo1("key", "done")
     }
   }
 
@@ -46,12 +46,12 @@ class TransactionsController(private val template: KafkaTemplate<Any?, Any?>, pr
           while (iterVals.hasNext()) {
             val s3Object = iterVals.next() as S3Object
             if (s3Object.key().matches(".*/[0-9a-f]{64}".toRegex())) {
-              kafkaTemplate.send("topic2", Foo1(s3Object.key().substringAfterLast("/")))
+              kafkaTemplate.send("topic2", Foo1("key", s3Object.key().substringAfterLast("/")))
             }
           }
         }
         listObjects = ListObjectsV2Request.builder()
-            .bucket("fym-memes")
+            .bucket(bucket)
             .continuationToken(res.nextContinuationToken())
             .maxKeys(2)
             .build()

@@ -1,6 +1,6 @@
 package com.pauldaniv.kafka.transactions
 
-import com.pauldaniv.kafka.common.Foo1
+import com.pauldaniv.kafka.common.model.Foo1
 import org.slf4j.LoggerFactory
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

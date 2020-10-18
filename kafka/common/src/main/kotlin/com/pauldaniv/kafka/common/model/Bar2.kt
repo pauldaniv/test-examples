@@ -1,4 +1,4 @@
-package com.pauldaniv.kafka.common
+package com.pauldaniv.kafka.common.model
 
 data class Bar2(val bar: String?) {
   override fun toString(): String {

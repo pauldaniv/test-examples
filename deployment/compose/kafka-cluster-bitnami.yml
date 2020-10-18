@@ -64,7 +64,7 @@ services:
       KAFKA_CFG_ADVERTISED_LISTENERS: INTERNAL://broker1:19091,EXTERNAL_1://localhost:9091
       <<: *kafkaVariables
     volumes:
-      - ./out/zk-and-kafka/kafka1/data:/var/lib/kafka/data
+      - ./out/zk-and-kafka-bm/kafka1/data:/var/lib/kafka/data
     depends_on:
       - zoo1
       - zoo2
@@ -80,7 +80,7 @@ services:
       KAFKA_CFG_ADVERTISED_LISTENERS: INTERNAL://broker2:19092,EXTERNAL_1://localhost:9092
       <<: *kafkaVariables
     volumes:
-      - ./out/zk-and-kafka/kafka2/data:/var/lib/kafka/data
+      - ./out/zk-and-kafka-bm/kafka2/data:/var/lib/kafka/data
     depends_on:
       - zoo1
       - zoo2
@@ -96,7 +96,7 @@ services:
       KAFKA_CFG_ADVERTISED_LISTENERS: INTERNAL://broker3:19093,EXTERNAL_1://localhost:9093
       <<: *kafkaVariables
     volumes:
-      - ./out/zk-and-kafka/kafka3/data:/var/lib/kafka/data
+      - ./out/zk-and-kafka-bm/kafka3/data:/var/lib/kafka/data
     depends_on:
       - zoo1
       - zoo2

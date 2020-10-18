@@ -3,6 +3,7 @@ server.port: 4307
 spring:
   kafka:
     producer:
+      key-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 
 app.storage.type: ${STORAGE_TYPE:local}

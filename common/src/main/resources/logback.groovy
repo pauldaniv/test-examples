@@ -21,7 +21,7 @@ def CONSOLE_LOG_PATTERN =
         "%clr(${LOG_LEVEL_PATTERN}) " +
         "%clr(${PID}){magenta} " +
         "%clr(---){faint} %clr([%4.41t]){faint} " +
-        "%clr(%-14.89logger{200}){cyan} %clr(:){faint} " +
+        "%clr(%-14.140logger{320}){cyan} %clr(:){faint} " +
         "%m%n${LOG_EXCEPTION_CONVERSION_WORD}"
 
 

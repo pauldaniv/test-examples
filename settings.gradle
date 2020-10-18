@@ -8,12 +8,14 @@ include 'common-interservice'
 include 'db-service'
 include 'spark'
 
+include 'frontend-kafka'
 include 's3-file-discovery-tx'
 include 's3-file-discovery-plain'
 include 's3-file-handling-tx'
 include 's3-file-handling-plain'
 include 'kafka-common'
 
+project(':frontend-kafka').projectDir = new File(rootDir, 'kafka/frontend-kafka')
 project(':s3-file-discovery-tx').projectDir = new File(rootDir, 'kafka/s3-file-discovery-tx')
 project(':s3-file-discovery-plain').projectDir = new File(rootDir, 'kafka/s3-file-discovery-plain')
 project(':s3-file-handling-tx').projectDir = new File(rootDir, 'kafka/s3-file-handling-tx')

@@ -3,6 +3,7 @@ server.port: 4305
 spring:
   kafka:
     producer:
+      key-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       transaction-id-prefix: tx.
     consumer:

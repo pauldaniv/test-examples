@@ -1,7 +1,7 @@
 package com.pauldaniv.kafka.controller
 
-import com.pauldaniv.kafka.common.Bar1
-import com.pauldaniv.kafka.common.Foo1
+import com.pauldaniv.kafka.common.model.Bar1
+import com.pauldaniv.kafka.common.model.Foo1
 import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -14,12 +14,12 @@ class MultimethodController(private val template: KafkaTemplate<Any, Any>) {
 
   @PostMapping("/send/foo/{what}")
   fun sendFoo(@PathVariable what: String?) {
-    template.send("foos", Foo1(what))
+    template.send("foos", Foo1("key", what))
   }
 
   @PostMapping("/send/bar/{what}")
-  fun sendBar(@PathVariable what: String?) {
-    template.send("bars", Bar1(what))
+  fun sendBar(@PathVariable what: String) {
+    template.send("bars", Bar1("key", what))
   }
 
   @PostMapping("/send/unknown/{what}")

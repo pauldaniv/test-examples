@@ -1,6 +1,6 @@
 package com.pauldaniv.kafka.controller
 
-import com.pauldaniv.kafka.common.Foo1
+import com.pauldaniv.kafka.common.model.Foo1
 import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -12,6 +12,6 @@ import org.springframework.web.bind.annotation.RestController
 class PlainExampleController(private val template: KafkaTemplate<Any, Any>) {
   @PostMapping("/send/foo/{what}")
   fun sendFoo(@PathVariable what: String?) {
-    template.send("topic1", Foo1(what))
+    template.send("topic1", Foo1("key", what))
   }
 }

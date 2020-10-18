@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-	kotlin("plugin.spring") version "1.4.0"
+	kotlin("plugin.spring") version "1.4.10"
 }
 
 group = "com.pauldaniv"
