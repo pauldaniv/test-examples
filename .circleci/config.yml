@@ -45,4 +45,4 @@ jobs:
       # login to gitlab private registry
       - run: echo $DOCKER_PASS | docker login registry.gitlab.com -u $DOCKER_USER --password-stdin
       # push all the crap to the gitlab
-      - run: gradle dockerPush
+#      - run: gradle dockerPush
