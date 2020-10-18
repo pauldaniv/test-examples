@@ -60,7 +60,7 @@ services:
     ports:
       - 9091:9091
     environment:
-      KAFKA_CFG_LISTENERS: INTERNAL://broker1:19091,EXTERNAL_1://broker1:9091
+      KAFKA_CFG_LISTENERS: INTERNAL://:19091,EXTERNAL_1://:9091
       KAFKA_CFG_ADVERTISED_LISTENERS: INTERNAL://broker1:19091,EXTERNAL_1://localhost:9091
       <<: *kafkaVariables
     volumes:
@@ -76,7 +76,7 @@ services:
     ports:
       - 9092:9092
     environment:
-      KAFKA_CFG_LISTENERS: INTERNAL://broker2:19092,EXTERNAL_1://broker2:9092
+      KAFKA_CFG_LISTENERS: INTERNAL://:19092,EXTERNAL_1://:9092
       KAFKA_CFG_ADVERTISED_LISTENERS: INTERNAL://broker2:19092,EXTERNAL_1://localhost:9092
       <<: *kafkaVariables
     volumes:
@@ -92,7 +92,7 @@ services:
     ports:
       - 9093:9093
     environment:
-      KAFKA_CFG_LISTENERS: INTERNAL://broker3:19093,EXTERNAL_1://broker3:9093
+      KAFKA_CFG_LISTENERS: INTERNAL://:19093,EXTERNAL_1://:9093
       KAFKA_CFG_ADVERTISED_LISTENERS: INTERNAL://broker3:19093,EXTERNAL_1://localhost:9093
       <<: *kafkaVariables
     volumes:
