@@ -37,7 +37,7 @@ class CommonKafkaConfig {
   fun converter(): RecordMessageConverter {
     val converter = StringJsonMessageConverter()
     val typeMapper = DefaultJackson2JavaTypeMapper()
-    typeMapper.addTrustedPackages("com.pauldaniv.kafka.common")
+    typeMapper.addTrustedPackages("com.pauldaniv.kafka.common.model")
     typeMapper.typePrecedence = Jackson2JavaTypeMapper.TypePrecedence.TYPE_ID
     converter.typeMapper = typeMapper
     return converter
