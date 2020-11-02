@@ -9,15 +9,11 @@ include 'db-service'
 include 'spark'
 
 include 'frontend-kafka'
-include 's3-file-discovery-tx'
-include 's3-file-discovery-plain'
-include 's3-file-handling-tx'
-include 's3-file-handling-plain'
+include 's3-file-discovery'
+include 's3-file-handling'
 include 'kafka-common'
 
 project(':frontend-kafka').projectDir = new File(rootDir, 'kafka/frontend-kafka')
-project(':s3-file-discovery-tx').projectDir = new File(rootDir, 'kafka/s3-file-discovery-tx')
-project(':s3-file-discovery-plain').projectDir = new File(rootDir, 'kafka/s3-file-discovery-plain')
-project(':s3-file-handling-tx').projectDir = new File(rootDir, 'kafka/s3-file-handling-tx')
-project(':s3-file-handling-plain').projectDir = new File(rootDir, 'kafka/s3-file-handling-plain')
+project(':s3-file-discovery').projectDir = new File(rootDir, 'kafka/s3-file-discovery')
+project(':s3-file-handling').projectDir = new File(rootDir, 'kafka/s3-file-handling')
 project(':kafka-common').projectDir = new File(rootDir, 'kafka/common')

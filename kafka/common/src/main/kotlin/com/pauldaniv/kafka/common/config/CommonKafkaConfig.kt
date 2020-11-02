@@ -2,34 +2,30 @@ package com.pauldaniv.kafka.common.config
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
-import com.pauldaniv.kafka.common.model.Foo1
 import org.apache.kafka.clients.admin.NewTopic
-import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.ObjectProvider
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.ApplicationContext
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.context.annotation.Primary
-import org.springframework.kafka.annotation.KafkaListener
-import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory
+import org.springframework.kafka.config.TopicBuilder
 import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.kafka.core.ProducerFactory
-import org.springframework.kafka.support.converter.DefaultJackson2JavaTypeMapper
-import org.springframework.kafka.support.converter.Jackson2JavaTypeMapper
-import org.springframework.kafka.support.converter.RecordMessageConverter
-import org.springframework.kafka.support.converter.StringJsonMessageConverter
+import org.springframework.kafka.support.ProducerListener
+import org.springframework.kafka.support.converter.*
 
 @Configuration
 class CommonKafkaConfig {
 
-  private val log = LoggerFactory.getLogger(this::class.java)
-
-  @Primary
   @Bean
-  fun replyTemplate(pf: ProducerFactory<String, Foo1>,
-                    factory: ConcurrentKafkaListenerContainerFactory<String, Foo1>): KafkaTemplate<String, Foo1> {
-    val kafkaTemplate = KafkaTemplate(pf)
-    factory.containerProperties.isMissingTopicsFatal = false
-    factory.setReplyTemplate(kafkaTemplate)
+  fun kafkaTemplate(kafkaProducerFactory: ProducerFactory<String, *>,
+//                    kafkaProducerListener: ProducerListener<String, Any>,
+                    messageConverter: ObjectProvider<RecordMessageConverter>,
+                    context: ApplicationContext): KafkaTemplate<String, *> {
+    val kafkaTemplate = KafkaTemplate(kafkaProducerFactory)
+    messageConverter.ifUnique { kafkaTemplate.setMessageConverter(it) }
+//    kafkaTemplate.setProducerListener(kafkaProducerListener)
+    kafkaTemplate.defaultTopic = "default"
     return kafkaTemplate
   }
 
@@ -43,39 +39,68 @@ class CommonKafkaConfig {
     return converter
   }
 
+  @Bean
+  fun batchConverter(converter: RecordMessageConverter): BatchMessagingMessageConverter {
+    return BatchMessagingMessageConverter(converter)
+  }
+
   @Autowired
   fun objectMapper(objectMapper: ObjectMapper) {
     objectMapper.enable(SerializationFeature.INDENT_OUTPUT)
   }
 
-  @KafkaListener(id = "default", topics = ["primary"])
-  fun primaryListen(`in`: String) {
-    println("Received message: $`in`")
+  @Bean
+  fun topic1(): NewTopic {
+    return TopicBuilder.name("topic1").partitions(1).replicas(1).build()
   }
 
-  @KafkaListener(id = "fooGroup", topics = ["topic1"])
-  fun listen(foo1: Foo1) {
-    log.info("Received: $foo1")
-    if ((foo1.foo ?: "").startsWith("fail")) {
-      throw RuntimeException("failed")
-    }
+  @Bean
+  fun topic2(): NewTopic {
+    return TopicBuilder.name("topic2").partitions(1).replicas(1).build()
   }
 
-//fixme this breaks the build, keeping this just in case
-//  @Autowired
-//  @Bean
-//  fun errorHandler(template: KafkaTemplate<*, *>): SeekToCurrentErrorHandler {
-//    return SeekToCurrentErrorHandler(
-//        DeadLetterPublishingRecoverer(template as KafkaOperations<out Any, out Any>), FixedBackOff(1000L, 2))
-//  }
+  @Bean
+  fun topic3(): NewTopic {
+    return TopicBuilder.name("topic3").partitions(1).replicas(1).build()
+  }
 
-  @KafkaListener(id = "dltGroup", topics = ["topic1.DLT"])
-  fun dltListen(`in`: String) {
-    log.info("Received from DLT: $`in`")
+  @Bean
+  fun received(): NewTopic {
+    return TopicBuilder.name("received").partitions(1).replicas(1).build()
+  }
+
+  @Bean
+  fun persisted(): NewTopic {
+    return TopicBuilder.name("persisted").partitions(1).replicas(1).build()
+  }
+
+  @Bean
+  fun transferred(): NewTopic {
+    return TopicBuilder.name("transferred").partitions(1).replicas(1).build()
+  }
+
+  @Bean
+  fun foos(): NewTopic {
+    return TopicBuilder.name("foos").partitions(1).replicas(1).build()
+  }
+
+  @Bean
+  fun bars(): NewTopic {
+    return TopicBuilder.name("bars").partitions(1).replicas(1).build()
+  }
+
+  @Bean
+  fun primary(): NewTopic {
+    return TopicBuilder.name("primary").partitions(1).replicas(1).build()
+  }
+
+  @Bean
+  fun default(): NewTopic {
+    return TopicBuilder.name("default").partitions(1).replicas(1).build()
   }
 
   @Bean
   fun dlt(): NewTopic {
-    return NewTopic("topic1.DLT", 1, 1.toShort())
+    return TopicBuilder.name("topic1.DLT").partitions(1).replicas(1).build()
   }
 }
