@@ -11,5 +11,5 @@ import org.springframework.transaction.annotation.EnableTransactionManagement
 class KafkaFileHandlingTxApplication
 
 fun main(args: Array<String>) {
-	runApplication<KafkaFileHandlingTxApplication>(*args)
+  runApplication<KafkaFileHandlingTxApplication>(*args)
 }

@@ -86,7 +86,7 @@ abstract class AbstractCommonService<
   ResponseEntity<Resp<D>> ok(E dto) { Resp.ok(map(dto)) }
 
   List<D> map(List<E> entities) {
-    entities.stream().map { map(it) } .collect(Collectors.toList())
+    entities.stream().map { map(it) }.collect(Collectors.toList())
   }
 
   D map(E entity) { map.map(entity, d) }

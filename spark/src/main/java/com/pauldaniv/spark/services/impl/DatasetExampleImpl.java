@@ -7,8 +7,8 @@ import static org.apache.spark.sql.types.DataTypes.createStructField;
 import static org.apache.spark.sql.types.DataTypes.createStructType;
 
 import com.pauldaniv.spark.model.DwellingsStatistic;
-import com.pauldaniv.spark.services.ResourceResolver;
 import com.pauldaniv.spark.services.DatasetExample;
+import com.pauldaniv.spark.services.ResourceResolver;
 import lombok.RequiredArgsConstructor;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Encoders;

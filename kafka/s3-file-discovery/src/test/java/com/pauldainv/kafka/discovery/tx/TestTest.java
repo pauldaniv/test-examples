@@ -36,16 +36,12 @@ public class TestTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(TestTest.class);
 
     private static String TOPIC_NAME = "topic2";
-
-    @Autowired
-    private S3ObjectProducerService s3ObjectProducerService;
-
-    private KafkaMessageListenerContainer<String, Foo> container;
-
-    private BlockingQueue<ConsumerRecord<String, String>> consumerRecords;
-
     @ClassRule
     public static EmbeddedKafkaRule embeddedKafka = new EmbeddedKafkaRule(1, true, TOPIC_NAME);
+    @Autowired
+    private S3ObjectProducerService s3ObjectProducerService;
+    private KafkaMessageListenerContainer<String, Foo> container;
+    private BlockingQueue<ConsumerRecord<String, String>> consumerRecords;
 
     @Before
     public void setUp() {

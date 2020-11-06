@@ -25,9 +25,9 @@ class InvoiceServiceImpl extends AbstractCommonService<InvoiceDto, Invoice, Invo
   private Mapper map
 
   InvoiceServiceImpl(InvoiceRepository invoiceRepository,
-      CustomerRepository customerRepository,
-      OrderRepository orderRepository,
-      Mapper map) {
+                     CustomerRepository customerRepository,
+                     OrderRepository orderRepository,
+                     Mapper map) {
     super(invoiceRepository)
     this.invoiceRepository = invoiceRepository
     this.customerRepository = customerRepository

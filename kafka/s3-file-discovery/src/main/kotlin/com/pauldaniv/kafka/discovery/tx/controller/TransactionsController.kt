@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/tx")
 class TransactionsController(
-  private val s3ObjectProducerService: S3ObjectProducerService,
-  private val s3ObjectProcessingService: S3ObjectProcessingService,
+    private val s3ObjectProducerService: S3ObjectProducerService,
+    private val s3ObjectProcessingService: S3ObjectProcessingService,
 ) {
 
   @PostMapping("/send/foos/{what}")

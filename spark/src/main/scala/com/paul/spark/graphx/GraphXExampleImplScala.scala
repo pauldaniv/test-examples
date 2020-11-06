@@ -1,6 +1,5 @@
 package com.pauldaniv.spark.graphx
 
-import com.pauldaniv.spark.dataframe.DataFrameExample
 import com.pauldaniv.spark.model.Engagement
 import org.apache.spark.SparkContext
 import org.apache.spark.graphx.{Edge, Graph, VertexRDD}

@@ -34,18 +34,14 @@ import java.util.Set;
 public class KafkaStreamExecutor implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    @Value("${spark.stream.kafka.durations}")
-    private String streamDurationTime;
-
-    @Value("${spring.kafka.template.default-topic}")
-    private String topic;
-
-    @Value("${spring.kafka.bootstrap-servers}")
-    private String kafkaBootstrapServers;
-
     private final transient JavaSparkContext javaSparkContext;
     private final MessageHandler messageHandler;
+    @Value("${spark.stream.kafka.durations}")
+    private String streamDurationTime;
+    @Value("${spring.kafka.template.default-topic}")
+    private String topic;
+    @Value("${spring.kafka.bootstrap-servers}")
+    private String kafkaBootstrapServers;
 
     public void execute() {
         try {
@@ -85,6 +81,11 @@ public class KafkaStreamExecutor implements Serializable {
     public static class ConsultationSubmitDecoder implements Decoder<ConsultationSubmit> {
         private final Charset encoding;
 
+        public ConsultationSubmitDecoder(VerifiableProperties props) {
+            this.encoding = props == null ? UTF_8 : Charset
+                    .forName(props.getString("serializer.encoding", UTF_8.name()));
+        }
+
         @Override
         public ConsultationSubmit fromBytes(byte[] bytes) {
             try {
@@ -96,10 +97,6 @@ public class KafkaStreamExecutor implements Serializable {
                 e.printStackTrace();
             }
             return null;
-        }
-
-        public ConsultationSubmitDecoder(VerifiableProperties props) {
-            this.encoding = props == null ? UTF_8 : Charset.forName(props.getString("serializer.encoding", UTF_8.name()));
         }
     }
 }

@@ -27,9 +27,9 @@ class OrderServiceImpl extends AbstractCommonService<OrderDto, Order, OrderRepos
   Mapper map
 
   OrderServiceImpl(CustomerRepository customerRepository,
-      CarRepository carRepository,
-      OrderRepository orderRepository,
-      Mapper map) {
+                   CarRepository carRepository,
+                   OrderRepository orderRepository,
+                   Mapper map) {
     super(orderRepository)
     this.customerRepository = customerRepository
     this.carRepository = carRepository

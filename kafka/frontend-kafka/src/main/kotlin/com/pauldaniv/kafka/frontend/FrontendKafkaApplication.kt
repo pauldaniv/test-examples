@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class FrontendKafkaApplication
 
 fun main(args: Array<String>) {
-	runApplication<FrontendKafkaApplication>(*args)
+  runApplication<FrontendKafkaApplication>(*args)
 }

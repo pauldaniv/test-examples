@@ -4,9 +4,9 @@ import static org.apache.spark.storage.StorageLevel.MEMORY_ONLY;
 import static scala.Tuple2.apply;
 import static scala.reflect.ClassTag$.MODULE$;
 
-import com.pauldaniv.spark.services.DataFrameExample;
 import com.pauldaniv.spark.model.Engagement;
 import com.pauldaniv.spark.model.User;
+import com.pauldaniv.spark.services.DataFrameExample;
 import com.pauldaniv.spark.services.GraphXExample;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

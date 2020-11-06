@@ -24,34 +24,34 @@ import java.util.*
 @RunWith(MockitoJUnitRunner::class)
 @Category(TestGroup.Fast.Unit::class)
 class CarServiceTest {
-  
+
   @InjectMocks
   private lateinit var carService: CarServiceImpl
-  
+
   @Spy
   private lateinit var repository: CarRepository
-  
+
   private val map = Mapper(ObjectMapper())
-  
+
   @Before
   fun before() {
     setField(carService, "map", map)
     setField(carService, "marginHigh", 0.1)
     setField(carService, "marginLow", 0.2)
   }
-  
+
   @Test
   fun availabilityFalseTest() {
     doReturn(composeNotAvailableCar()).`when`(repository).findById(1L)
     assertThat(carService.getOne(1L).body!!.body.available).isEqualTo(false)
   }
-  
+
   @Test
   fun availabilityTrueTest() {
     doReturn(composeAvailableCar()).`when`(repository).findById(1L)
     assertThat(carService.getOne(1L).body!!.body.available).isEqualTo(true)
   }
-  
+
   @Test
   fun carCountTest() {
     val car = composeAvailableCar()
@@ -59,15 +59,15 @@ class CarServiceTest {
     Mockito.`when`(repository.save(car.get())).thenReturn(getCar(10).get())
     assertThat(carService.updateCarCount(1L, 10).body!!.body.count).isEqualTo(10)
   }
-  
+
   private fun composeAvailableCar(): Optional<Car> {
     return getCar(1)
   }
-  
+
   private fun composeNotAvailableCar(): Optional<Car> {
     return getCar(0)
   }
-  
+
   private fun getCar(count: Int): Optional<Car> {
     return Optional.of(Car.builder()
         .brand("BMW")

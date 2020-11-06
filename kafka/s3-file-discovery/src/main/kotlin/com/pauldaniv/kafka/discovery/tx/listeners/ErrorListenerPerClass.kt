@@ -4,7 +4,6 @@ import com.pauldaniv.kafka.common.model.Bar
 import com.pauldaniv.kafka.common.model.Foo
 import org.springframework.kafka.annotation.KafkaHandler
 import org.springframework.kafka.annotation.KafkaListener
-import org.springframework.stereotype.Component
 
 // this might be a convenient way of handling broken  messages, well, we'll see
 //@Component

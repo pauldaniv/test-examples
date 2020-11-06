@@ -139,7 +139,7 @@ class CarPurchasingTest {
     assertThat(orderResponse.body?.body).isNotNull
   }
 
-  private fun truncateTable(table : String): String {
+  private fun truncateTable(table: String): String {
     return "truncate table $table; ${cleanupIdentity(table)}"
   }
 

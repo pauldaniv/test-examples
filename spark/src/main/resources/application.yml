@@ -22,7 +22,7 @@ spring:
     serialization:
       write_dates_as_timestamps: false
   kafka:
-    bootstrap-servers:  ${KAFKA_URL:localhost:9092}
+    bootstrap-servers: ${KAFKA_URL:localhost:9092}
     producer:
       key-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer

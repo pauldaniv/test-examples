@@ -8,8 +8,8 @@ import static scala.collection.JavaConversions.asScalaBuffer;
 
 import com.pauldaniv.spark.model.Engagement;
 import com.pauldaniv.spark.model.User;
-import com.pauldaniv.spark.services.ResourceResolver;
 import com.pauldaniv.spark.services.DataFrameExample;
+import com.pauldaniv.spark.services.ResourceResolver;
 import lombok.RequiredArgsConstructor;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.sql.Column;
@@ -91,9 +91,12 @@ public class DataFrameExampleImpl implements DataFrameExample {
         return new Engagement(
                 row.getAs(GUID),
                 row.getAs(NAME),
-                mapUsers(row.getAs(LEADERS_GUI_DS_RAW), row.getAs(LEADERS_EMAILS_RAW), row.getAs(LEADERS_FULL_NAMES_RAW)),
-                mapUsers(row.getAs(MANAGERS_GUI_DS_RAW), row.getAs(MANAGERS_EMAILS_RAW), row.getAs(MANAGERS_FULL_NAMES_RAW)),
-                mapUsers(row.getAs(MEMBERS_GUIDS_RAW), row.getAs(MEMBERS_EMAILS_RAW), row.getAs(MEMBERS_FULL_NAMES_RAW)),
+                mapUsers(row.getAs(LEADERS_GUI_DS_RAW), row.getAs(LEADERS_EMAILS_RAW),
+                        row.getAs(LEADERS_FULL_NAMES_RAW)),
+                mapUsers(row.getAs(MANAGERS_GUI_DS_RAW), row.getAs(MANAGERS_EMAILS_RAW),
+                        row.getAs(MANAGERS_FULL_NAMES_RAW)),
+                mapUsers(row.getAs(MEMBERS_GUIDS_RAW), row.getAs(MEMBERS_EMAILS_RAW),
+                        row.getAs(MEMBERS_FULL_NAMES_RAW)),
                 mapAuditUnits(row.getAs(AUDIT_UNITS))
         );
     }
