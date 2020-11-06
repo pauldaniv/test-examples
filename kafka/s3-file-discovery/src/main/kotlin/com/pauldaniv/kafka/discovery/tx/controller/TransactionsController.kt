@@ -21,8 +21,8 @@ class TransactionsController(
     s3ObjectProducerService.sendFoos(what)
   }
 
-  @PostMapping("/s3-discovery/{bucket}")
-  fun listS3(@PathVariable bucket: String) {
-    s3ObjectProcessingService.processS3Objets(bucket)
+  @PostMapping("/s3-discovery/{bucket}/custom/{custom}")
+  fun listS3(@PathVariable bucket: String, @PathVariable custom: String?) {
+    s3ObjectProcessingService.processS3Objets(bucket, custom)
   }
 }

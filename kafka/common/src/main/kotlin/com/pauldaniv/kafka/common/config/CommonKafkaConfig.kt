@@ -5,13 +5,13 @@ import com.fasterxml.jackson.databind.SerializationFeature
 import org.apache.kafka.clients.admin.NewTopic
 import org.springframework.beans.factory.ObjectProvider
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.context.ApplicationContext
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.kafka.config.TopicBuilder
 import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.kafka.core.ProducerFactory
-import org.springframework.kafka.support.ProducerListener
 import org.springframework.kafka.support.converter.*
 
 @Configuration
@@ -39,6 +39,7 @@ class CommonKafkaConfig {
     return converter
   }
 
+  @ConditionalOnProperty(value = ["spring.kafka.listener.type"], havingValue = "batch")
   @Bean
   fun batchConverter(converter: RecordMessageConverter): BatchMessagingMessageConverter {
     return BatchMessagingMessageConverter(converter)
@@ -47,11 +48,6 @@ class CommonKafkaConfig {
   @Autowired
   fun objectMapper(objectMapper: ObjectMapper) {
     objectMapper.enable(SerializationFeature.INDENT_OUTPUT)
-  }
-
-  @Bean
-  fun topic1(): NewTopic {
-    return TopicBuilder.name("topic1").partitions(1).replicas(1).build()
   }
 
   @Bean
@@ -80,27 +76,20 @@ class CommonKafkaConfig {
   }
 
   @Bean
-  fun foos(): NewTopic {
-    return TopicBuilder.name("foos").partitions(1).replicas(1).build()
-  }
-
-  @Bean
-  fun bars(): NewTopic {
-    return TopicBuilder.name("bars").partitions(1).replicas(1).build()
-  }
-
-  @Bean
-  fun primary(): NewTopic {
-    return TopicBuilder.name("primary").partitions(1).replicas(1).build()
-  }
-
-  @Bean
   fun default(): NewTopic {
     return TopicBuilder.name("default").partitions(1).replicas(1).build()
   }
 
+  // it's error handling time!
+  @Bean
+  fun errorHandelTopic(): NewTopic {
+    return TopicBuilder.name("errorHandleTopic").partitions(1).replicas(1).build()
+  }
+
   @Bean
   fun dlt(): NewTopic {
-    return TopicBuilder.name("topic1.DLT").partitions(1).replicas(1).build()
+    return TopicBuilder.name("topic2.DLT").partitions(1).replicas(1).build()
   }
+
+
 }

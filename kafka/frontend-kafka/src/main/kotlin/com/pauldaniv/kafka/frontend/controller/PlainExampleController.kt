@@ -1,7 +1,7 @@
 package com.pauldaniv.kafka.frontend.controller
 
-import com.pauldaniv.kafka.common.model.Bar1
-import com.pauldaniv.kafka.common.model.Foo1
+import com.pauldaniv.kafka.common.model.Bar
+import com.pauldaniv.kafka.common.model.Foo
 
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.springframework.beans.factory.annotation.Value
@@ -15,14 +15,14 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/plain")
-class PlainExampleController(private val replyingKafkaTemplate: ReplyingKafkaTemplate<String, Foo1, Bar1?>) {
+class PlainExampleController(private val replyingKafkaTemplate: ReplyingKafkaTemplate<String, Foo, Bar?>) {
 
   @Value("\${kafka.request.topic}")
   private val requestTopic: String? = null
 
   @PostMapping("/get-result")
-  fun getObject(@RequestBody bar1: Foo1): ResponseEntity<Bar1?> {
-    val future = replyingKafkaTemplate.sendAndReceive(ProducerRecord(requestTopic, null, bar1.name, bar1))
+  fun getObject(@RequestBody bar: Foo): ResponseEntity<Bar?> {
+    val future = replyingKafkaTemplate.sendAndReceive(ProducerRecord(requestTopic, null, bar.name, bar))
     val response = future.get()
     return ResponseEntity(response.value(), HttpStatus.OK)
   }

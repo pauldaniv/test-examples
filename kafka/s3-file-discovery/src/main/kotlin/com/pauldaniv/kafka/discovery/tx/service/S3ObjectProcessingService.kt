@@ -1,6 +1,6 @@
 package com.pauldaniv.kafka.discovery.tx.service
 
-import com.pauldaniv.kafka.common.model.Foo1
+import com.pauldaniv.kafka.common.model.Bar
 import org.springframework.stereotype.Component
 import software.amazon.awssdk.services.s3.S3Client
 import software.amazon.awssdk.services.s3.model.ListObjectsV2Request
@@ -12,7 +12,7 @@ class S3ObjectProcessingService(
     private val s3ObjectProducerService: S3ObjectProducerService
 ) {
 
-  fun processS3Objets(bucket: String) {
+  fun processS3Objets(bucket: String, customValue: String?) {
     var listObjects: ListObjectsV2Request? = ListObjectsV2Request.builder()
         .bucket(bucket)
         .maxKeys(100)
@@ -24,8 +24,8 @@ class S3ObjectProcessingService(
         val objectKeys = res.contents()
             .map { it.key() }
             .filter { it.matches(".*/[0-9a-f]{64}".toRegex()) }
-            .map { Foo1("key", it.substringAfterLast("/")) }
-
+            .map { Bar("key", it.substringAfterLast("/")) }.toMutableList()
+        customValue?.let { objectKeys.add(Bar("key", it)) }
         s3ObjectProducerService.sendS3Objects(objectKeys)
       }
 

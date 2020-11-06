@@ -5,7 +5,7 @@ import static org.springframework.kafka.test.assertj.KafkaConditions.key;
 import static org.springframework.kafka.test.assertj.KafkaConditions.value;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pauldaniv.kafka.common.model.Foo1;
+import com.pauldaniv.kafka.common.model.Foo;
 import com.pauldaniv.kafka.discovery.tx.service.S3ObjectProducerService;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.junit.After;
@@ -40,7 +40,7 @@ public class TestTest {
     @Autowired
     private S3ObjectProducerService s3ObjectProducerService;
 
-    private KafkaMessageListenerContainer<String, Foo1> container;
+    private KafkaMessageListenerContainer<String, Foo> container;
 
     private BlockingQueue<ConsumerRecord<String, String>> consumerRecords;
 
@@ -56,7 +56,7 @@ public class TestTest {
         Map<String, Object> consumerProperties = KafkaTestUtils.consumerProps(
                 "sender", "false", embeddedKafka.getEmbeddedKafka());
 
-        DefaultKafkaConsumerFactory<String, Foo1> consumer = new DefaultKafkaConsumerFactory<>(consumerProperties);
+        DefaultKafkaConsumerFactory<String, Foo> consumer = new DefaultKafkaConsumerFactory<>(consumerProperties);
 
         container = new KafkaMessageListenerContainer<>(consumer, containerProperties);
         container.setupMessageListener((MessageListener<String, String>) record -> {
@@ -75,13 +75,13 @@ public class TestTest {
 
     @Test
     public void testSendMessage() throws InterruptedException, IOException {
-        final Foo1 foo1 = new Foo1("key", "hello");
-        s3ObjectProducerService.sendS3Objects(Collections.singletonList(foo1));
+        final Foo foo = new Foo("key", "hello");
+        s3ObjectProducerService.sendS3Objects(Collections.singletonList(foo));
 
         ConsumerRecord<String, String> received = consumerRecords.poll(10, TimeUnit.SECONDS);
 
         ObjectMapper mapper = new ObjectMapper();
-        String json = mapper.writeValueAsString(foo1);
+        String json = mapper.writeValueAsString(foo);
 
         assertThat(received).has(value(json));
 

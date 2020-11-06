@@ -6,9 +6,11 @@ spring:
       key-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       transaction-id-prefix: txd.
-    consumer:
       properties:
-        isolation.level: read_committed
+        enable.idempotence: true
+
+    consumer:
+      isolation-level: read_committed
     listener:
       type: batch
 

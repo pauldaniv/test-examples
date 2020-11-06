@@ -6,11 +6,21 @@ spring:
       key-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       transaction-id-prefix: txh.
-    consumer:
       properties:
-        isolation.level: read_committed
+        enable.idempotence: true
+
+    consumer:
+      isolation-level: read_committed
     listener:
       type: batch
+
+  datasource:
+    url: jdbc:postgresql://localhost:56320/kafka
+    username: kafka
+    password: kafka
+  jpa:
+    hibernate.ddl-auto: create
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
 
 app.storage.type: ${STORAGE_TYPE:local}
 
