@@ -5,6 +5,7 @@ import static org.springframework.kafka.test.assertj.KafkaConditions.key;
 import static org.springframework.kafka.test.assertj.KafkaConditions.value;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pauldaniv.kafka.common.model.Bar;
 import com.pauldaniv.kafka.common.model.Foo;
 import com.pauldaniv.kafka.discovery.tx.service.S3ObjectProducerService;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -71,13 +72,13 @@ public class TestTest {
 
     @Test
     public void testSendMessage() throws InterruptedException, IOException {
-        final Foo foo = new Foo("key", "hello");
-        s3ObjectProducerService.sendS3Objects(Collections.singletonList(foo));
+        final Bar bar = new Bar("key", "hello");
+        s3ObjectProducerService.sendS3Objects(Collections.singletonList(bar));
 
         ConsumerRecord<String, String> received = consumerRecords.poll(10, TimeUnit.SECONDS);
 
         ObjectMapper mapper = new ObjectMapper();
-        String json = mapper.writeValueAsString(foo);
+        String json = mapper.writeValueAsString(bar);
 
         assertThat(received).has(value(json));
 

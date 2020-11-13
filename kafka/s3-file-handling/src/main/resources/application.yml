@@ -11,8 +11,7 @@ spring:
 
     consumer:
       isolation-level: read_committed
-    listener:
-      type: batch
+      enable-auto-commit: false
 
   datasource:
     url: jdbc:postgresql://localhost:56320/kafka

@@ -11,8 +11,7 @@ spring:
 
     consumer:
       isolation-level: read_committed
-    listener:
-      type: batch
+      enable-auto-commit: false
 
 app.storage.type: ${STORAGE_TYPE:local}
 

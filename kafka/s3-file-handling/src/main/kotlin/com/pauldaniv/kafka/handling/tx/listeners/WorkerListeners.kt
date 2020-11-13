@@ -23,7 +23,8 @@ class WorkerListeners(
   // way doing that (should be, you dumass!). Possibly by
   // configuring message converter map or smth
   @KafkaListener(groupId = "handling", topics = ["topic2"])
-  fun listen1(bars: List<Bar>) {
+  fun listen1(bar: Bar) {
+    val bars = listOf(bar)
     log.info("Received: $bars")
 
     // and yes, it should also work the other way around, if we
@@ -53,7 +54,7 @@ class WorkerListeners(
     // but at least we'll have track of invalid batch somewhere,
 
     if (bars.find { it.bar.contains("fail1") } != null) {
-      kafkaTemplate.send("errorHandleTopic", bars.find { it.bar.contains("fail1") })
+      kafkaTemplate.send("errorHandleTopic", "aoeu" )
     }
     if (bars.find { it.bar.contains("fail") } != null) {
       // normally, I'd just throw an exception here, but since there is no obvious

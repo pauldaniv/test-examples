@@ -19,12 +19,10 @@ class CommonKafkaConfig {
 
   @Bean
   fun kafkaTemplate(kafkaProducerFactory: ProducerFactory<String, *>,
-//                    kafkaProducerListener: ProducerListener<String, Any>,
                     messageConverter: ObjectProvider<RecordMessageConverter>,
                     context: ApplicationContext): KafkaTemplate<String, *> {
     val kafkaTemplate = KafkaTemplate(kafkaProducerFactory)
     messageConverter.ifUnique { kafkaTemplate.setMessageConverter(it) }
-//    kafkaTemplate.setProducerListener(kafkaProducerListener)
     kafkaTemplate.defaultTopic = "default"
     return kafkaTemplate
   }
@@ -91,5 +89,10 @@ class CommonKafkaConfig {
     return TopicBuilder.name("topic2.DLT").partitions(1).replicas(1).build()
   }
 
-
+// if we declare an errorHandler, it will make the transaction to commit with bad message in it, sad but true
+//  @Bean
+//  fun errorHandler(template: KafkaOperations<Any, Any>): SeekToCurrentErrorHandler? {
+//    return SeekToCurrentErrorHandler(
+//        DeadLetterPublishingRecoverer(template), FixedBackOff(1000L, 2))
+//  }
 }
