@@ -1,8 +1,8 @@
-package com.pauldaniv.kafka.handling.tx.listeners
+package com.pauldaniv.kafka.handling.listeners
 
 import com.pauldaniv.kafka.common.model.Bar
 import com.pauldaniv.kafka.common.model.Foo
-import com.pauldaniv.kafka.handling.tx.service.S3ObjectInfoService
+import com.pauldaniv.kafka.handling.service.S3ObjectInfoService
 import org.slf4j.LoggerFactory
 import org.springframework.kafka.annotation.KafkaListener
 import org.springframework.kafka.core.KafkaTemplate

@@ -1,4 +1,4 @@
-package com.pauldaniv.kafka.handling.tx
+package com.pauldaniv.kafka.handling
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.autoconfigure.domain.EntityScan
@@ -8,8 +8,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement
 @EntityScan("com.pauldaniv.kafka.common.model")
 @SpringBootApplication
 @EnableTransactionManagement
-class KafkaFileHandlingTxApplication
+class KafkaFileHandlingApplication
 
 fun main(args: Array<String>) {
-  runApplication<KafkaFileHandlingTxApplication>(*args)
+  runApplication<KafkaFileHandlingApplication>(*args)
 }

@@ -1,11 +1,11 @@
-package com.pauldaniv.kafka.discovery.tx
+package com.pauldaniv.kafka.discovery
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class KafkaFileDiscoveryTxApplication
+class KafkaFileDiscoveryApplication
 
 fun main(args: Array<String>) {
-  runApplication<KafkaFileDiscoveryTxApplication>(*args)
+  runApplication<KafkaFileDiscoveryApplication>(*args)
 }

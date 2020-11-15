@@ -1,4 +1,4 @@
-package com.pauldaniv.kafka.discovery.tx.listeners
+package com.pauldaniv.kafka.discovery.listeners
 
 import org.slf4j.LoggerFactory
 import org.springframework.kafka.annotation.KafkaListener

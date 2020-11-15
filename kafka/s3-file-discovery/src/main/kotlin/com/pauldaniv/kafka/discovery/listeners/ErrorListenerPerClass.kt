@@ -1,4 +1,4 @@
-package com.pauldaniv.kafka.discovery.tx.listeners
+package com.pauldaniv.kafka.discovery.listeners
 
 import com.pauldaniv.kafka.common.model.Bar
 import com.pauldaniv.kafka.common.model.Foo

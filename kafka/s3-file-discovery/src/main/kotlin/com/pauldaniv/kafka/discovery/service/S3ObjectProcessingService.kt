@@ -1,18 +1,18 @@
-package com.pauldaniv.kafka.discovery.tx.service
+package com.pauldaniv.kafka.discovery.service
 
 import com.pauldaniv.kafka.common.model.Bar
-import org.springframework.stereotype.Component
+import org.springframework.stereotype.Service
 import software.amazon.awssdk.services.s3.S3Client
 import software.amazon.awssdk.services.s3.model.ListObjectsV2Request
 import software.amazon.awssdk.services.s3.model.ListObjectsV2Response
 
-@Component
+@Service
 class S3ObjectProcessingService(
     private val s3Client: S3Client,
     private val s3ObjectProducerService: S3ObjectProducerService
-) {
+) : FileProcessingService {
 
-  fun processS3Objets(bucket: String, customValue: String?) {
+  override fun processFiles(bucket: String, customValue: String?) {
     var listObjects: ListObjectsV2Request? = ListObjectsV2Request.builder()
         .bucket(bucket)
         .maxKeys(100)

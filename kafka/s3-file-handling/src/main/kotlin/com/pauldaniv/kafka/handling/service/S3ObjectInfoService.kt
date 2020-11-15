@@ -1,7 +1,7 @@
-package com.pauldaniv.kafka.handling.tx.service
+package com.pauldaniv.kafka.handling.service
 
 import com.pauldaniv.kafka.common.model.Foo
-import com.pauldaniv.kafka.handling.tx.repository.FooRepository
+import com.pauldaniv.kafka.handling.repository.FooRepository
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional

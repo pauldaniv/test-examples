@@ -1,10 +1,10 @@
-package com.pauldaniv.kafka
+package com.pauldaniv.kafka.discovery
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-class KafkaFileHandlingTxApplicationTest {
+class KafkaFileDiscoveryApplicationApplicationTests {
 
   @Test
   fun contextLoads() {

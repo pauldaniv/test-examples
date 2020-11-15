@@ -1,4 +1,4 @@
-package com.pauldaniv.kafka.handling.tx.config
+package com.pauldaniv.kafka.handling.config
 
 import com.pauldaniv.kafka.common.config.CommonKafkaConfig
 import org.apache.kafka.common.errors.TimeoutException
@@ -21,7 +21,7 @@ import java.io.IOException
 
 @Configuration
 @Import(CommonKafkaConfig::class)
-class HandlingTxConfig {
+class FileHandlingConfig {
   private val log = LoggerFactory.getLogger(this::class.java)
 
   @Bean

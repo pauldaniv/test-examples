@@ -1,4 +1,4 @@
-package com.pauldaniv.kafka.handling.tx.listeners
+package com.pauldaniv.kafka.handling.listeners
 
 import com.pauldaniv.kafka.common.model.Bar
 import com.pauldaniv.kafka.common.model.Foo
