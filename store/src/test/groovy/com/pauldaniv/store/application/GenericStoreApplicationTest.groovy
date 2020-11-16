@@ -10,7 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.context.ApplicationContext
 import org.springframework.test.context.junit4.SpringRunner
 
-
 @RunWith(SpringRunner)
 @SpringBootTest
 @Category([TestGroup.Slow.Application])

@@ -1,4 +1,4 @@
-package com.pauldaniv.kafka.frontend.config
+package com.pauldaniv.kafka.replying.config
 
 import com.pauldaniv.kafka.common.config.CommonKafkaConfig
 import com.pauldaniv.kafka.common.model.Bar

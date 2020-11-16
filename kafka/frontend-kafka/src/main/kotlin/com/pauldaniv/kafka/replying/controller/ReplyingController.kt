@@ -1,4 +1,4 @@
-package com.pauldaniv.kafka.frontend.controller
+package com.pauldaniv.kafka.replying.controller
 
 import com.pauldaniv.kafka.common.model.Bar
 import com.pauldaniv.kafka.common.model.Foo
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @Tag(name = "FileDiscoveryController", description = "Sends message to a queue and returns the reply")
 @RestController
-@RequestMapping("/fe")
+@RequestMapping("/replying")
 class ReplyingController(private val replyingKafkaTemplate: ReplyingKafkaTemplate<String, Foo, Bar?>) {
 
   @Operation(summary = "Gets a single MerchantEntry object by id")

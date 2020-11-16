@@ -1,10 +1,10 @@
-package com.pauldaniv.kafka
+package com.pauldaniv.kafka.replying
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-class FrontendKafkaApplicationTests {
+class ReplyingKafkaApplicationTests {
 
   @Test
   fun contextLoads() {

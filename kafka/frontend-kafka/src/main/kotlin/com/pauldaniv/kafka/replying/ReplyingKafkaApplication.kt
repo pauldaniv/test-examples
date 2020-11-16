@@ -1,11 +1,11 @@
-package com.pauldaniv.kafka.frontend
+package com.pauldaniv.kafka.replying
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class FrontendKafkaApplication
+class ReplyingKafkaApplication
 
 fun main(args: Array<String>) {
-  runApplication<FrontendKafkaApplication>(*args)
+  runApplication<ReplyingKafkaApplication>(*args)
 }
