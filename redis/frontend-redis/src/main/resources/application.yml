@@ -1,0 +1,20 @@
+server.port: 4401
+
+spring:
+  kafka:
+    producer:
+      key-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      enable-auto-commit: false
+      auto-offset-reset: earliest
+      group-id: reply-group-id
+
+app.storage.type: ${STORAGE_TYPE:local}
+
+s3:
+  credentials:
+    accessKey: ${AWS_ACCESS_KEY_ID}
+    secretKey: ${AWS_SECRET_ACCESS_KEY}
+  region: ${S3_REGION:us-east-1}
+  bucket: ${S3_BUCKET}

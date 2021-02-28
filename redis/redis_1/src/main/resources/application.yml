@@ -1,0 +1,27 @@
+server.port: 4402
+
+spring:
+  kafka:
+    producer:
+      key-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      transaction-id-prefix: txd.
+      properties:
+        enable.idempotence: true
+
+    consumer:
+      isolation-level: read_committed
+      enable-auto-commit: false
+
+app.storage.type: ${STORAGE_TYPE:local}
+
+kafka.request.topic: student
+kafka.reply.topic: result
+kafka.group.id: student-result-group
+
+s3:
+  credentials:
+    accessKey: ${AWS_ACCESS_KEY_ID}
+    secretKey: ${AWS_SECRET_ACCESS_KEY}
+  region: ${S3_REGION:us-east-1}
+  bucket: ${S3_BUCKET}

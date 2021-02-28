@@ -17,3 +17,13 @@ project(':frontend-kafka').projectDir = new File(rootDir, 'kafka/frontend-kafka'
 project(':s3-file-discovery').projectDir = new File(rootDir, 'kafka/s3-file-discovery')
 project(':s3-file-handling').projectDir = new File(rootDir, 'kafka/s3-file-handling')
 project(':kafka-common').projectDir = new File(rootDir, 'kafka/common')
+
+include 'frontend-redis'
+include 'redis-1'
+include 'redis-2'
+include 'redis-common'
+
+project(':frontend-redis').projectDir = new File(rootDir, 'redis/frontend-redis')
+project(':redis-1').projectDir = new File(rootDir, 'redis/redis_1')
+project(':redis-2').projectDir = new File(rootDir, 'redis/redis_2')
+project(':redis-common').projectDir = new File(rootDir, 'redis/common')

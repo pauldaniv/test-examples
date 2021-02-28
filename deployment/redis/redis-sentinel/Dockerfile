@@ -1,4 +1,4 @@
-FROM redis:3.2
+FROM redis:6.2.0
 
 RUN mkdir -p /etc/redis/log
 

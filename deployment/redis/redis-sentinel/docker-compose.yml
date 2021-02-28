@@ -1,0 +1,42 @@
+version: '3'
+
+services:
+  redis1:
+    hostname: redis1
+    image: redis-sentinel
+    build:
+      context: .
+    command: cluster
+    volumes:
+      - ./conf1:/etc/redis/conf
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 1s
+      timeout: 3s
+      retries: 30
+  redis2:
+    hostname: redis2
+    image: redis-sentinel
+    links:
+      - redis1
+    build:
+      context: .
+    command: cluster
+    volumes:
+      - ./conf2:/etc/redis/conf
+    depends_on:
+      redis1:
+        condition: service_healthy
+  redis3:
+    hostname: redis3
+    image: redis-sentinel
+    links:
+      - redis1
+    build:
+      context: .
+    command: cluster
+    volumes:
+      - ./conf3:/etc/redis/conf
+    depends_on:
+      redis1:
+        condition: service_healthy

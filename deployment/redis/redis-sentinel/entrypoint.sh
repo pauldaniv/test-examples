@@ -1,6 +1,7 @@
 #!/bin/bash
 
 CONF_DIR=/etc/redis/conf
+echo "Running in '$1' mode"
 
 if [[ $1 == "standalone" ]]; then
     redis-server
