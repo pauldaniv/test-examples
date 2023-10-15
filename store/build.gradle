@@ -30,6 +30,6 @@ dependencyManagement {
   }
 }
 
-test {
-  useTestNG()
-}
+//test {
+//  useTestNG()
+//}

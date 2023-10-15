@@ -1,229 +1,225 @@
 import java.security.InvalidParameterException
 
-buildscript {
-  ext.kotlin_version = '1.4.10'
-  ext.springBootVersion = '2.3.+'
-  ext.springCloudVersion = '2020.0.0-SNAPSHOT'
-  ext.dockerRepo = project.findProperty("${project.findProperty("TARGET_REGISTRY")}_DOCKER_REGISTRY_URL")
-
-  repositories {
-    maven { url "https://plugins.gradle.org/m2/" }
-  }
-  dependencies {
-    classpath("org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion")
-    classpath "com.adarshr:gradle-test-logger-plugin:1.6.0"
-    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-    classpath('gradle.plugin.com.palantir.gradle.docker:gradle-docker:0.13.0')
-  }
-}
-
-//plugins {
-//  id 'io.spring.dependency-management' version '1.0.10.RELEASE'
-//  id 'org.jetbrains.kotlin.jvm' version '1.4.10'
-//  id 'org.jetbrains.kotlin.plugin.spring' version '1.4.10'
+//buildscript {
+//    ext.kotlin_version = '1.6.10'
+//    ext.springBootVersion = '3.1.0'
+//    ext.springCloudVersion = '2020.0.0-SNAPSHOT'
+//    ext.dockerRepo = project.findProperty("${project.findProperty("TARGET_REGISTRY")}_DOCKER_REGISTRY_URL")
+//
+//    repositories {
+//        maven { url "https://plugins.gradle.org/m2/" }
+//    }
+//    dependencies {
+//        classpath("org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion")
+//        classpath "com.adarshr:gradle-test-logger-plugin:1.6.0"
+//        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+//        classpath('gradle.plugin.com.palantir.gradle.docker:gradle-docker:0.13.0')
+//    }
 //}
 
-subprojects {
-  group "com.pauldaniv.test.examples"
+plugins {
+//  id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+    id("org.springframework.boot") version "3.1.4" apply false
+    id("io.spring.dependency-management") version "1.1.3" apply false
+    id("com.adarshr.test-logger") version "4.0.0" apply false
+    id("org.jetbrains.kotlin.jvm") version "1.6.10" apply false
+//  id 'org.jetbrains.kotlin.jvm' version '1.4.10'
+//  id 'org.jetbrains.kotlin.plugin.spring' version '1.4.10'
+}
 
-  apply plugin: "com.adarshr.test-logger"
-  apply plugin: 'kotlin'
-  apply plugin: 'java-library'
-  apply plugin: 'java'
-  apply plugin: 'idea'
-  apply plugin: 'groovy'
-  apply plugin: 'eclipse'
-  apply plugin: 'signing'
-  apply plugin: 'org.jetbrains.kotlin.jvm'
-  apply plugin: 'org.springframework.boot'
-  apply plugin: 'io.spring.dependency-management'
+subprojects {
+    group "com.pauldaniv.test.examples"
+
+    apply plugin: "com.adarshr.test-logger"
+    apply plugin: 'kotlin'
+    apply plugin: 'java-library'
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: 'groovy'
+    apply plugin: 'eclipse'
+    apply plugin: 'signing'
+    apply plugin: 'org.jetbrains.kotlin.jvm'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
 //  apply plugin: 'org.jetbrains.kotlin.plugin.spring'
 
-  afterEvaluate {
+
     if (project.hasProperty('library')) {
-      bootJar.enabled = false
-      jar.enabled = true
-      jar.archiveBaseName = project.name
+        bootJar.enabled = false
+        jar.enabled = true
+        jar.archiveBaseName = project.name
     } else {
-      apply plugin: 'com.palantir.docker'
-      bootRun {
-        jvmArgs = ["-Dspring.output.ansi.enabled=ALWAYS"]
-      }
-      bootJar {
-        archiveBaseName.set(project.name)
-        archiveVersion = project.version
-      }
-      task unpack(type: Copy) {
-        dependsOn tasks.bootJar
-        from(zipTree(tasks.bootJar.outputs.files.singleFile))
-        into("build/dependency")
-      }
+//        apply plugin: 'com.palantir.docker'
+        bootRun {
+            jvmArgs = ["-Dspring.output.ansi.enabled=ALWAYS"]
+        }
+        bootJar {
+            archiveBaseName.set(project.name)
+            archiveVersion = project.version
+        }
+        task unpack(type: Copy) {
+            dependsOn tasks.bootJar
+            from(zipTree(tasks.bootJar.outputs.files.singleFile))
+            into("build/dependency")
+        }
 
-      docker {
-        name "$dockerRepo/$rootProject.name/$project.name:${project.version}"
-        copySpec.from(tasks.unpack.outputs).into("dependency")
-        buildArgs(['DEPENDENCY': "dependency"])
-      }
+//        docker {
+//            name "$dockerRepo/$rootProject.name/$project.name:${project.version}"
+//            copySpec.from(tasks.unpack.outputs).into("dependency")
+//            buildArgs(['DEPENDENCY': "dependency"])
+//        }
     }
-  }
-
-  dependencyManagement {
-    imports { mavenBom("org.springframework.boot:spring-boot-dependencies:${springBootVersion}") }
-    imports { mavenBom("org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}") }
-  }
-
-  repositories {
-    mavenCentral()
-    jcenter()
-    maven { url "https://repo.spring.io/milestone" }
-    maven { url "https://repo.spring.io/snapshot" }
-  }
-
-  compileKotlin {
-    kotlinOptions.jvmTarget = "1.8"
-  }
-  compileTestKotlin {
-    kotlinOptions.jvmTarget = "1.8"
-  }
 
 
-  idea {
-    module {
-      outputDir file('build/classes/main/java')
-      testOutputDir file('build/classes/test/java')
+//    dependencyManagement {
+//        imports { mavenBom("org.springframework.boot:spring-boot-dependencies:${springBootVersion}") }
+//        imports { mavenBom("org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}") }
+//    }
+
+    repositories {
+        mavenCentral()
+        maven { url "https://repo.spring.io/milestone" }
+        maven { url "https://repo.spring.io/snapshot" }
+    }
+
+    compileKotlin {
+        kotlinOptions.jvmTarget = "1.8"
+    }
+    compileTestKotlin {
+        kotlinOptions.jvmTarget = "1.8"
+    }
+
+
+    idea {
+        module {
+            outputDir file('build/classes/main/java')
+            testOutputDir file('build/classes/test/java')
 //      inheritOutputDirs = true
 
-      [".idea", "build", "gradle", "classes", "logs", "tmp"].each {
-        excludeDirs << file("$it")
-      }
-      downloadSources = true
-    }
-  }
-
-  testlogger {
-    theme 'mocha'
-    showExceptions true
-    slowThreshold 2000
-    showSummary true
-    showPassed true
-    showSkipped true
-    showFailed true
-    showStandardStreams false
-    showPassedStandardStreams true
-    showSkippedStandardStreams true
-    showFailedStandardStreams true
-  }
-
-  sourceSets {
-    main {
-      java.outputDir = new File(buildDir, "classes/main/java")
-      groovy.outputDir = new File(buildDir, "classes/main/java")
-    }
-    test {
-      java.outputDir = new File(buildDir, "classes/test/java")
-      groovy.outputDir = new File(buildDir, "classes/test/java")
-    }
-  }
-
-  ext.logsRoot = "logs"
-
-  clean.doFirst {
-    delete "${rootDir}/${logsRoot}"
-  }
-  afterEvaluate {
-    repositories {
-      jcenter()
+            [".idea", "build", "gradle", "classes", "logs", "tmp"].each {
+                excludeDirs << file("$it")
+            }
+            downloadSources = true
+        }
     }
 
+    testlogger {
+        theme 'mocha'
+        showExceptions true
+        slowThreshold 2000
+        showSummary true
+        showPassed true
+        showSkipped true
+        showFailed true
+        showStandardStreams false
+        showPassedStandardStreams true
+        showSkippedStandardStreams true
+        showFailedStandardStreams true
+    }
 
+//    sourceSets {
+//        main {
+//            outputDir = new File(buildDir, "classes/main/java")
+////            groovy.outputDir = new File(buildDir, "classes/main/java")
+//        }
+//        test {
+//            outputDir = new File(buildDir, "classes/test/java")
+////            groovy.outputDir = new File(buildDir, "classes/test/java")
+//        }
+//    }
+
+    ext.logsRoot = "logs"
+
+    clean.doFirst {
+        delete "${rootDir}/${logsRoot}"
+    }
     java {
-      sourceCompatibility = JavaVersion.VERSION_1_8
-      targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     clean.doFirst {
-      delete "${logsRoot}"
+        delete "${logsRoot}"
     }
 
     ext {
-      lombokVersion = '1.18.4'
+        lombokVersion = '1.18.4'
     }
 
     dependencies {
-      implementation "org.projectlombok:lombok:${lombokVersion}"
-      annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
-      testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
-      implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-      implementation "org.jetbrains.kotlin:kotlin-reflect"
+        implementation "org.projectlombok:lombok:${lombokVersion}"
+        annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+        testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+        implementation "org.jetbrains.kotlin:kotlin-reflect"
     }
 
     test {
-      ext.doThrow = { String message, String data ->
-        throw new RuntimeException(message, new InvalidParameterException(data))
-      }
-
-      ext.resolveClassName = { String separator, String testType, String rootClass, String testTypeKey ->
-        def theTestType
-        def path = testType.split(separator).each {
-          !it.empty ? it : ext.doThrow('Invalid test type', testType)
-        }.collect { it.capitalize() }
-        println path
-        if (path.size() > 3) {
-          ext.doThrow("Invalid value: '$testType' for property: $testTypeKey", testType)
-        } else if (path.size() == 3) {
-          theTestType = "${path[1]}\$${path[2]}"
-          if (!path[0].equalsIgnoreCase(rootClass)) {
-            ext.doThrow("Invalid root test class type", path[0])
-          }
-          return "$rootClass\$${theTestType}"
-        } else {
-          println path
-          if (path[0].equalsIgnoreCase(rootClass)) {
-            return "$rootClass\$${path[1]}"
-          } else {
-            return "$rootClass\$${path[0]}\$${path[1]}"
-          }
+        ext.doThrow = { String message, String data ->
+            throw new RuntimeException(message, new InvalidParameterException(data))
         }
-      }
 
-      def testTypeKeys = ['test.type',
-                          'testType',
-                          'TestType',
-                          'Test.Type',
-                          'testtype',
-                          'testProfile',
-                          'TestProfile',
-                          'test.profile',
-                          'testprofile']
-
-      def rootClass = 'TestGroup'
-      def theTestType = rootClass
-
-      def testTypeKeyHolder = testTypeKeys.stream().filter { project.hasProperty(it) }.findFirst()
-      if (testTypeKeyHolder.present) {
-        def testTypeKey = testTypeKeyHolder.get()
-        String testType = project.property(testTypeKey)
-        def dollarSeparator = testType.contains('$')
-        def dotSeparator = testType.contains('.')
-        if (!dollarSeparator && !dotSeparator) {
-          if (testType != 'all') {
-            theTestType = "$rootClass\$${testType.capitalize()}"
-          }
-        } else if (dotSeparator) {
-          theTestType = ext.resolveClassName('\\.', testType, rootClass, testTypeKey)
-        } else if (dollarSeparator) {
-          theTestType = ext.resolveClassName('\\$', testType, rootClass, testTypeKey)
-        } else {
-          ext.doThrow('Invalid test type', testType)
+        ext.resolveClassName = { String separator, String testType, String rootClass, String testTypeKey ->
+            def theTestType
+            def path = testType.split(separator).each {
+                !it.empty ? it : ext.doThrow('Invalid test type', testType)
+            }.collect { it.capitalize() }
+            println path
+            if (path.size() > 3) {
+                ext.doThrow("Invalid value: '$testType' for property: $testTypeKey", testType)
+            } else if (path.size() == 3) {
+                theTestType = "${path[1]}\$${path[2]}"
+                if (!path[0].equalsIgnoreCase(rootClass)) {
+                    ext.doThrow("Invalid root test class type", path[0])
+                }
+                return "$rootClass\$${theTestType}"
+            } else {
+                println path
+                if (path[0].equalsIgnoreCase(rootClass)) {
+                    return "$rootClass\$${path[1]}"
+                } else {
+                    return "$rootClass\$${path[0]}\$${path[1]}"
+                }
+            }
         }
-      }
 
-      useJUnit {
-        if (theTestType != rootClass)
-          includeCategories "com.pauldaniv.common.test.groups.$theTestType"
-      }
+        def testTypeKeys = ['test.type',
+                            'testType',
+                            'TestType',
+                            'Test.Type',
+                            'testtype',
+                            'testProfile',
+                            'TestProfile',
+                            'test.profile',
+                            'testprofile']
+
+        def rootClass = 'TestGroup'
+        def theTestType = rootClass
+
+        def testTypeKeyHolder = testTypeKeys.stream().filter { project.hasProperty(it) }.findFirst()
+        if (testTypeKeyHolder.present) {
+            def testTypeKey = testTypeKeyHolder.get()
+            String testType = project.property(testTypeKey)
+            def dollarSeparator = testType.contains('$')
+            def dotSeparator = testType.contains('.')
+            if (!dollarSeparator && !dotSeparator) {
+                if (testType != 'all') {
+                    theTestType = "$rootClass\$${testType.capitalize()}"
+                }
+            } else if (dotSeparator) {
+                theTestType = ext.resolveClassName('\\.', testType, rootClass, testTypeKey)
+            } else if (dollarSeparator) {
+                theTestType = ext.resolveClassName('\\$', testType, rootClass, testTypeKey)
+            } else {
+                ext.doThrow('Invalid test type', testType)
+            }
+        }
+
+        useJUnit {
+            if (theTestType != rootClass)
+                includeCategories "com.pauldaniv.common.test.groups.$theTestType"
+        }
     }
-  }
 }
+
 
 //gradle.taskGraph.whenReady { taskGraph ->
 //  if (taskGraph.allTasks.any { it instanceof Sign }) {
@@ -255,6 +251,6 @@ subprojects {
 //}
 
 ext {
-  apacheSparkVersion = '2.4.3'
-  apacheSparkScalaVersion = '2.11'
+    apacheSparkVersion = '2.4.3'
+    apacheSparkScalaVersion = '2.11'
 }

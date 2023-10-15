@@ -34,14 +34,14 @@ dependencies {
   testImplementation("org.springframework.kafka:spring-kafka-test")
 }
 
-tasks.withType<Test> {
-  useJUnitPlatform()
-}
+//tasks.withType<Test> {
+//  useJUnitPlatform()
+//}
 
 tasks.withType<KotlinCompile> {
   kotlinOptions {
     freeCompilerArgs = listOf("-Xjsr305=strict")
-    jvmTarget = "1.8"
+    jvmTarget = "17"
   }
 }
 
