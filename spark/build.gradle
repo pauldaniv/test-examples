@@ -40,9 +40,9 @@ configurations {
   all*.exclude module: 'slf4j-log4j12'
 }
 
-test {
-  useTestNG()
-  testLogging {
-    events "passed", "skipped", "failed"
-  }
-}
+//test {
+//  useTestNG()
+//  testLogging {
+//    events "passed", "skipped", "failed"
+//  }
+//}

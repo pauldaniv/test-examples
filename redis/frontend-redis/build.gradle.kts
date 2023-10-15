@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-  kotlin("plugin.spring") version "1.4.10"
+  kotlin("plugin.spring") version "1.9.10"
 }
 
 group = "com.pauldaniv"
@@ -34,9 +34,9 @@ dependencies {
   testImplementation("org.springframework.kafka:spring-kafka-test")
 }
 
-tasks.withType<Test> {
-  useJUnitPlatform()
-}
+//tasks.withType<Test> {
+//  useJUnitPlatform()
+//}
 
 tasks.withType<KotlinCompile> {
   kotlinOptions {

@@ -1,20 +1,22 @@
 import java.security.InvalidParameterException
 
 buildscript {
-  ext.kotlin_version = '1.4.10'
-  ext.springBootVersion = '2.3.+'
+  ext.kotlin_version = '1.9.10'
+  ext.springBootVersion = '3.1.4'
   ext.springCloudVersion = '2020.0.0-SNAPSHOT'
-  ext.dockerRepo = project.findProperty("${project.findProperty("TARGET_REGISTRY")}_DOCKER_REGISTRY_URL")
 
   repositories {
     maven { url "https://plugins.gradle.org/m2/" }
   }
-  dependencies {
-    classpath("org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion")
-    classpath "com.adarshr:gradle-test-logger-plugin:1.6.0"
-    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-    classpath('gradle.plugin.com.palantir.gradle.docker:gradle-docker:0.13.0')
-  }
+
+}
+
+
+
+plugins {
+  id "org.springframework.boot" version "3.1.4"
+  id 'com.adarshr.test-logger' version '4.0.0'
+  id 'org.jetbrains.kotlin.jvm' version '1.9.10'
 }
 
 //plugins {
@@ -22,6 +24,15 @@ buildscript {
 //  id 'org.jetbrains.kotlin.jvm' version '1.4.10'
 //  id 'org.jetbrains.kotlin.plugin.spring' version '1.4.10'
 //}
+allprojects {
+  group "com.pauldaniv.test.examples"
+  sourceCompatibility = "17"
+
+  repositories {
+    mavenCentral()
+  }
+}
+
 
 subprojects {
   group "com.pauldaniv.test.examples"
@@ -45,7 +56,6 @@ subprojects {
       jar.enabled = true
       jar.archiveBaseName = project.name
     } else {
-      apply plugin: 'com.palantir.docker'
       bootRun {
         jvmArgs = ["-Dspring.output.ansi.enabled=ALWAYS"]
       }
@@ -58,32 +68,25 @@ subprojects {
         from(zipTree(tasks.bootJar.outputs.files.singleFile))
         into("build/dependency")
       }
-
-      docker {
-        name "$dockerRepo/$rootProject.name/$project.name:${project.version}"
-        copySpec.from(tasks.unpack.outputs).into("dependency")
-        buildArgs(['DEPENDENCY': "dependency"])
-      }
     }
   }
 
-  dependencyManagement {
-    imports { mavenBom("org.springframework.boot:spring-boot-dependencies:${springBootVersion}") }
-    imports { mavenBom("org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}") }
-  }
+//  dependencyManagement {
+//    imports { mavenBom("org.springframework.boot:spring-boot-dependencies:${springBootVersion}") }
+//    imports { mavenBom("org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}") }
+//  }
 
   repositories {
     mavenCentral()
-    jcenter()
     maven { url "https://repo.spring.io/milestone" }
     maven { url "https://repo.spring.io/snapshot" }
   }
 
   compileKotlin {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = "17"
   }
   compileTestKotlin {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = "17"
   }
 
 
@@ -114,16 +117,14 @@ subprojects {
     showFailedStandardStreams true
   }
 
-  sourceSets {
-    main {
-      java.outputDir = new File(buildDir, "classes/main/java")
-      groovy.outputDir = new File(buildDir, "classes/main/java")
-    }
-    test {
-      java.outputDir = new File(buildDir, "classes/test/java")
-      groovy.outputDir = new File(buildDir, "classes/test/java")
-    }
-  }
+//  sourceSets {
+//    main {
+//      outputDir = new File(buildDir, "classes/main/java")
+//    }
+//    test {
+//      outputDir = new File(buildDir, "classes/test/java")
+//    }
+//  }
 
   ext.logsRoot = "logs"
 
@@ -137,8 +138,8 @@ subprojects {
 
 
     java {
-      sourceCompatibility = JavaVersion.VERSION_1_8
-      targetCompatibility = JavaVersion.VERSION_1_8
+      sourceCompatibility = JavaVersion.VERSION_17
+      targetCompatibility = JavaVersion.VERSION_17
     }
     clean.doFirst {
       delete "${logsRoot}"
@@ -152,8 +153,8 @@ subprojects {
       implementation "org.projectlombok:lombok:${lombokVersion}"
       annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
       testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
-      implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-      implementation "org.jetbrains.kotlin:kotlin-reflect"
+//      implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+//      implementation "org.jetbrains.kotlin:kotlin-reflect"
     }
 
     test {
