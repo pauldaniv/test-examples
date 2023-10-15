@@ -12,7 +12,7 @@ class S3ObjectProcessingService(
     private val s3ObjectProducerService: S3ObjectProducerService
 ) : FileProcessingService {
 
-  override fun processFiles(bucket: String, customValue: String) {
+  override fun processFiles(bucket: String, customValue: String?) {
     var listObjects: ListObjectsV2Request? = ListObjectsV2Request.builder()
         .bucket(bucket)
         .maxKeys(100)
